@@ -20,6 +20,7 @@
                             <th>Item</th>
                             <th>Preço</th>
                             <th>Destaque</th>
+                            <th>Ativo</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -32,6 +33,7 @@
                             <td class="align-middle" ><%= row.name %></td>
                             <td class="align-middle" ><%= helper.number_format(row.price, 2, ',', '.') %></td>
                             <td class="align-middle" ><%= (row.featured.toString() == "1" ? "Sim" : "Não") %></td>
+                            <td class="align-middle" ><%= (row.active.toString() == "1" ? "Sim" : "Não") %></td>
                             <td class="align-middle"  class="text-center">
                                 <button type="button" class="btn btn-outline-primary btn-sm" title="Editar <%= attr.page %>" data-tabid="<%= row.id %>" data-tabname="<%= attr.table %>" data-tabtype="<%= attr.page %>" data-crud="update" data-belongsto="<%= attr.belongsto %>" data-belongstoid="<%= attr.belongsto %>_id" data-toggle="modal" data-target="#modalUpsert" >
                                     <span class="fa fa-edit" aria-hidden="true"></span>
@@ -97,16 +99,23 @@
                     </div>
 
                     <div class="form-row">
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-md-4">
                             <label>Preço</label>
                             <input class="form-control input-sm price_ipt" type="number" min="0" step="0.01" data-name="price" data-required="true">
                             <div class="invalid-feedback price-err">Campo Obrigatório</div>
                         </div>
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-md-4">
                             <label>Destaque</label>
                             <select class="form-control input-sm featured_ipt" data-name="featured" data-required="true">
-                                <option value="0">Não</option>
+                                <option value="0" selected="selected">Não</option>
                                 <option value="1">Sim</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label>Ativo</label>
+                            <select class="form-control input-sm active_ipt" data-name="active" data-required="true">
+                                <option value="0">Não</option>
+                                <option value="1" selected="selected">Sim</option>
                             </select>
                         </div>
                     </div>

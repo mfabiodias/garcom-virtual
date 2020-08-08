@@ -16,7 +16,6 @@
             <aside class="item-list col-lg-6 col-12 my-1" data-tabid="<%= product.id; %>" data-toggle="modal" data-target="#itemModal">
               <div class="card rounded px-2">
                 <div class="media align-items-center">
-                  <!-- <img src="/image/product/<%= product.image; %>" class="d-block ui-w-40 ui-bordered mr-3 rounded img-sm mclick" /> -->
                   <img src="<%- helper.image_show('product', product.image, true) %>" class="d-block ui-w-40 ui-bordered mr-3 rounded img-sm mclick" />
                   <div class="media-body">
                     <a class="d-block pt-3 mclick" ><%= helper.limitedEllipsis(product.name, 30); %></a>
@@ -36,7 +35,7 @@
                       </tr>
                     </table>
                   </div>
-                  <input type="hidden" id="product-image-<%= product.id; %>" value="<%= product.image; %>">
+                  <input type="hidden" id="product-image-<%= product.id; %>" value="<%- helper.image_show('product', product.image, true) %>">
                   <input type="hidden" id="product-name-<%= product.id; %>" value="<%= product.name; %>">
                   <input type="hidden" id="product-price-<%= product.id; %>" value="<%= product.price; %>">
                   <input type="hidden" id="product-description-<%= product.id; %>" value="<%= product.description; %>">

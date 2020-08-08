@@ -1,6 +1,7 @@
 const helper = require('../helpers');
 const config = require('../config/config');
 const model  = require('../models');
+const e = require('express');
 
 async function getProductList(res, req)  {   
 
@@ -8,6 +9,9 @@ async function getProductList(res, req)  {
     business = business[0][0];
 
     let products   = await model.getProducts();
+
+    products = products.filter(el => el.active == 1);
+
     let categories = await model.getCategories();
 
     let item  = { product: [] };

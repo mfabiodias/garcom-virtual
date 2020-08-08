@@ -143,7 +143,7 @@ $(document).ready(function() {
         $("#itemModalName").val(product);
         $("#itemModalPrice").val(price);
         $("#itemModalTitle").html(`<h5>${product}</h5>`);
-        $("#itemModalImage").html(`<img src="/image/product/${image}" alt="${product}" title="${product}" class="img-fluid" style="min-height: 220px!important; max-height: 220px!important;">`);
+        $("#itemModalImage").html(`<img src="${image}" alt="${product}" title="${product}" class="img-fluid" style="min-height: 220px!important; max-height: 220px!important;">`);
         $("#itemModalDescription").html(`${description}`);
     });
 
