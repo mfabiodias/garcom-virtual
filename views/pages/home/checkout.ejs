@@ -1,0 +1,214 @@
+<%- contentFor('layout') %>
+<%- include('header.ejs') %>
+
+  <div class="container-fluid">
+      
+      <div class="row py-3 open-hour" data-weekdata="<%=business.open%>" data-weekday="<%=attr.week%>" data-status="<%=attr.open%>">
+
+        <div id="checkout-left" class="col-lg-8">
+
+            <div class="row">
+                <div class="form-group col-lg-6 col-12 line-resize">
+                    <label for="inputMethod">Tipo Pedido</label>
+                    <select id="inputMethod" class="w-100 selectpicker myselect2" >
+                        <% if (!!business.order_consume) { %>
+                        <option data-icon="fas fa-utensils" value="consumir"> Consumir no Local</option>
+                        <% } if (!!business.order_retire) { %>
+                        <option data-icon="fa fa-shopping-bag" value="retirar" > Retirar no Local</option>
+                        <% } if (!!business.order_deliver) { %>
+                        <option data-icon="fa fa-motorcycle" value="entregar"> Solicitar Entrega</option>
+                        <% } %>
+                    </select>
+                    <input type="hidden" id="inputDelivery" value="0" >
+                  </div>
+                  
+                  <div class="form-group col-lg-6 col-12 line-resize">
+                    <label for="inputPayment">Forma Pagamento</label>
+                    <select id="inputPayment" class="w-100 selectpicker myselect2" >
+                        <% if (!!business.payment_credit) { %>
+                        <option data-icon="fa fa-credit-card" value="credito"> Cartão de Crédito</option>
+                        <% } if (!!business.payment_debit) { %>
+                        <option data-icon="fa fa-credit-card" value="debito"> Cartão de Débito</option>
+                        <% } if (!!business.payment_voucher) { %>
+                        <option data-icon="far fa-credit-card" value="voucher"> Vale Refeição</option>
+                        <% } if (!!business.payment_money) { %>
+                        <option data-icon="far fa-money-bill-alt" value="dinheiro"> Dinheiro</option>
+                        <% } %>
+                        <!-- <option data-icon="fas fa-lock" value="online"> Online (Somente Crédito)</option> -->
+                    </select>
+                </div>
+
+                <div class="form-group col-lg-6 col-12 line-resize payinfo" style="display: none !important;">
+                    <label for="inputPayment">Troco para:</label>
+                    <input type="text" class="form-control input-sm" id="inputObs" maxlength="40" value="" >
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group col-lg-6">
+                    <label for="inputName">Nome</label>
+                    <input type="text" class="form-control" id="inputName" maxlength="100" placeholder="João Paulo" required >
+                </div>
+
+                <div class="form-group col-lg-6">
+                    <label for="inputWhatsapp">WhatsApp</label>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" >🇧🇷 +55</span>
+                        </div>
+                        <input type="text" class="form-control" id="inputWhatsapp" maxlength="15" placeholder="(11) 93145-4040" required >
+                    </div>
+                </div>
+            </div>
+
+            <div id="checkout_address" style="display: none;">
+
+                <div class="form-row">
+                    <div class="form-group col-lg-4">
+                        <label for="inputZip">CEP</label>
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control" id="inputZip" maxlength="9" placeholder="07077-100">
+                            <div class="input-group-append">
+                                <button id="searchAddress" class="btn btn-outline-secondary" type="button" >
+                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group col-lg-4">
+                        <label for="inputAddress">Endereço</label>
+                        <input type="text" class="form-control" maxlength="50"  id="inputAddress">
+                    </div>
+                    <div class="form-group col-lg-4">
+                        <label for="inputNumber">Número</label>
+                        <input type="text" class="form-control" maxlength="50"  id="inputNumber">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-lg-4">
+                        <label for="inputComplement">Complemento</label>
+                        <input type="text" class="form-control" maxlength="50" id="inputComplement">
+                    </div>
+                    <div class="form-group col-lg-4">
+                        <label for="inputReference">Referencia</label>
+                        <input type="text" class="form-control" maxlength="50" id="inputReference">
+                    </div>
+                    <div class="form-group col-lg-4">
+                        <label for="inputNeighborhood">Bairro</label>
+                        <input type="text" class="form-control" maxlength="50" id="inputNeighborhood">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-lg-4">
+                        <label for="inputCity">Cidade</label>
+                        <input type="text" class="form-control" maxlength="50" id="inputCity">
+                    </div>
+                    <div class="form-group col-lg-4">
+                        <label for="inputState">Estado</label>
+                        <select class="custom-select" id="inputState" >
+                            <option value="" selected="">Selecione um Estado</option>
+                            <option value="AC">Acre</option>
+                            <option value="AL">Alagoas</option>
+                            <option value="AP">Amapá</option>
+                            <option value="AM">Amazonas</option>
+                            <option value="BA">Bahia</option>
+                            <option value="CE">Ceará</option>
+                            <option value="DF">Distrito Federal</option>
+                            <option value="GO">Goiás</option>
+                            <option value="ES">Espírito Santo</option>
+                            <option value="MA">Maranhão</option>
+                            <option value="MT">Mato Grosso</option>
+                            <option value="MS">Mato Grosso do Sul</option>
+                            <option value="MG">Minas Gerais</option>
+                            <option value="PA">Pará</option>
+                            <option value="PB">Paraiba</option>
+                            <option value="PR">Paraná</option>
+                            <option value="PE">Pernambuco</option>
+                            <option value="PI">Piauí­</option>
+                            <option value="RJ">Rio de Janeiro</option>
+                            <option value="RN">Rio Grande do Norte</option>
+                            <option value="RS">Rio Grande do Sul</option>
+                            <option value="RO">Rondônia</option>
+                            <option value="RR">Roraima</option>
+                            <option value="SP">São Paulo</option>
+                            <option value="SC">Santa Catarina</option>
+                            <option value="SE">Sergipe</option>
+                            <option value="TO">Tocantins</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-lg-4">
+                        <label for="inputDistance">Distância</label>
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control" id="inputDistance" readonly>
+                            <input type="hidden" class="form-control" id="inputPrice" >
+                            <div class="input-group-append">
+                                <span class="input-group-text" >Km</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="checkout_payment" style="display: none;">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="row">
+                            <div class="form-group col-lg-12">
+                                <label for="cardName" style="color: #fff !important;">.</label>
+                                <img id="cardImage" src="/image/card-front.png" class="img-fluid">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="row">
+                            <div class="form-group col-lg-12">
+                                <label for="cardName">Nome</label>
+                                <input id="cardName" type="text" class="form-control" maxlength="100" placeholder="João Paulo" />
+                            </div>
+                            <div class="form-group col-lg-12">
+                                <label for="cardNumber">Número</label>
+                                <input id="cardNumber" type="text" class="form-control" maxlength="19" placeholder="0123 4567 8901 2345" />
+                            </div>
+
+                            <div class="form-group col-lg-6">
+                                <label for="cardExpire">Data Validade</label>
+                                <div class="input-group date" id="cardDateTimePicker" data-target-input="nearest">
+                                    <input id="cardExpire" type="text" class="form-control datetimepicker-input" data-target="#cardDateTimePicker" data-toggle="datetimepicker" placeholder="MM/AAAA" />
+                                    <div class="input-group-append" data-target="#cardDateTimePicker" data-toggle="datetimepicker">
+                                        <div class="input-group-text"><i class="far fa-calendar-alt"></i></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group col-lg-6">
+                                <label for="cardCVV">Código Segurança</label>
+                                <input id="cardCVV" type="text" class="form-control" maxlength="3" placeholder="123" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-lg-4">
+            <div class="row my-lg-3 grid-with">
+                <div class="col-lg-12 text-center cart-empty" >
+                    <img src="/image/empty-cart.png" height="128" />
+                    <p class="text-muted">Seu carrinho esta vazio! 😔</p>
+                </div>
+            
+                <div class="col-lg-12 cart-list-items">
+                    <ul class="list-group mb-3 cart-list"></ul>
+                </div>
+
+            </div>
+
+            <button id="checkout_finish" class="btn btn-danger w-100 py-1 cart-btn" style="font-size: 16px;">Finalizar Pedido</button>
+        </div>
+
+      </div>
+
+  </div>
+
+<%- include('footer.ejs') %>

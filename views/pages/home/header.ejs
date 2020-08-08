@@ -1,0 +1,85 @@
+<!DOCTYPE HTML>
+<html lang="pt-br">
+  <head> 
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap-select.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/fontawesome.min.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/checkout.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/tempusdominus-bootstrap-4.min.css"/>
+
+
+
+
+    <link rel="apple-touch-icon" sizes="57x57" href="/image/favicon/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/image/favicon/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/image/favicon/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/image/favicon/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/image/favicon/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/image/favicon/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/image/favicon/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/image/favicon/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/image/favicon/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192"  href="/image/favicon/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/image/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/image/favicon/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/image/favicon/favicon-16x16.png">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="/image/favicon/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    
+    <title><%= attr.user %> | <%= attr.page %></title>
+  </head>
+  <body>
+
+    <!-- sidebar -->
+    <div id="main-sidebar-container" class="collapse width pull-right">
+      
+      <nav id="sidebar">
+        <div class="sidebar-header text-center align-middle">
+            <h3><%= attr.user %></h3>
+        </div>
+
+        <ul class="list-unstyled components">
+        <% for (category of categories) { %>
+          <li><a href="/<%= category.uri %>"><%= category.name %></a></li>
+        <% } %>
+          <li><a href="/destaque">Destaques</a></li>
+        </ul>
+
+        <ul class="list-unstyled CTAs">
+            <li>
+                <a href="/carrinho" class="download">Meu Carrinho</a>
+            </li>
+            <li>
+                <a href="/pedidos" class="article user-hash">Meus Pedidos</a>
+            </li>
+        </ul>
+    </nav>
+
+    </div>
+
+    <header class="fixed-top d-block d-lg-none">
+      <div class="d-flex justify-content-between">
+        <span class="btn pt-3" style="font-size: 1.4em;"><%= attr.user %></span>
+        <span class="btn fas fa-bars pt-3" style="font-size: 1.8em;" data-toggle="collapse" data-target="#main-sidebar-container" aria-controls="main-sidebar-container" aria-expanded="false"></span>
+      </div>
+    </header>
+
+    <header class="fixed-top d-none d-lg-block pt-2">
+      <div class="d-flex justify-content-between">
+        <div>
+          <a class="btn" style="font-size: 1.3em;"><%= attr.user %></a>
+        </div>
+        <div>
+        <% for (category of categories) { %>
+          <a class="btn menulink" href="/<%= category.uri %>" style="font-size: 1.1em;"><%= category.name %></a>
+        <% } %>
+          <a class="btn menulink" href="/destaque" style="font-size: 1.1em;">Destaques</a>
+          <a class="btn menulink" >|</a>
+          <a class="btn menulink user-hash" href="/pedidos" style="font-size: 1.1em;">Meus Pedidos</a>
+          <a class="btn menulink" href="/carrinho" style="font-size: 1.1em;">Meu Carrinho</a>
+        </div>
+      </div>
+    </header>

@@ -1,0 +1,98 @@
+<%- contentFor('layout') %>
+<!DOCTYPE HTML>
+<html lang="pt-br" class="h-100">
+<head>
+    <meta charset="UTF-8">
+    <title><%= attr.title %></title>
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/login.css"/>
+</head>
+<body class="d-flex flex-column h-100">
+    <!-- <div class="container">
+        <div class="login-container">
+            <div class="avatar"></div>
+            <div id="msg-error"></div>
+            <div class="form-box">
+                <input id="user" type="text" placeholder="usuário">
+                <input id="pass" type="password" placeholder="senha">
+                <button id="login" class="btn btn-danger btn-block login">Entrar</button>
+            </div>
+        </div>
+    </div> -->
+
+    <main role="main" class="h-100 d-flex align-items-center">
+        <div class="container text-center">
+            <div class="login-container">
+                <div class="avatar">
+                    <img src="<%= attr.logo %>" class="img-fluid" alt="logo">
+                </div>
+                <div id="msg-error"></div>
+                <div class="form-box">
+                    <input id="user" type="text" placeholder="usuário">
+                    <input id="pass" type="password" placeholder="senha">
+                    <button id="login" class="btn btn-danger btn-block login">Entrar</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script type="text/javascript" src="/js/jquery.min.js" ></script>
+    <script type="text/javascript" src="/js/popper.min.js" ></script>
+    <script type="text/javascript" src="/js/bootstrap.min.js" ></script>
+    <script>
+
+    const msg = "<%= attr.message; %>";
+    document.cookie = `authtoken=`;
+
+    $(document).ready(function() { 
+
+        if(!!msg) $("#msg-error").text(msg).addClass("text-muted pb-5");
+
+        $('#login').on('click', function() {
+            const rtn = apiPageData("POST", '/admin/auth', {
+                user: $('#user').val(),
+                pass: $('#pass').val()
+            });
+
+            $("#msg-error").text(rtn.message).addClass("text-muted pb-5");
+            document.cookie = `authtoken=${rtn.token}`;
+            
+            console.log(rtn.auth);
+            console.log(rtn.token);
+            console.log(rtn.message);
+
+            if(!!rtn.auth) 
+            {
+                console.log(rtn.token);
+                // Redirect
+                setInterval(function(){ window.open("/admin", "_self"); }, 1000);
+
+                $('#user').val("");
+                $('#pass').val("");
+            }
+            else {
+                $('#pass').val("");
+            }
+        });
+        
+    });
+
+    function apiPageData(type, url, data)
+    {
+        let result = '';
+
+        $.ajax
+        ({
+            type: type,
+            url: url,
+            dataType: 'json',
+            async: false,
+            data: data,
+            success: function (rtn) { result = rtn; }
+        });
+
+        return result;
+    }
+    </script>
+</body>
+</html>

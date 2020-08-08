@@ -1,0 +1,97 @@
+<%- contentFor('layout') %>
+<%- include('header.ejs') %>
+
+<main role="main" class="mt-4 d-flex align-items-center">
+    <div class="container">
+        <div class="card">
+            <div class="card-header">
+                <strong><%= attr.page %>s</strong>
+                <button type="button" class="btn btn-outline-success btn-sm float-right" data-tabid="" data-tabname="<%= attr.table %>" data-tabtype="<%= attr.page %>" data-crud="insert" data-belongsto="" data-belongstoid="" data-toggle="modal" data-target="#modalUpsert">
+                    Nova <%= attr.page %>
+                </button>
+            </div>
+            <div class="card-body">
+                <table class="table table-sm table-striped table-borded datatable-option" data-option="<%= attr.table %>">
+                    <thead>
+                        <tr>
+                            <th>SKU</th>
+                            <th>Image</th>
+                            <th>Categoria</th>
+                            <th>Descrição</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% for (row of rows) { %>
+                        <tr>
+                            <td class="align-middle" ><%= helper.str_pad(row.id, 3, "0", "left", "C") %></td>
+                            <td class="align-middle" ><%- helper.image_show(attr.table, row.image, false, 50, 50) %></td>
+                            <td class="align-middle" ><%= row.name %></td>
+                            <td class="align-middle" ><%= helper.stringLimit(row.description, 60) %></td>
+                            <td class="align-middle"  class="text-center">
+                                <button type="button" class="btn btn-outline-primary btn-sm" title="Editar <%= attr.page %>" data-tabid="<%= row.id %>" data-tabname="<%= attr.table %>" data-tabtype="<%= attr.page %>" data-crud="update" data-belongsto="" data-belongstoid="" data-toggle="modal" data-target="#modalUpsert" >
+                                    <span class="fa fa-edit" aria-hidden="true"></span>
+                                </button>
+                                <button type="button" id="delete_<%= attr.table %>" class="btn btn-outline-danger btn-sm" title="Excluir <%= attr.page %>" data-tabid="<%= row.id %>" data-tabval="<%= row.name %>" data-tabname="<%= attr.table %>" data-tabtype="<%= attr.page %>" data-myid="delete_<%= attr.table %>" data-name="<%= row.name %>" data-toggle="modal" data-target="#modalDelete" >
+                                    <span class="fa fa-trash" aria-hidden="true"></span>
+                                </button>
+                            </td>
+                        </tr>
+                        <% } %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- Modal UPSERT Category -->
+<div class="modal fade" id="modalUpsert" tabindex="-1" role="dialog" aria-labelledby="modalUpsertLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalUpsertLabel"><span></span></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="my-alert-msg" class="alert alert-success" role="alert" style="display:none;">
+                    <span></span>
+                </div>
+
+                <form id="modal-form">
+                    <div class="form-row mb-3">
+                        <label>Imagem</label>
+                        <div class="input-group">
+                            <span class="input-group-btn">
+                                <span class="btn btn-outline-info" onclick="$(this).parent().find('input[type=file]').click();">Buscar</span>
+                                <input id="image-upload" onchange="$(this).parent().parent().find('.form-control').html($(this).val().split(/[\\|/]/).pop());" 
+                                    style="display: none;" type="file" accept="image/*" >
+                            </span>
+                            <span class="form-control">Selecionar Arquivo</span>
+                        </div>
+                    </div>
+                    <div class="form-row mb-3">
+                        <label>Nome</label>
+                        <input class="form-control input-sm form_action_ipt" type="hidden" data-name="form_action" data-required="true">
+                        <input class="form-control input-sm id_ipt" type="hidden" data-name="id" data-required="false">
+                        <input class="form-control input-sm name_ipt" type="text" maxlength="100" data-name="name" data-required="true">
+                        <div class="invalid-feedback name-err">Campo Obrigatório</div>
+                    </div>
+                    <div class="form-row mb-3">
+                        <label>Descrição</label>
+                        <input class="form-control input-sm description_ipt" type="text" maxlength="255" data-name="description" data-required="false">
+                        <div class="invalid-feedback description-err">Campo Obrigatório</div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="modal_submit" class="btn btn-outline-primary" data-tabname="<%= attr.table %>" data-tabtype="<%= attr.page %>"><span></span></button>
+                <button type="button" class="btn btn-outline-info reload_closed" data-dismiss="modal">Fechar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include('footer.ejs') %>

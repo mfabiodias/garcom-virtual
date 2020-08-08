@@ -1,0 +1,12 @@
+.sql
+.env
+docs
+package-lock.json
+node_modules
+executable
+backups
+logs
+zteste.js
+pm2-local.json
+mac-666595
+chromium-data

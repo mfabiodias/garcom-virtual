@@ -1,0 +1,15 @@
+<%- contentFor('layout') %>
+<%- include('header.ejs') %>
+
+<main role="main" class="h-100 d-flex align-items-center">
+    <div class="container text-center">
+        <img src="<%= attr.logo %>" class="img-fluid" alt="logo" style="max-height: 200px;">
+        <% if(1==2) { %>
+        <h1>Socket.io</h1>
+        <input type="text">
+        <div id="msg"></div>
+        <% } %>
+    </div>
+</main>
+
+<%- include('footer.ejs') %>

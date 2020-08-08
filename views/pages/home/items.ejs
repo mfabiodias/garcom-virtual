@@ -1,0 +1,153 @@
+<%- contentFor('layout') %>
+<%- include('header.ejs') %>
+
+    <div class="container-fluid">
+      
+      <div class="row open-hour" data-weekdata="<%=business.open%>" data-weekday="<%=attr.week%>" data-status="<%=attr.open%>">
+      
+        <aside class="col-12 pt-3"><h5><%= item.name %></h5></aside>
+
+        <!-- Produtos -->
+        <aside class="col-lg-9 col-12 py-1">
+
+          <div class="row"> 
+          <% if(!!item.product) { for (product of item.product) { %>
+            
+            <aside class="item-list col-lg-6 col-12 my-1" data-tabid="<%= product.id; %>" data-toggle="modal" data-target="#itemModal">
+              <div class="card rounded px-2">
+                <div class="media align-items-center">
+                  <!-- <img src="/image/product/<%= product.image; %>" class="d-block ui-w-40 ui-bordered mr-3 rounded img-sm mclick" /> -->
+                  <img src="<%- helper.image_show('product', product.image, true) %>" class="d-block ui-w-40 ui-bordered mr-3 rounded img-sm mclick" />
+                  <div class="media-body">
+                    <a class="d-block pt-3 mclick" ><%= helper.limitedEllipsis(product.name, 30); %></a>
+                    <small class="text-muted small prod-desc"><%= helper.limitedEllipsis(product.description, 60); %></small>
+                    <table class="table table-sm table-borderless">
+                      <tr>
+                        <td class="text-left stars">
+                          <i class="fas fa-star text-warning"></i>
+                          <i class="fas fa-star text-warning"></i>
+                          <i class="fas fa-star text-warning"></i>
+                          <i class="fas fa-star-half-alt text-warning"></i>
+                          <i class="far fa-star text-warning"></i>
+                        </td>
+                        <td class="text-right stars">
+                          <strong><%= helper.number_format(product.price,2,',','.'); %></strong>
+                        </td>
+                      </tr>
+                    </table>
+                  </div>
+                  <input type="hidden" id="product-image-<%= product.id; %>" value="<%= product.image; %>">
+                  <input type="hidden" id="product-name-<%= product.id; %>" value="<%= product.name; %>">
+                  <input type="hidden" id="product-price-<%= product.id; %>" value="<%= product.price; %>">
+                  <input type="hidden" id="product-description-<%= product.id; %>" value="<%= product.description; %>">
+                  <i class="fas fa-ellipsis-v pl-3 mclick" style="font-size: 1.2em;"></i>
+                </div>
+              </div>
+            </aside>
+            
+          <% }} %>
+          </div>
+        </aside>
+
+        <!-- Carrinho de Compras -->
+        <aside class="d-none d-lg-block col-lg-3 my-2">
+
+            <div class="col-lg-12 text-center cart-empty" >
+              <img src="/image/empty-cart.png" height="128" />
+              <p class="text-muted">Seu carrinho esta vazio! 😔</p>
+            </div>
+            
+            <ul class="list-group pb-2 cart-list"></ul>
+          
+            <a href="/carrinho" class="btn btn-danger w-100 py-1 cart-btn" style="font-size: 16px; display: none;">Realizar Pedido</a>
+
+        </aside>
+	    </div>
+  </div>
+  
+  <!-- MODAL ITEM -->
+  <div class="modal fade" id="itemModal" tabindex="-1" role="dialog" aria-labelledby="itemModalLabel" aria-hidden="true">
+    <div class="modal-dialog  modal-dialog-centered h-100" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="row">
+                    <div id="itemModalTitle" class="col-12"></div>
+                    <div id="itemModalImage" class="col-12 text-center"></div>
+                    <div id="itemModalDescription" class="col-12 py-4"></div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <input id="itemModalId" type="hidden" class="form-control" >
+                        <input id="itemModalName" type="hidden" class="form-control" >
+                        <input id="itemModalPrice" type="hidden" class="form-control" >
+                        <textarea id="itemModalNote" class="form-control" rows="4" maxlength="40" placeholder="Deseja acrescentar ou modificar algo nesse item? Informe-nos aqui..."></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+              <% if(attr.open == true) { %>
+                <div class="btn-group mr-auto" role="group">
+                    <button id="itemModalMinus" type="button" class="btn btn-outline-danger">-</button>
+                    <input id="itemModalQty" type="text" class="form-control" value="1" placeholder="1" readonly />
+                    <button id="itemModalPlus" type="button" class="btn btn-outline-danger">+</button>
+                </div>
+                <button id="itemModalClose" type="button" class="btn btn-outline-danger" data-dismiss="modal">Fechar</button>
+                <button id="itemModalAdd" type="button" class="btn btn-danger">Adicionar</button>
+              <% } else { %>
+              <%= attr.open; %>
+              <button id="itemModalOpenHour" type="button" class="btn btn-danger" >Horários Funcionamento</button>
+              <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Fechar</button>
+              <% } %>
+            </div>
+        </div>
+      </div>
+  </div> 
+  
+  <!-- MODAL OPEN -->
+  <div class="modal fade" id="itemOpen" tabindex="-1" role="dialog" aria-labelledby="itemOpenLabel" aria-hidden="true">
+    <div class="modal-dialog  modal-dialog-centered h-100" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Horário de Funcionamento</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-4">Segunda-Feira</div>
+                    <div id="seg_open" class="col-8"></div>
+                </div>
+                <div class="row">
+                    <div class="col-4">Terça-Feira</div>
+                    <div id="ter_open" class="col-8"></div>
+                </div>
+                <div class="row">
+                    <div class="col-4">Quart-Feira</div>
+                    <div id="qua_open" class="col-8"></div>
+                </div>
+                <div class="row">
+                    <div class="col-4">Quinta-Feira</div>
+                    <div id="qui_open" class="col-8"></div>
+                </div>
+                <div class="row">
+                    <div class="col-4">Sexta-Feira</div>
+                    <div id="sex_open" class="col-8"></div>
+                </div>
+                <div class="row">
+                    <div class="col-4">Sábado</div>
+                    <div id="sab_open" class="col-8"></div>
+              </div>
+              <div class="row">
+                  <div class="col-4">Domingo</div>
+                  <div id="dom_open" class="col-8"></div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Fechar</button>
+            </div>
+        </div>
+      </div>
+  </div> 
+
+<%- include('footer.ejs') %>

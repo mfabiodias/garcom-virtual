@@ -1,0 +1,115 @@
+<%- contentFor('layout') %>
+<%- include('header.ejs') %>
+
+<main role="main" class="mt-4 d-flex align-items-center">
+    <div class="container">
+        <div class="card">
+            <div class="card-header"><strong><%= attr.page %>s</strong></div>
+            <div class="card-body">
+                <table id="orders-list" class="table table-sm table-striped table-borded datatable-option" data-option="<%= attr.table %>">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="date-min">Data Inicial</label>
+                                <div class="input-group date" id="order-start" data-target-input="nearest">
+                                    <input id="date-min" type="text" class="form-control datetimepicker-input" data-target="#order-start" data-toggle="datetimepicker"/>
+                                    <div class="input-group-append" data-target="#order-start" data-toggle="datetimepicker">
+                                        <div class="input-group-text"><i class="far fa-calendar-alt"></i></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="date-max">Data Final</label>
+                                <div class="input-group date" id="order-end" data-target-input="nearest">
+                                    <input id="date-max" type="text" class="form-control datetimepicker-input" data-target="#order-end" data-toggle="datetimepicker"/>
+                                    <div class="input-group-append" data-target="#order-end" data-toggle="datetimepicker">
+                                        <div class="input-group-text"><i class="far fa-calendar-alt"></i></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <thead>
+                        <tr>
+                            <th>SKU</th>
+                            <th>Qtd Itens</th>
+                            <th>Valor</th>
+                            <th>Data</th>
+                            <th>Hora</th>
+                            <th>Entregador</th>
+                            <th>Entrega</th>
+                            <th>Origem</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% for (row of rows) { %>
+                        <tr>
+                            <td class="align-middle" ><%= helper.str_pad(row.id, 4, "0", "left", "P") %></td>
+                            <td class="align-middle" ><%= row.opt.items %></td>
+                            <td class="align-middle" ><%= parseFloat(row.opt.amount.total_price).toFixed(2) %></td>
+                            <td class="align-middle" ><%= helper.date(row.created_at, "dd/mm/yyyy"); %></td>
+                            <td class="align-middle" ><%= helper.date(row.created_at, "HH:MM"); %></td>
+                            <td class="align-middle" ><%= row.employee %></td>
+                            <td class="align-middle" ><%= parseFloat(row.delivery).toFixed(2) %></td>
+                            <td class="align-middle" ><%= helper.ucwords(row.origin) %></td>
+                            <td class="align-middle" >
+                                <button type="button" class="btn btn-outline-warning btn-sm ordid-<%= row.id %>" title="Ver Itens do Pedido"
+                                    data-toggle="modal" data-target="#orderModal" data-order="<%= row.id %>" 
+                                    data-delivery="<%= row.delivery %>" data-discount="<%= row.discount %>" 
+                                    data-items="<%= encodeURIComponent(JSON.stringify(row.opt.data)) %>">
+                                    <i class="far fa-eye"></i>
+                                </button>
+                                <button type="button" class="btn btn-outline-info btn-sm orderPrint" id="ordid-<%= row.id %>" 
+                                    data-tabid="<%= row.id %>" 
+                                    title="Imprimir Pedido">
+                                    <i class="fas fa-print"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <% } %>
+                    </tbody>
+                    <tfoot>
+                        <tr id="subtotal-order" style="display:none">
+                            <th colspan="2" >SubTotal:</th>
+                            <th id="order-subtotal"></th>
+                            <th colspan="3" ></th>
+                            <th colspan="3" id="delivery-subtotal"></th>
+                        </tr>
+                        <tr id="total-order" style="display:none">
+                            <th colspan="2" >Total:</th>
+                            <th id="order-total"></th>
+                            <th colspan="3" ></th>
+                            <th colspan="3" id="delivery-total"></th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</main>
+
+  
+<!-- Order Modal -->
+<div class="modal fade" id="orderModal" tabindex="-1" role="dialog" aria-labelledby="orderModalLabel" aria-hidden="true">
+<div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+    <div class="modal-header">
+        <h5 class="modal-title" id="orderModalLabel">Items do Pedido #<span id="orderSku"></span></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div id="orderItems"></div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+    </div>
+    </div>
+</div>
+</div>
+
+<%- include('footer.ejs') %>

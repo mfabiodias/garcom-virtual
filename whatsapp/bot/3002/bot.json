@@ -1,0 +1,44 @@
+{
+	"appconfig": {
+		"headless": true,
+		"isGroupReply": false
+	},
+	"bot": [
+		{
+			"contains": [
+				"menu",
+				"cardápio"
+			],
+			"exact": [
+				"Ver menu",
+				"Ver Cardápio"
+			],
+			"response": "Fique a vontade para ver nosso cardápio",
+			"file": "/public/image/message/3002/cardapio.png"
+		},
+		{
+			"contains": [
+				"quarta-feira",
+				"quarta"
+			],
+			"exact": [],
+			"response": "Hoje temos rabada como prato do dia",
+			"file": "/public/image/message/3002/rabada.png"
+		},
+		{
+			"contains": [],
+			"exact": [
+				"Horário",
+				"Aberto"
+			],
+			"response": "Olá, funcionamos de Seg. a Sex. das 8:00 as 18:00",
+			"file": ""
+		}
+	],
+	"blocked": [],
+	"noMatch": "{}",
+	"smartreply": {
+		"suggestions": [],
+		"clicktosend": false
+	}
+}

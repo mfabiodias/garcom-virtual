@@ -1,0 +1,11 @@
+module.exports = {
+    connection: {
+        host: 'host',
+        database: 'database',
+        user:     'user',
+        password: 'pass'
+    },
+    google_maps: {
+        apikey: 'apikey'
+    }
+}

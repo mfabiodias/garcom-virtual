@@ -1,0 +1,370 @@
+<%- contentFor('layout') %>
+<%- include('header.ejs') %>
+
+<main role="main" class="mt-4 d-flex align-items-center">
+    <div class="container">
+        <div class="card">
+            <div class="card-header">
+                <strong><%= attr.page %>s</strong>
+            </div>
+            <div class="card-body">
+                
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label>Mensagens em Grupos</label>
+                        <select id="group_reply" class="form-control input-sm">
+                            <option value="1" <%= whatsapp.group_reply.toString() == "1" ? "selected" : "" %> >Habilitar</option>
+                            <option value="0" <%= whatsapp.group_reply.toString() == "0" ? "selected" : "" %> >Desabilitar</option>
+                        </select>
+                        <div class="invalid-feedback group_reply-err">Campo Obrigatório</div>
+                    </div>
+                    <div class="form-group col-md-6"></div>
+
+                    <div class="form-group col-md-6 mt-2">
+                        <div class="form-row">
+                            <div class="form-group col-md-12">
+                                <table class="table table-sm">
+                                    <thead>
+                                        <tr> 
+                                            <th>Números Bloqueados</th>
+                                            <th class="text-right">
+                                                <button type="button" class="btn btn-sm btn-outline-danger"
+                                                    data-toggle="modal" data-target="#modalBlacklist"
+                                                >+ Bloqueado</button>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody style="height:40px !important; overflow-x: hidden;">
+                                        <tr>
+                                            <td colspan="2">
+                                                <%= attr.blockeds.length; %> número(s) bloqueado(s).
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-6 mt-2">
+                        <div class="form-row">
+                            <div class="form-group col-md-12">
+                                <table class="table table-sm">
+                                    <thead>
+                                        <tr> 
+                                            <th>Mensagens sem Correspondência</th>
+                                            <th class="text-right">
+                                                <button type="button" class="btn btn-sm btn-outline-success"
+                                                    data-toggle="modal" data-target="#modalNoMatch"
+                                                >+ Mensagem</button>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody style="height:40px !important; overflow-x: hidden;">
+                                        <tr>
+                                            <td colspan="2">
+                                                <%= attr.nomatchs.length; %> mensagem(s) sem correspondência.
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-6" style="margin-top: -25px;">
+                        <label>Mensagens com Respostas Automáticas</label>
+                    </div>
+
+                    <div class="form-group col-md-6 text-right" style="margin-top: -25px;">
+                        <button type="button" class="btn btn-outline-success btn-sm float-right" data-tabid="" data-tabname="message" data-tabtype="Mensagem" data-crud="insert" data-belongsto="" data-belongstoid="" data-toggle="modal" data-target="#modalUpsert">
+                            + Mensagem
+                        </button>
+                    </div>
+
+                    <div class="form-group col-md-12">
+                        <table id="autoresponse_list" class="table table-sm datatable-option" data-option="message">
+                            <thead>
+                                <tr>
+                                    <th>SKU</th>
+                                    <th>Imagem</th>
+                                    <th>Contém</th>
+                                    <th>Exato</th>
+                                    <th>Resposta</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            <% for (message of messages) { %>
+                                <tr>
+                                    <td class="align-middle" ><%= helper.str_pad(message.id, 3, "0", "left", "M") %></td>
+                                    <td class="align-middle" ><%- helper.image_show('message', message.image, false, 50, 50) %></td>
+                                    <td class="align-middle" ><%= helper.messagesCount(message.contains) %></td>
+                                    <td class="align-middle" ><%= helper.messagesCount(message.exact) %></td>
+                                    <td class="align-middle" ><%= message.response %></td>
+                                    <td class="align-middle" class="text-center" width="10%" data-contain="<%= message.contains; %>" data-exact="<%= message.exact; %>">
+                                        <button type="button" id="edit_message_<%= message.id %>" class="btn btn-outline-primary btn-sm wmsg-edit" title="Editar Mensagem" data-tabid="<%= message.id %>" data-tabname="message" data-tabtype="Mensagem" data-crud="update" data-belongsto="" data-belongstoid="" data-toggle="modal" data-target="#modalUpsert" >
+                                            <span class="fa fa-edit" aria-hidden="true"></span>
+                                        </button>
+                                        <button type="button" id="delete_message_<%= message.id %>" class="btn btn-outline-danger btn-sm wmsg-delete" title="Excluir Mensagem" data-tabid="<%= message.id %>" data-tabval="" data-tabname="message" data-tabtype="Mensagem" data-myid="delete_message" data-name="" data-toggle="modal" data-target="#modalDelete" >
+                                            <span class="fa fa-trash" aria-hidden="true"></span>
+                                        </button>
+                                    </td>
+                                </tr>
+                            <% } %>
+                            </tbody>
+                        </table>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- Modal UPSERT WhatsApp Config -->
+<div class="modal fade" id="modalUpsert" tabindex="-1" role="dialog" aria-labelledby="modalUpsertLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalUpsertLabel"><span></span></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="my-alert-msg" class="alert alert-success" role="alert" style="display:none;">
+                    <span></span>
+                </div>
+                <form id="modal-form">
+                    <div class="form-row mb-3">
+                        <label>Imagem</label>
+                        <div class="input-group">
+                            <span class="input-group-btn">
+                                <span class="btn btn-outline-info" onclick="$(this).parent().find('input[type=file]').click();">Buscar</span>
+                                <input id="image-upload" onchange="$(this).parent().parent().find('.form-control').html($(this).val().split(/[\\|/]/).pop());" 
+                                    style="display: none;" type="file" accept="image/*" >
+                            </span>
+                            <span class="form-control">Selecionar Arquivo</span>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-12">
+                            <label>Palavras/Frases nas Mensagens Recebidas</label>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <table id="contains_list" class="table table-sm table-fixed">
+                                <thead>
+                                    <tr> 
+                                        <td class="align-middle">Que Contém</td>
+                                        <td class="text-right align-middle">
+                                            <button type="button" class="btn btn-sm btn-outline-success" data-toggle="modal" data-target="#modalContain">+ Mensagem</button>
+                                        </td>
+                                    </tr>
+                                </thead>
+                                <tbody style="height:80px !important; overflow-x: hidden;"></tbody>
+                            </table>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <table id="exact_list" class="table table-sm table-fixed">
+                                <thead>
+                                    <tr> 
+                                        <td class="align-middle">Ou Exata</td>
+                                        <td class="text-right align-middle">
+                                            <button type="button" class="btn btn-sm btn-outline-success" data-toggle="modal" data-target="#modalExact">+ Mensagem</button>
+                                        </td>
+                                    </tr>
+                                </thead>
+                                <tbody style="height:80px !important; overflow-x: hidden;"></tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-12">
+                            <label>Resposta Automática</label>
+                            <input class="form-control input-sm form_action_ipt" type="hidden" data-name="form_action" data-required="true">
+                            <input class="form-control input-sm id_ipt" type="hidden" data-name="id" data-required="false">
+                            <input class="form-control input-sm contains_ipt" type="hidden" data-name="contains" data-required="false">
+                            <input class="form-control input-sm exact_ipt" type="hidden" data-name="exact" data-required="false">
+                            <textarea class="form-control input-sm response_ipt" maxlength="255" rows="3" data-name="response" data-required="true"></textarea>
+                            <div class="invalid-feedback response-err">Campo Obrigatório</div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="modal_submit" class="btn btn-outline-primary" data-refreshwpp="true" data-tabname="<%= attr.table %>" data-tabtype="Mensagem Automática"><span></span></button>
+                <button type="button" class="btn btn-outline-info reload_closed" data-dismiss="modal">Fechar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal WhatsApp Blacklist -->
+<div class="modal fade" id="modalBlacklist" tabindex="-1" role="dialog" aria-labelledby="modalBlacklistLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalBlacklistLabel">WhatsApp Lista Negra</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="my-alert-msg" class="alert alert-success" role="alert" style="display:none;">
+                    <span></span>
+                </div>
+
+                
+                <div class="form-row mb-3">
+                    <label>Informe o número para adicionar a lista negra</label>
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control blocked_save" placeholder="(11) 93145-4040 - (com DDD)" maxlength="20" aria-describedby="blocked_save">
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-primary" type="button" id="blocked_save">Salvar</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row mb-3">
+                    <table id="blocked_list" class="table table-sm table-hover table-fixed">
+                        <thead>
+                            <tr>
+                                <th colspan="2">Número(s) Bloqueado(s)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% for (blocked of attr.blockeds) { %>
+                            <tr>
+                                <td style="width: 85%;"><%= blocked.length == 11 ? helper.mask(blocked, "(##) #####-####") : (blocked.length == 10 ? helper.mask(blocked, "(##) ####-####") : blocked ); %></td>
+                                <td>
+                                    <span data-number="<%=blocked%>" class="fas fa-minus-square text-danger mclick blocked_delete"></span>
+                                </td>
+                            </tr>
+                            <% } %>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-info reload_closed" data-dismiss="modal">Fechar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal WhatsApp No Match -->
+<div class="modal fade" id="modalNoMatch" tabindex="-1" role="dialog" aria-labelledby="modalNoMatchLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalNoMatchLabel">WhatsApp Mensagens s/ Correspondência</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="my-alert-msg" class="alert alert-success" role="alert" style="display:none;">
+                    <span></span>
+                </div>
+
+                
+                <div class="form-row mb-3">
+                    <label>Cadastre uma mensagens para perguntas s/ respostas automaticas</label>
+                    <div class="input-group mb-3">
+                        <textarea class="form-control input-sm nomatch_save" maxlength="255" rows="5"></textarea>
+                        <input type="hidden" id="nomatch_idx" value="">
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-primary" type="button" id="nomatch_save">Salvar</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row mb-3">
+                    <table id="nomatch_list" class="table table-sm table-hover table-fixed">
+                        <thead>
+                            <tr>
+                                <th colspan="2">Mensagem(s) s/ Correspondência(s)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% let idx=0; %>
+                            <% for (nomatch of attr.nomatchs) { %>
+                            <tr>
+                                <td style="width: 85%;"><%= nomatch; %></td>
+                                <td>
+                                    <span data-idx="<%=idx%>" data-msg="<%=encodeURIComponent(nomatch)%>" class="fas fa-pen-square text-primary mclick nomatch_edit"></span>
+                                    <span data-idx="<%=idx%>" data-msg="<%=encodeURIComponent(nomatch)%>" class="fas fa-minus-square text-danger mclick nomatch_delete"></span>
+                                </td>
+                            </tr>
+                            <% idx++; } %>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-info reload_closed" data-dismiss="modal">Fechar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal WhatsApp Add Contain -->
+<div class="modal fade" id="modalContain" tabindex="-1" role="dialog" aria-labelledby="modalContainLabel">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalContainLabel">Mensagem que contém:</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="my-alert-msg" class="alert alert-success" role="alert" style="display:none;">
+                    <span></span>
+                </div>
+
+                <div class="form-row mb-3">
+                    <div class="input-group col-12">
+                        <input type="text" class="form-control contain_save" >
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-primary" type="button" id="contain_save">Salvar</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal WhatsApp Add Exact -->
+<div class="modal fade" id="modalExact" tabindex="-1" role="dialog" aria-labelledby="modalExactLabel">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalExactLabel">Mensagem exata:</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="my-alert-msg" class="alert alert-success" role="alert" style="display:none;">
+                    <span></span>
+                </div>
+
+                <div class="form-row mb-3">
+                    <div class="input-group col-12">
+                        <input type="text" class="form-control exact_save" >
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-primary" type="button" id="exact_save">Salvar</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include('footer.ejs') %>

@@ -1,0 +1,123 @@
+<%- contentFor('layout') %>
+<%- include('header.ejs') %>
+
+<main role="main" class="mt-4 d-flex align-items-center">
+    <div class="container">
+        <div class="card">
+            <div class="card-header">
+                <strong><%= attr.page %>s</strong>
+                <button type="button" class="btn btn-outline-success btn-sm float-right" data-tabid="" data-tabname="<%= attr.table %>" data-tabtype="<%= attr.page %>" data-crud="insert" data-belongsto="<%= attr.belongsto %>" data-belongstoid="<%= attr.belongsto %>_id" data-toggle="modal" data-target="#modalUpsert">
+                    Novo <%= attr.page %>
+                </button>
+            </div>
+            <div class="card-body">
+                <table class="table table-sm table-striped table-borded datatable-option" data-option="<%= attr.table %>">
+                    <thead>
+                        <tr>
+                            <th>SKU</th>
+                            <th>Image</th>
+                            <th>Categoria</th>
+                            <th>Item</th>
+                            <th>Preço</th>
+                            <th>Destaque</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% for (row of rows) { %> 
+                        <tr>
+                            <td class="align-middle" ><%= helper.str_pad(row.id, 3, "0", "left", "I") %></td>
+                            <td class="align-middle" ><%- helper.image_show(attr.table, row.image, false, 50, 50) %></td>
+                            <td class="align-middle" ><%= row.category.name %></td>
+                            <td class="align-middle" ><%= row.name %></td>
+                            <td class="align-middle" ><%= helper.number_format(row.price, 2, ',', '.') %></td>
+                            <td class="align-middle" ><%= (row.featured.toString() == "1" ? "Sim" : "Não") %></td>
+                            <td class="align-middle"  class="text-center">
+                                <button type="button" class="btn btn-outline-primary btn-sm" title="Editar <%= attr.page %>" data-tabid="<%= row.id %>" data-tabname="<%= attr.table %>" data-tabtype="<%= attr.page %>" data-crud="update" data-belongsto="<%= attr.belongsto %>" data-belongstoid="<%= attr.belongsto %>_id" data-toggle="modal" data-target="#modalUpsert" >
+                                    <span class="fa fa-edit" aria-hidden="true"></span>
+                                </button>
+                                <button type="button" id="delete_<%= attr.table %>" class="btn btn-outline-danger btn-sm" title="Excluir <%= attr.page %>" data-tabid="<%= row.id %>" data-tabval="<%= row.name %>" data-tabname="<%= attr.table %>" data-tabtype="<%= attr.page %>" data-hasmany="" data-hasmanycol="" data-hasmanyname="" data-myid="delete_<%= attr.table %>" data-name="<%= row.name %>" data-toggle="modal" data-target="#modalDelete" >
+                                    <span class="fa fa-trash" aria-hidden="true"></span>
+                                </button>
+                            </td>
+                        </tr>
+                        <% } %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- Modal UPSERT Product -->
+<div class="modal fade" id="modalUpsert" tabindex="-1" role="dialog" aria-labelledby="modalUpsertLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalUpsertLabel"><span></span></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="my-alert-msg" class="alert alert-success" role="alert" style="display:none;">
+                    <span></span>
+                </div>
+                <form id="modal-form">
+                    <div class="form-row mb-3">
+                        <label>Imagem</label>
+                        <div class="input-group">
+                            <span class="input-group-btn">
+                                <span class="btn btn-outline-info" onclick="$(this).parent().find('input[type=file]').click();">Buscar</span>
+                                <input id="image-upload" onchange="$(this).parent().parent().find('.form-control').html($(this).val().split(/[\\|/]/).pop());" 
+                                    style="display: none;" type="file" accept="image/*" >
+                            </span>
+                            <span class="form-control">Selecionar Arquivo</span>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label>Categoria</label>
+                            <input class="form-control input-sm form_action_ipt" type="hidden" data-name="form_action" data-required="true">
+                            <input class="form-control input-sm id_ipt" type="hidden" data-name="id" data-required="false">
+                            <select class="form-control input-sm category_id_ipt" data-name="category_id" data-required="true"></select>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label>Nome Produto</label>
+                            <input class="form-control input-sm name_ipt" type="text" maxlength="100" data-name="name" data-required="true">
+                            <div class="invalid-feedback name-err">Campo Obrigatório</div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-12">
+                            <label>Descrição</label>
+                            <textarea class="form-control input-sm description_ipt" maxlength="255" rows="3" data-name="description" data-required="false"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label>Preço</label>
+                            <input class="form-control input-sm price_ipt" type="number" min="0" step="0.01" data-name="price" data-required="true">
+                            <div class="invalid-feedback price-err">Campo Obrigatório</div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label>Destaque</label>
+                            <select class="form-control input-sm featured_ipt" data-name="featured" data-required="true">
+                                <option value="0">Não</option>
+                                <option value="1">Sim</option>
+                            </select>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="modal_submit" class="btn btn-outline-primary" data-tabname="<%= attr.table %>" data-tabtype="<%= attr.page %>"><span></span></button>
+                <button type="button" class="btn btn-outline-info reload_closed" data-dismiss="modal">Fechar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include('footer.ejs') %>

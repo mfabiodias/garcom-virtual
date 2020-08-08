@@ -1,0 +1,200 @@
+/* Custom page CSS
+-------------------------------------------------- */
+/* Not required for template or sticky footer method. */
+@import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background: #eeeeee;
+  color: #707070 !important;
+}
+
+table thead tr th, table tfoot tr th {
+  font-family: 'Poppins', sans-serif;
+  color: #707070 !important;
+}
+
+main > .container {
+  padding: 60px 15px 0;
+}
+
+.navbar-dark {
+  background-color: #F16A6A !important;
+  color: #ffffff !important;
+}
+
+.footer {
+  background-color: #F16A6A;
+}
+
+.footer > .container {
+  padding-right: 15px;
+  padding-left: 15px;
+  color: #ffffff;
+}
+
+code {
+  font-size: 80%;
+}
+
+.bd-placeholder-img {
+  font-size: 1.125rem;
+  text-anchor: middle;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.tableFixHead { overflow-y: auto; overflow-x: hidden; height: 280px; }
+.tableFixHeadTH { position: sticky; top: 0; z-index: 2; }
+
+/* Just common table stuff. Really. */ 
+.table-head-fixed { border-collapse: collapse; width: 100%; }
+.table-head-fixed th, .table-head-fixed td { padding: 8px 16px; }
+.table-head-fixed th, .table-head-fixed td { background:#ffffff; }
+
+@media (min-width: 768px) {
+  .bd-placeholder-img-lg {
+    font-size: 3.5rem;
+  }
+}
+
+.table-fixed tbody {
+  display:block;
+  height:200px;
+  overflow:auto;
+}
+
+.table-fixed thead, .table-fixed tbody tr {
+  display:table;
+  table-layout:fixed;
+  width:100%;
+}
+
+/* .page-link {
+  z-index: 3 !important;
+  color: #fff !important;
+  background-color: #F16A6A !important;
+  border-color: #F16A6A !important;
+} */
+
+.page-item.active .page-link{z-index:3;color:#fff !important;background-color:#F16A6A !important; border-color:#F16A6A !important}
+.page-item.disabled .page-link{color:#F16A6A !important;pointer-events:none;cursor:auto;background-color:#fff !important;border-color:#F16A6A !important}
+
+
+.page-item.active .page-link{z-index:3;color:#fff;background-color:#F16A6A !important;border-color:#F16A6A !important}
+.page-item.disabled .page-link{color:#ffb3b3 !important;pointer-events:none;cursor:auto;background-color:#fff;border-color:#ffb3b3 !important}
+.page-link{position:relative;display:block;padding:.5rem .75rem;margin-left:-1px;line-height:1.25;color:#F16A6A !important;background-color:#fff;border:1px solid #ffb3b3 !important}
+.page-link:hover{z-index:2;color:#ffb3b3 !important;text-decoration:none;background-color:#ffe6e6 !important;border-color:#ffb3b3 !important}
+.page-link:focus{z-index:3;outline:0;box-shadow:0 0 0 .2rem rgba(255, 153, 153)}
+.page-item.active .page-link{z-index:3;color:#fff;background-color:#F16A6A !important;border-color:#F16A6A !important}
+.page-item.disabled .page-link{color:#ffb3b3 !important;pointer-events:none;cursor:auto;background-color:#fff;border-color:#ffb3b3 !important}
+
+
+.btn-outline-danger{color:#F16A6A !important;border-color:#F16A6A !important}
+.btn-outline-danger:hover{color:#fff !important;background-color:#F16A6A !important;border-color:#F16A6A !important}
+.btn-outline-danger.focus,.btn-outline-danger:focus{box-shadow:0 0 0 .2rem rgba(220,53,69,.5)}
+.btn-outline-danger.disabled,.btn-outline-danger:disabled{color:#F16A6A !important;background-color:transparent}
+.btn-outline-danger:not(:disabled):not(.disabled).active,.btn-outline-danger:not(:disabled):not(.disabled):active,
+.show>.btn-outline-danger.dropdown-toggle{color:#fff !important;background-color:#F16A6A !important;border-color:#F16A6A !important}
+.btn-outline-danger:not(:disabled):not(.disabled).active:focus,
+.btn-outline-danger:not(:disabled):not(.disabled):active:focus,
+.show>.btn-outline-danger.dropdown-toggle:focus{box-shadow:0 0 0 .2rem rgba(220,53,69,.5)}
+.btn-outline-light{color:#f8f9fa !important;border-color:#f8f9fa !important}
+
+.btn-danger,
+.btn-danger:hover,
+.btn-danger:active,
+.btn-danger:focus {
+  background-color: #F16A6A !important;
+}
+
+.btn-outline-primary{color:#33adff !important;border-color:#33adff !important}
+.btn-outline-primary:hover{color:#fff !important;background-color:#33adff !important;border-color:#33adff !important}
+.btn-outline-primary.focus,.btn-outline-primary:focus{box-shadow:0 0 0 .2rem rgba(220,53,69,.5)}
+.btn-outline-primary.disabled,.btn-outline-primary:disabled{color:#33adff !important;background-color:transparent}
+.btn-outline-primary:not(:disabled):not(.disabled).active,.btn-outline-primary:not(:disabled):not(.disabled):active,
+.show>.btn-outline-primary.dropdown-toggle{color:#fff !important;background-color:#33adff !important;border-color:#33adff !important}
+.btn-outline-primary:not(:disabled):not(.disabled).active:focus,
+.btn-outline-primary:not(:disabled):not(.disabled):active:focus,
+.show>.btn-outline-primary.dropdown-toggle:focus{box-shadow:0 0 0 .2rem rgba(220,53,69,.5)}
+.btn-outline-light{color:#f8f9fa !important;border-color:#f8f9fa !important}
+
+.btn-primary,
+.btn-primary:hover,
+.btn-primary:active,
+.btn-primary:focus {
+  background-color: #33adff !important;
+}
+
+
+/* Para impressão
+
+Para funcionar a visualixação no Google Chrome do Media Print, sigas essas etapas: 
+1-) Abra o console do desenvolvedor
+2) Navigate to the 3 vertical dots
+3-) Click “More Tools”
+4-) Click “Rendering”
+5-) In “Emulate CSS Media” Select “print” 
+
+Fonte: https://medium.com/studio3engineering/css-for-print-previewing-in-chrome-601708d1172d
+*/
+@font-face {
+  font-family: printFont;
+  src: url(../webfonts/consolas.ttf);
+}
+
+/* font-size:2.60rem valor Epson */
+#comanda { margin-left: 15px; font-family:printFont; font-size:0.74rem }
+#comanda p { margin:0; }
+
+@page{
+  margin:0 0 0 15px;
+}
+
+@media all {
+  #comanda {
+    display:none;
+  }
+}
+
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  #comanda, #comanda *, #qrcode_image, #qrcode_image * {
+    visibility: visible;
+  }
+  #comanda, #qrcode_image {
+    display:block;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+  }
+}
+
+.mclick {
+  cursor: pointer;
+}
+
+.blacklist {
+  height: 300px;
+  overflow: scroll;
+}
+
+.grid-formated .form-group label {
+  margin: 0 !important;
+  font-size: 13px !important;
+}
+
+.grid-formated .form-group{
+  margin: 5px auto !important;
+}
+
+#modalOpen .modal-content
+{
+    min-height: 550px;
+}

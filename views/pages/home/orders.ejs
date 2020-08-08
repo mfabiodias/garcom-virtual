@@ -1,0 +1,90 @@
+<%- contentFor('layout') %>
+<%- include('header.ejs') %>
+
+    <div class="container-fluid">
+      
+      <div class="row">
+      
+        <aside class="col-12 pt-3"><h5><%= attr.page %></h5></aside>
+
+        <!-- Produtos -->
+        <aside class="col-12 py-1">
+
+            <div class="row">
+            <% if(!!orders.length) { for (order of orders) { %>
+                
+                <aside class="item-list col-lg-6 col-12 my-1">
+                    <div class="card rounded px-2">
+                        <div class="media align-items-center">
+                            <div class="media-body order-list row pb-2">
+    
+                                <div class="col-6 py-2">
+                                    <p class="d-block font-weight-bold pt-3" >Pedido N. <%= helper.str_pad(order.id, 4, "0", "left", "P") %></p>
+                                    <p class="d-block text-muted" ><%= helper.order_status(order.status); %></p>
+                                </div>
+    
+                                <div class="col-6 py-2 text-right">
+                                    <p class="d-block font-weight-bold pt-3" ><%= helper.date(order.created_at, "dd/mm/yyyy") %> as <%= helper.date(order.created_at, "HH:MM") %></p>
+                                    <p class="d-block text-muted" >R$ <%= helper.order_total_cost(order); %></p>
+                                    <button class="btn btn-sm btn-outline-danger print-order-list" 
+                                        data-order="Pedido N.: <%= helper.str_pad(order.id, 4, "0", "left", "P") %>" 
+                                        data-date="<%= helper.date(order.created_at, "dd/mm/yyyy") %> as <%= helper.date(order.created_at, "HH:MM") %>" 
+                                        data-status="<%= helper.order_status(order.status); %>" 
+                                        data-items="<%= encodeURIComponent(order.items); %>" 
+                                        data-delivery="<%= order.delivery; %>" 
+                                        data-discount="<%= order.discount; %>" 
+                                        data-toggle="modal" 
+                                        data-target="#orderModal"
+                                    >Ver itens</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </aside>
+
+            <% }}  else { %>
+                <aside class="item-list col-lg-6 col-12 my-1">
+                    <p>Nenhum pedido encontrado! 😔</p>
+                </aside>
+            <% } %>
+            </div>
+
+        </aside>
+	</div>
+  </div>
+  
+  <!-- MODAL ORDER ITEMS -->
+  <div class="modal fade" id="orderModal" tabindex="-1" role="dialog" aria-labelledby="orderModalLabel" aria-hidden="true">
+    <div class="modal-dialog  modal-dialog-centered h-100" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="row pt-3 ">
+                    <div class="col-12 font-weight-bold print-order-number pb-3"></div>
+                    <div class="col-6 print-order-date"></div>
+                    <div class="col-6 text-right print-order-status"></div>
+                </div>
+                <div class="row pt-3 ">
+                    <div class="col-12">
+                        <table id="print-order-list" class="table table-sm table-hover">
+                            <thead>
+                                <tr>
+                                    <th colspan="2">Qtd.</th>
+                                    <th>Item</th>
+                                    <th>Uni.</th>
+                                    <th>Qtd.</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                            <tfoot></tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="orderModalClose" type="button" class="btn btn-outline-danger" data-dismiss="modal">Fechar</button>
+            </div>
+        </div>
+      </div>
+  </div>
+
+<%- include('footer.ejs') %>

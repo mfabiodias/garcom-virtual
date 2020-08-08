@@ -1,0 +1,88 @@
+<%- contentFor('layout') %>
+<%- include('header.ejs') %>
+
+<main role="main" class="pt-5" >
+    
+    <div class="container pt-4" >
+
+        <div class="row pt-4">
+
+            <div class="col-md-6 col-12">
+                <form id="qrcode-form" >
+                    
+                    <div class="form-row">
+                        <div class="form-group col-12">
+                            <label>Gerador de Códigos QR</label>
+                            <select id="qrcode_type" class="form-control input-sm" >
+                                <option value="WhatsApp" selected="selected" >WhatsApp</option>
+                                <option value="Wi-Fi" >Wi-Fi</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div id="qrcode_wifi_row" class="form-row" style="display: none;">
+                        <div class="form-group col-12">
+                            <label>Tipo de Segurança da sua Rede Wi-Fi</label>
+                            <select id="wifi_type" class="form-control input-sm">
+                                <option value="WPA" selected="selected" >WPA/WPA2</option>
+                                <option value="WEP" >WEP</option>
+                                <option value="nopass" >Nenhuma</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-12">
+                            <label>Nome da Rede</label>
+                            <input id="wifi_name" class="form-control input-sm" type="text" >
+                        </div>
+                        <div class="form-group col-12">
+                            <label>Senha da Rede</label>
+                            <input id="wifi_pass" class="form-control input-sm" type="text" >
+                        </div>
+                    </div>
+
+                    <div class="form-row float-right pt-3">
+                        <div class="col-12">
+                            <button type="button" id="qrcode_submit" class="btn btn-outline-primary">Gerar Código QR</button>
+                        </div>
+                    </div>
+
+                </form>
+
+            </div>
+            
+            <div class="col-md-6 col-12">
+
+                <div class="form-group text-center">
+                    <div class="row">
+                        <div class="col-9">
+                            <label id="qrcode_label"></label>
+                        </div>
+                        <div class="col-3">
+                            <button id="qrcode_print" type="button" class="btn btn-outline-info btn-sm float-left" title="Imprimir Pedido" style="display: none;">
+                                <i class="fas fa-print"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="qrcode_image" class="form-group text-center">
+                    
+                    <div class="row">
+                        <div class="col-12">
+                            <img src="" alt="" id="qrcode_data" class="img-fluid" width="400"/>
+                        </div>
+                    </div>
+                    
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</main>
+
+
+
+
+<%- include('footer.ejs') %>

@@ -1,0 +1,238 @@
+<%- contentFor('layout') %>
+<%- include('header.ejs') %>
+
+<style>
+.btn-danger,
+.btn-danger:hover,
+.btn-danger:active,
+.btn-danger:focus {
+  background-color: #F16A6A !important;
+}
+
+.btn-outline-danger {
+  border-color: #F16A6A !important;
+}
+
+.btn-outline-danger .active {
+  border-color: #F16A6A !important;
+}
+.btn-outline-danger:hover {
+  color: #FFFFFF !important;
+}
+.btn-outline-danger:hover,
+.btn-outline-danger:active,
+.btn-outline-danger:visited,
+.btn-outline-danger:focus {
+  background-color: #F16A6A !important;
+ 
+}
+</style>
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+<script type="text/javascript">
+    google.charts.load('current', {'packages':['corechart']});
+    google.charts.setOnLoadCallback(drawChart);
+
+    function drawChart() {
+
+        var data1 = google.visualization.arrayToDataTable([
+            ['Vendas',   'Vendas por Dia'],
+            ['Feijoada',               11],
+            ['Parmegiana',              6],
+            ['Bife Acebolado',          7],
+            ['Panquecas',               2],
+            ['Filé de Peixe',           2]
+        ]);
+        
+        var data2 = google.visualization.arrayToDataTable([
+            ['Visitas', 'Visualização por Dia'],
+            ['Parmegiana',                  29],
+            ['Feijoada',                    22],
+            ['Panquecas',                   12],
+            ['Filé de Peixe',               10],
+            ['Bife Acebolado',               7]
+        ]);
+
+        var options1 = {
+            title: 'Pratos Vendidos',
+            is3D: true, 
+            titleTextStyle:{ color: '#999999', fontSize: 16 },
+            slices: {0:{color: '#95B871'}, 1: {color: '#636AB8'}, 2:{color: '#F16A6A'}, 3: {color: '#D7A442'}, 4:{color: '#7DA2EE'}}
+        };
+
+        var options2 = {
+            title: 'Pratos Visitados',
+            is3D: true, 
+            titleTextStyle:{ color: '#999999', fontSize: 16 },
+            slices: {0: {color: '#636AB8'}, 1:{color: '#95B871'}, 2:{color: '#D7A442'}, 3: {color: '#7DA2EE'}, 4:{color: '#F16A6A'}}
+        };
+
+      var chart1 = new google.visualization.PieChart(document.getElementById('piechart-1'));
+      var chart2 = new google.visualization.PieChart(document.getElementById('piechart-2'));
+
+      chart1.draw(data1, options1);
+      chart2.draw(data2, options2);
+    }
+</script>
+
+<script type="text/javascript">
+    google.charts.load("current", {packages:['corechart']});
+    google.charts.setOnLoadCallback(drawChart);
+    
+    function drawChart() {
+        var data1 = google.visualization.arrayToDataTable([
+        ["Método", "R$ ", { role: "style" } ],
+        ["Crédito", 1245.94, "#7DA2EE"],
+        ["Débito", 410.49, "#D7A442"],
+        ["Voucher", 129.30, "#95B871"],
+        ["Online", 782.29, "#636AB8'"]
+        ]);
+
+        var data2 = google.visualization.arrayToDataTable([
+        ["Método", "R$ ", { role: "style" } ],
+        ["WhatsApp", 725.94, "#7DA2EE"],
+        ["Menu Virtual", 1210.49, "#D7A442"],
+        ["Site", 209.30, "#95B871"],
+        ["Telefone", 422.29, "#636AB8'"]
+        ]);
+
+        var formatter = new google.visualization.NumberFormat({decimalSymbol: ',',groupingSymbol: '.', negativeColor: 'red', negativeParens: true, prefix: ''});
+        formatter.format(data1, 1);
+        formatter.format(data2, 1);
+
+        var view1 = new google.visualization.DataView(data1);
+        var view2 = new google.visualization.DataView(data2);
+        
+        view1.setColumns([0, 1,
+            { 
+                calc: "stringify",
+                sourceColumn: 1,
+                type: "string",
+                role: "annotation" },
+            2]);
+
+            var options1 = {
+            title: "Receita X Forma Pagamento",
+            width: 600,
+            height: 400,
+            titleTextStyle:{ color: '#999999', fontSize: 16 },
+            bar: {groupWidth: "95%"},
+            legend: { position: "none" },
+            vAxis: { format: '#.###' }, 
+        };
+
+        view2.setColumns([0, 1,
+            { 
+                calc: "stringify",
+                sourceColumn: 1,
+                type: "string",
+                role: "annotation" },
+            2]);
+
+            var options2 = {
+            title: "Receita X Canais de Venda",
+            width: 600,
+            height: 400,
+            titleTextStyle:{ color: '#999999', fontSize: 16 },
+            bar: {groupWidth: "95%"},
+            legend: { position: "none" },
+            vAxis: { format: '#.###' }, 
+        };
+
+        var chart1 = new google.visualization.ColumnChart(document.getElementById("columnchart_values_1"));
+        var chart2 = new google.visualization.ColumnChart(document.getElementById("columnchart_values_2"));
+        
+        chart1.draw(view1, options1);
+        chart2.draw(view2, options2);
+    }
+
+</script>
+
+<main role="main" class="h-100 d-flex">
+    <div class="container">
+        <!-- 
+
+        ################
+        ### Objetivo ###
+        ################
+        Para todos abaixo, ter a opçao dia/semana/mês
+        
+            Gráfico de Pizza mostrando a variedade de 'produtos' vendidos 
+            Faturamento Diário (Gráfico de Linhas)
+            Dias e horários com maior volume de vendas;
+            Satisfação do Cliente
+
+
+        ############
+        ### Meta ###
+        ############
+            Número de Vendas
+            Faturamento por Forma de Pagamento
+            Valor Total de Vendas Realizadas
+            Ticket Médio de Vendas
+            Produto mais vendido / mais vistos 
+            Número de visitas e ligação
+        
+        
+        ########################################
+        ### Não entendi ou deixar pra depois ###
+        ########################################
+        Número de clientes pendentes
+        Taxa conversão na pré venda
+        Produtos com maior reclamação
+
+        -->
+
+        <h4 style="color:#999999 ;" class="pl-md-0 pl-5 mt-4">Seja bem vindo Food! Veja o desempenho de hoje: </h4>
+        <div class="row my-md-4 pl-md-0 pl-5">
+            <div class="col-12">
+                <img src="/image/chart1.png" alt="" class="img-fluid">
+            </div>
+        </div>
+        <div class="row my-md-4">
+            <div class="col-md-6 col-12 my-md-0 mt-4">
+                <div class="btn-group pl-md-0 pl-5" role="group" aria-label="Basic example">
+                    <button type="button" class="btn btn-sm btn-danger">Diário</button>
+                    <button type="button" class="btn btn-sm btn-outline-danger">Semanal</button>
+                    <button type="button" class="btn btn-sm btn-outline-danger">Mensal</button>
+                </div>
+                <div id="piechart-1" style="width: 500px; height: 300px;"></div>
+            </div>
+            <div class="col-md-6 col-12 my-md-0 mt-4">
+                <div class="btn-group pl-md-0 pl-5" role="group" aria-label="Basic example">
+                    <button type="button" class="btn btn-sm btn-danger">Diário</button>
+                    <button type="button" class="btn btn-sm btn-outline-danger">Semanal</button>
+                    <button type="button" class="btn btn-sm btn-outline-danger">Mensal</button>
+                </div>
+                <div id="piechart-2" style="width: 500px; height: 300px;"></div>
+            </div>
+        </div>
+        <div class="row my-md-4">
+            <div class="col-md-6 col-12 my-md-0 my-5">
+                <div class="btn-group pl-md-0 pl-5" role="group" aria-label="Basic example">
+                    <button type="button" class="btn btn-sm btn-danger">Diário</button>
+                    <button type="button" class="btn btn-sm btn-outline-danger">Semanal</button>
+                    <button type="button" class="btn btn-sm btn-outline-danger">Mensal</button>
+                </div>
+                <div id="columnchart_values_1" style="width: 500px; height: 300px;"></div>
+            </div>
+            <div class="col-md-6 col-12 my-md-0 my-5">
+                <div class="btn-group pl-md-0 pl-5" role="group" aria-label="Basic example">
+                    <button type="button" class="btn btn-sm btn-danger">Diário</button>
+                    <button type="button" class="btn btn-sm btn-outline-danger">Semanal</button>
+                    <button type="button" class="btn btn-sm btn-outline-danger">Mensal</button>
+                </div>
+                <div id="columnchart_values_2" style="width: 500px; height: 300px;"></div>
+            </div>
+        </div>
+        <div class="row my-md-4">
+            <div class="col-12 my-5"></div>
+        </div>
+        
+        <!-- <h6 style="color:#999999 ;" class="my-md-4">Pratos Vendidos</h6> -->
+        
+    </div>
+</main>
+
+<%- include('footer.ejs') %>

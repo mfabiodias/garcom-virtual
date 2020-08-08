@@ -1,0 +1,182 @@
+<%- contentFor('layout') %>
+<%- include('header.ejs') %>
+
+<main role="main" class="mt-4 d-flex align-items-center">
+    <div class="container">
+        <div class="card">
+            <div class="card-header">
+                <strong><%= attr.page %>s</strong>
+                <button type="button" class="btn btn-outline-success btn-sm float-right" data-tabid="" data-tabname="<%= attr.table %>" data-tabtype="<%= attr.page %>" data-crud="insert" data-belongsto="" data-belongstoid="" data-toggle="modal" data-target="#modalUpsert">
+                    Novo <%= attr.page %>
+                </button>
+            </div>
+            <div class="card-body">
+                <table class="table table-sm table-striped table-borded datatable-option" data-option="<%= attr.table %>">
+                    <thead>
+                        <tr>
+                            <th>SKU</th>
+                            <th>Funcionário</th>
+                            <th>Celular</th>
+                            <th>Telefone</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% for (row of rows) { %>
+                        <tr>
+                            <td class="align-middle" ><%= helper.str_pad(row.id, 3, "0", "left", "F") %></td>
+                            <td class="align-middle" ><%= row.name %></td>
+                            <td class="align-middle" ><%= helper.mask(row.mobile, (row.mobile.length == 11 ? "(##) #####-####" : "(##) ####-####")) %></td>
+                            <td class="align-middle" ><%= helper.mask(row.phone, (row.phone.length == 11 ? "(##) #####-####" : "(##) ####-####")) %></td>
+                            <td class="align-middle"  class="text-center">
+                                <button type="button" class="btn btn-outline-primary btn-sm" title="Editar <%= attr.page %>" data-tabid="<%= row.id %>" data-tabname="<%= attr.table %>" data-tabtype="<%= attr.page %>" data-crud="update" data-belongsto="" data-belongstoid="" data-toggle="modal" data-target="#modalUpsert" >
+                                    <span class="fa fa-edit" aria-hidden="true"></span>
+                                </button>
+                                <button type="button" id="delete_<%= attr.table %>" class="btn btn-outline-danger btn-sm" title="Excluir <%= attr.page %>" data-tabid="<%= row.id %>" data-tabval="<%= row.name %>" data-tabname="<%= attr.table %>" data-tabtype="<%= attr.page %>" data-myid="delete_<%= attr.table %>" data-name="<%= row.name %>" data-toggle="modal" data-target="#modalDelete" >
+                                    <span class="fa fa-trash" aria-hidden="true"></span>
+                                </button>
+                            </td>
+                        </tr>
+                        <% } %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- Modal UPSERT Category -->
+<div class="modal fade" id="modalUpsert" tabindex="-1" role="dialog" aria-labelledby="modalUpsertLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalUpsertLabel"><span></span></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="my-alert-msg" class="alert alert-success" role="alert" style="display:none;">
+                    <span></span>
+                </div>
+
+                <form id="modal-form">
+                    
+                    <div class="form-row mb-3">
+                        <div class="col-md-4 col-12">
+                            <label>Nome</label>
+                            <input class="form-control input-sm form_action_ipt" type="hidden" data-name="form_action" data-required="true">
+                            <input class="form-control input-sm id_ipt" type="hidden" data-name="id" data-required="false">
+                            <input class="form-control input-sm name_ipt" type="text" maxlength="100" data-name="name" data-required="true">
+                            <div class="invalid-feedback name-err">Campo Obrigatório</div>
+                        </div>
+                        <div class="col-md-4 col-12">
+                            <label>Celular</label>
+                            <input class="form-control input-sm mobile_ipt" type="text" maxlength="11" placeholder="Somente Número" data-name="mobile" data-required="false">
+                            <div class="invalid-feedback mobile-err">Campo Obrigatório</div>
+                        </div>
+                        <div class="col-md-4 col-12">
+                            <label>Telefone</label>
+                            <input class="form-control input-sm phone_ipt" type="text" maxlength="11" placeholder="Somente Número" data-name="phone" data-required="false">
+                            <div class="invalid-feedback phone-err">Campo Obrigatório</div>
+                        </div>
+                    </div>
+
+                    <div class="form-row mb-3">
+                        <div class="form-group col-md-4 col-12">
+                            <label>CEP</label>
+                            <div class="input-group">
+                                <input id="inputZip" class="form-control input-sm zip_ipt" type="text" maxlength="9" data-name="zip" data-required="true">
+                                <div class="input-group-append">
+                                    <button id="searchAddress" class="btn btn-outline-secondary" type="button" >
+                                        <i class="fa fa-search" aria-hidden="true"></i>
+                                    </button>
+                                </div>
+                                <div class="invalid-feedback zip-err">Campo Obrigatório</div>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-8 col-12">
+                            <label>Rua</label>
+                            <input id="inputAddress" class="form-control input-sm street_ipt" type="text" maxlength="50" data-name="street" data-required="true">
+                            <div class="invalid-feedback street-err">Campo Obrigatório</div>
+                        </div>
+                    </div>
+
+                    <div class="form-row mb-3">
+                        <div class="form-group col-md-4 col-12">
+                            <label>Número</label>
+                            <input id="inputNumber" class="form-control input-sm number_ipt" type="text" maxlength="50" data-name="number" data-required="true">
+                            <div class="invalid-feedback number-err">Campo Obrigatório</div>
+                        </div>
+                        <div class="form-group col-md-8 col-12">
+                            <label>Complemento</label>
+                            <input id="inputComplement" class="form-control input-sm complement_ipt" type="text" maxlength="50" data-name="complement" data-required="false">
+                            <div class="invalid-feedback complement-err">Campo Obrigatório</div>
+                        </div>
+                    </div>
+
+                    <div class="form-row mb-3">
+                        <div class="form-group col-md-6 col-12">
+                            <label>Referencia</label>
+                            <input id="inputReference" class="form-control input-sm reference_ipt" type="text" maxlength="50" data-name="reference" data-required="false">
+                            <div class="invalid-feedback reference-err">Campo Obrigatório</div>
+                        </div>
+                        <div class="form-group col-md-6 col-12">
+                            <label>Bairro</label>
+                            <input id="inputNeighborhood" class="form-control input-sm neighborhood_ipt" type="text" maxlength="50" data-name="neighborhood" data-required="true">
+                            <div class="invalid-feedback neighborhood-err">Campo Obrigatório</div>
+                        </div>
+                    </div>
+
+                    <div class="form-row mb-3">
+                        <div class="form-group col-md-6 col-12">
+                            <label>Cidade</label>
+                            <input id="inputCity" class="form-control input-sm city_ipt" type="text" maxlength="50" data-name="city" data-required="true">
+                            <div class="invalid-feedback city-err">Campo Obrigatório</div>
+                        </div>
+                        <div class="form-group col-md-6 col-12">
+                            <label>Estado</label>
+                            <select id="inputState" class="form-control input-sm state_ipt" data-name="state" data-required="true">
+                                <option value="">Selecione um Estado</option>
+                                <option value="AC">Acre</option>
+                                <option value="AL">Alagoas</option>
+                                <option value="AP">Amapá</option>
+                                <option value="AM">Amazonas</option>
+                                <option value="BA">Bahia</option>
+                                <option value="CE">Ceará</option>
+                                <option value="DF">Distrito Federal</option>
+                                <option value="GO">Goiás</option>
+                                <option value="ES">Espírito Santo</option>
+                                <option value="MA">Maranhão</option>
+                                <option value="MT">Mato Grosso</option>
+                                <option value="MS">Mato Grosso do Sul</option>
+                                <option value="MG">Minas Gerais</option>
+                                <option value="PA">Pará</option>
+                                <option value="PB">Paraiba</option>
+                                <option value="PR">Paraná</option>
+                                <option value="PE">Pernambuco</option>
+                                <option value="PI">Piauí­</option>
+                                <option value="RJ">Rio de Janeiro</option>
+                                <option value="RS">Rio Grande do Sul</option>
+                                <option value="RO">Rondônia</option>
+                                <option value="RR">Roraima</option>
+                                <option value="SP">São Paulo</option>
+                                <option value="SC">Santa Catarina</option>
+                                <option value="SE">Sergipe</option>
+                                <option value="TO">Tocantins</option>
+                            </select>
+                            <div class="invalid-feedback state-err">Campo Obrigatório</div>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="modal_submit" class="btn btn-outline-primary" data-tabname="<%= attr.table %>" data-tabtype="<%= attr.page %>"><span></span></button>
+                <button type="button" class="btn btn-outline-info reload_closed" data-dismiss="modal">Fechar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include('footer.ejs') %>

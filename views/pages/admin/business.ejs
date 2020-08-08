@@ -1,0 +1,473 @@
+<%- contentFor('layout') %>
+<%- include('header.ejs') %>
+
+<main role="main" class="pt-5" >
+    
+    <div class="container-fluid pt-4" style="overflow-y: auto !important;" >
+
+        <form id="business-form" class="grid-formated">
+            
+            <div class="form-row">
+                <div class="form-group col-md-3">
+                    <label>Logo da Empresa</label>
+                    <div class="input-group">
+                        <span class="input-group-btn">
+                            <span class="btn btn-outline-info" onclick="$(this).parent().find('input[type=file]').click();">Buscar</span>
+                            <input id="image-upload" onchange="$(this).parent().parent().find('.form-control').html($(this).val().split(/[\\|/]/).pop());" 
+                                style="display: none;" type="file" accept="image/*" >
+                        </span>
+                        <span class="form-control">Selecionar Arquivo</span>
+                    </div>
+                </div>
+                <div class="form-group col-md-3">
+                    <label>Nome Empresa</label>
+                    <input class="form-control input-sm name_ipt" type="text" value="<%= row.name; %>" maxlength="100" data-name="name" data-required="true">
+                    <div class="invalid-feedback name-err">Campo Obrigatório</div>
+                </div>
+                <div class="form-group col-md-6">
+                    <label>Horário Funcionamento</label>
+                    <div class="input-group">
+                        <input class="form-control input-sm open_ipt" type="hidden" value="<%= row.open; %>" data-name="open" data-required="true">
+                        <input class="form-control input-sm open_edit" type="text" value=""readonly="readonly">
+                        <div class="input-group-append">
+                            <button id="add_open_hour" class="btn btn-outline-primary" type="button" data-toggle="modal" data-target="#modalOpen" >
+                                Alterar
+                            </button>
+                        </div>
+                        <div class="invalid-feedback open-err">Campo Obrigatório</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col-md-3">
+                    <label>WhatsApp</label>
+                    <input class="form-control input-sm mobile_ipt" type="text" value="<%= row.mobile; %>" maxlength="20" placeholder="Exe: (11) 93145-4040" data-name="mobile" data-required="true">
+                    <div class="invalid-feedback mobile-err">Campo Obrigatório</div>
+                </div>
+                <div class="form-group col-md-3">
+                    <label>Usuário</label>
+                    <input class="form-control input-sm user_ipt" type="text" value="<%= row.user; %>" maxlength="20" data-name="user" data-required="true">
+                    <div class="invalid-feedback user-err">Campo Obrigatório</div>
+                </div>
+                <div class="form-group col-md-3">
+                    <label>Senha</label>
+                    <input class="form-control input-sm pass_ipt" type="password" maxlength="20" data-name="pass" >
+                    <div class="invalid-feedback pass-err">Campo Obrigatório</div>
+                </div>
+                <div class="form-group col-md-3">
+                    <label>Confirmar Senha</label>
+                    <input class="form-control input-sm confirm_pass_ipt" type="password"  data-name="confirm_pass" >
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col-md-3">
+                    <label>Tempo Espera (em Minutos)</label>
+                    <input class="form-control input-sm wait_ipt" type="number" value="<%= parseInt(row.wait); %>" min="0" step="1" data-name="wait" data-required="true">
+                    <div class="invalid-feedback wait-err">Campo Obrigatório</div>
+                </div>
+                <div class="form-group col-md-3">
+                    <label>Delivery - Tipo de Entrega</label>
+                    <select class="form-control input-sm delivery_type_ipt" data-name="delivery_type" data-required="true">
+                        <option value="0" <%=  !row.delivery_type ? 'selected="selected"' : ''; %> >Valor Fixo</option>
+                        <option value="1" <%= !!row.delivery_type ? 'selected="selected"' : ''; %> >Calculado por KM</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-3">
+                    <label>Delivery - Custo de Entrega</label>
+                    <input class="form-control input-sm delivery_cost_ipt" type="number" value="<%= parseFloat(row.delivery_cost); %>" min="0" step="0.1" data-name="delivery_cost" data-required="true">
+                    <div class="invalid-feedback delivery_cost-err">Campo Obrigatório</div>
+                </div>
+                <div class="form-group col-md-3">
+                    <label>Delivery - Limite de Entrega</label>
+                    <input class="form-control input-sm delivery_limite_ipt" type="number" value="<%= parseInt(row.delivery_limite); %>" min="0" step="1" data-name="delivery_limite" data-required="true">
+                    <div class="invalid-feedback delivery_limite-err">Campo Obrigatório</div>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col-md-2">
+                    <label>Pagamento - Dinheiro</label>
+                    <select class="form-control input-sm payment_money_ipt" data-name="payment_money" data-required="true">
+                        <option value="0" <%=  !row.payment_money ? 'selected="selected"' : ''; %> >Não</option>
+                        <option value="1" <%= !!row.payment_money ? 'selected="selected"' : ''; %> >Sim</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-2">
+                    <label>Pagamento - Crédito</label>
+                    <select class="form-control input-sm payment_credit_ipt" data-name="payment_credit" data-required="true">
+                        <option value="0" <%=  !row.payment_credit ? 'selected="selected"' : ''; %> >Não</option>
+                        <option value="1" <%= !!row.payment_credit ? 'selected="selected"' : ''; %> >Sim</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-2">
+                    <label>Pagamento - Débito</label>
+                    <select class="form-control input-sm payment_debit_ipt" data-name="payment_debit" data-required="true">
+                        <option value="0" <%=  !row.payment_debit ? 'selected="selected"' : ''; %> >Não</option>
+                        <option value="1" <%= !!row.payment_debit ? 'selected="selected"' : ''; %> >Sim</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-2">
+                    <label>Pagamento - Vale Refeição</label>
+                    <select class="form-control input-sm payment_voucher_ipt" data-name="payment_voucher" data-required="true">
+                        <option value="0" <%=  !row.payment_voucher ? 'selected="selected"' : ''; %> >Não</option>
+                        <option value="1" <%= !!row.payment_voucher ? 'selected="selected"' : ''; %> >Sim</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-2">
+                    <label>Serviço - Consumir no Local</label>
+                    <select class="form-control input-sm order_consume_ipt" data-name="order_consume" data-required="true">
+                        <option value="0" <%=  !row.order_consume ? 'selected="selected"' : ''; %> >Não</option>
+                        <option value="1" <%= !!row.order_consume ? 'selected="selected"' : ''; %> >Sim</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-2">
+                    <label>Serviço - Retirar</label>
+                    <select class="form-control input-sm order_retire_ipt" data-name="order_retire" data-required="true">
+                        <option value="0" <%=  !row.order_retire ? 'selected="selected"' : ''; %> >Não</option>
+                        <option value="1" <%= !!row.order_retire ? 'selected="selected"' : ''; %> >Sim</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col-md-3">
+                    <label>Serviço - Entregar</label>
+                    <select class="form-control input-sm order_deliver_ipt" data-name="order_deliver" data-required="true">
+                        <option value="0" <%=  !row.order_deliver ? 'selected="selected"' : ''; %> >Não</option>
+                        <option value="1" <%= !!row.order_deliver ? 'selected="selected"' : ''; %> >Sim</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-3">
+                    <label>Serviço - 10% Consumo</label>
+                    <select class="form-control input-sm order_tax_ipt" data-name="order_tax" data-required="true">
+                        <option value="0" <%=  !row.order_tax ? 'selected="selected"' : ''; %> >Não</option>
+                        <option value="1" <%= !!row.order_tax ? 'selected="selected"' : ''; %> >Sim</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-3">
+                    <label>Tamanho Impressão da Comanda</label>
+                    <input class="form-control input-sm pinter_size_ipt" type="number" value="<%= parseFloat(row.pinter_size); %>" min="0" step="0.1" data-name="pinter_size" data-required="true">
+                    <div class="invalid-feedback pinter_size-err">Campo Obrigatório</div>
+                </div>
+                <div class="form-group col-md-3">
+                    <label>Qtd. Mesas Estabelecimento</label>
+                    <input class="form-control input-sm tables_ipt" type="number" value="<%= parseInt(row.tables); %>" min="0" step="1" data-name="tables" data-required="true">
+                    <div class="invalid-feedback tables-err">Campo Obrigatório</div>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col-md-3">
+                    <label>CEP</label>
+                    <div class="input-group">
+                        <input id="inputZip" class="form-control input-sm zip_ipt" type="text" value="<%= row.zip; %>" maxlength="9" data-name="zip" data-required="true">
+                        <div class="input-group-append">
+                            <button id="searchAddress" class="btn btn-outline-secondary" type="button" >
+                                <i class="fa fa-search" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                        <div class="invalid-feedback zip-err">Campo Obrigatório</div>
+                    </div>
+                </div>
+                <div class="form-group col-md-3">
+                    <label>Rua</label>
+                    <input id="inputAddress" class="form-control input-sm street_ipt" type="text" value="<%= row.street; %>" maxlength="50" data-name="street" data-required="true">
+                    <div class="invalid-feedback street-err">Campo Obrigatório</div>
+                </div>
+                <div class="form-group col-md-3">
+                    <label>Número</label>
+                    <input id="inputNumber" class="form-control input-sm number_ipt" type="text" value="<%= row.number; %>" maxlength="50" data-name="number" data-required="true">
+                    <div class="invalid-feedback number-err">Campo Obrigatório</div>
+                </div>
+                <div class="form-group col-md-3">
+                    <label>Complemento</label>
+                    <input id="inputComplement" class="form-control input-sm complement_ipt" type="text" value="<%= row.complement; %>" maxlength="50" data-name="complement" data-required="false">
+                    <div class="invalid-feedback complement-err">Campo Obrigatório</div>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col-md-3">
+                    <label>Referencia</label>
+                    <input id="inputReference" class="form-control input-sm reference_ipt" type="text" value="<%= row.reference; %>" maxlength="50" data-name="reference" data-required="false">
+                    <div class="invalid-feedback reference-err">Campo Obrigatório</div>
+                </div>
+                <div class="form-group col-md-3">
+                    <label>Bairro</label>
+                    <input id="inputNeighborhood" class="form-control input-sm neighborhood_ipt" type="text" value="<%= row.neighborhood; %>" maxlength="50" data-name="neighborhood" data-required="true">
+                    <div class="invalid-feedback neighborhood-err">Campo Obrigatório</div>
+                </div>
+                <div class="form-group col-md-3">
+                    <label>Cidade</label>
+                    <input id="inputCity" class="form-control input-sm city_ipt" type="text" value="<%= row.city; %>" maxlength="50" data-name="city" data-required="true">
+                    <div class="invalid-feedback city-err">Campo Obrigatório</div>
+                </div>
+                <div class="form-group col-md-3">
+                    <label>Estado</label>
+                    <select id="inputState" class="form-control input-sm state_ipt" data-name="state" data-required="true">
+                        <option value="" <%= !row.state ? 'selected="selected"' : ''; %> >Selecione um Estado</option>
+                        <option value="AC" <%= row.state == 'AC' ? 'selected="selected"' : ''; %> >Acre</option>
+                        <option value="AL" <%= row.state == 'AL' ? 'selected="selected"' : ''; %> >Alagoas</option>
+                        <option value="AP" <%= row.state == 'AP' ? 'selected="selected"' : ''; %> >Amapá</option>
+                        <option value="AM" <%= row.state == 'AM' ? 'selected="selected"' : ''; %> >Amazonas</option>
+                        <option value="BA" <%= row.state == 'BA' ? 'selected="selected"' : ''; %> >Bahia</option>
+                        <option value="CE" <%= row.state == 'CE' ? 'selected="selected"' : ''; %> >Ceará</option>
+                        <option value="DF" <%= row.state == 'DF' ? 'selected="selected"' : ''; %> >Distrito Federal</option>
+                        <option value="GO" <%= row.state == 'GO' ? 'selected="selected"' : ''; %> >Goiás</option>
+                        <option value="ES" <%= row.state == 'ES' ? 'selected="selected"' : ''; %> >Espírito Santo</option>
+                        <option value="MA" <%= row.state == 'MA' ? 'selected="selected"' : ''; %> >Maranhão</option>
+                        <option value="MT" <%= row.state == 'MT' ? 'selected="selected"' : ''; %> >Mato Grosso</option>
+                        <option value="MS" <%= row.state == 'MS' ? 'selected="selected"' : ''; %> >Mato Grosso do Sul</option>
+                        <option value="MG" <%= row.state == 'MG' ? 'selected="selected"' : ''; %> >Minas Gerais</option>
+                        <option value="PA" <%= row.state == 'PA' ? 'selected="selected"' : ''; %> >Pará</option>
+                        <option value="PB" <%= row.state == 'PB' ? 'selected="selected"' : ''; %> >Paraiba</option>
+                        <option value="PR" <%= row.state == 'PR' ? 'selected="selected"' : ''; %> >Paraná</option>
+                        <option value="PE" <%= row.state == 'PE' ? 'selected="selected"' : ''; %> >Pernambuco</option>
+                        <option value="PI" <%= row.state == 'PI' ? 'selected="selected"' : ''; %> >Piauí­</option>
+                        <option value="RJ" <%= row.state == 'RJ' ? 'selected="selected"' : ''; %> >Rio de Janeiro</option>
+                        <option value="RS" <%= row.state == 'RS' ? 'selected="selected"' : ''; %> >Rio Grande do Sul</option>
+                        <option value="RO" <%= row.state == 'RO' ? 'selected="selected"' : ''; %> >Rondônia</option>
+                        <option value="RR" <%= row.state == 'RR' ? 'selected="selected"' : ''; %> >Roraima</option>
+                        <option value="SP" <%= row.state == 'SP' ? 'selected="selected"' : ''; %> >São Paulo</option>
+                        <option value="SC" <%= row.state == 'SC' ? 'selected="selected"' : ''; %> >Santa Catarina</option>
+                        <option value="SE" <%= row.state == 'SE' ? 'selected="selected"' : ''; %> >Sergipe</option>
+                        <option value="TO" <%= row.state == 'TO' ? 'selected="selected"' : ''; %> >Tocantins</option>
+                    </select>
+                    <div class="invalid-feedback state-err">Campo Obrigatório</div>
+                </div>
+            </div>
+
+            <div class="form-row float-right">
+                <div class="col-6 pt-3">
+                    <button type="button" id="business_submit" class="btn btn-outline-primary">Atualizar</button>
+                </div>
+            </div>
+
+        </form>
+
+    </div>
+
+</main>
+
+
+
+<!-- Modal UPDATE OPEN -->
+<div class="modal fade" id="modalOpen" tabindex="-1" role="dialog" aria-labelledby="modalOpenLabel">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalOpenLabel">Horário de Funcionamento</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                
+                <div class="row">
+                    <div class="col-4">
+                        <div class="form-group">
+                            <div class="input-group pt-2">Segunda-Feira</div>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="form-group">
+                            <div id="seg-open" class="input-group date" data-target-input="nearest">
+                                <input type="text" class="form-control datetimepicker-input work-time-check" data-type="open" data-weekday="seg" data-target="#seg-open" data-toggle="datetimepicker"/>
+                                <div class="input-group-append" data-target="#seg-open" data-toggle="datetimepicker">
+                                    <div class="input-group-text"><i class="far fa-clock"></i></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="form-group">
+                            <div id="seg-close" class="input-group date" data-target-input="nearest">
+                                <input type="text" class="form-control datetimepicker-input work-time-check" data-type="close" data-weekday="seg" data-target="#seg-close" data-toggle="datetimepicker"/>
+                                <div class="input-group-append" data-target="#seg-close" data-toggle="datetimepicker">
+                                    <div class="input-group-text"><i class="far fa-clock"></i></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-4">
+                        <div class="form-group">
+                            <div class="input-group pt-2">Terça-Feira</div>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="form-group">
+                            <div id="ter-open" class="input-group date" data-target-input="nearest">
+                                <input type="text" class="form-control datetimepicker-input work-time-check" data-type="open" data-weekday="ter" data-target="#ter-open" data-toggle="datetimepicker"/>
+                                <div class="input-group-append" data-target="#ter-open" data-toggle="datetimepicker">
+                                    <div class="input-group-text"><i class="far fa-clock"></i></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="form-group">
+                            <div id="ter-close" class="input-group date" data-target-input="nearest">
+                                <input type="text" class="form-control datetimepicker-input work-time-check" data-type="close" data-weekday="ter" data-target="#ter-close" data-toggle="datetimepicker"/>
+                                <div class="input-group-append" data-target="#ter-close" data-toggle="datetimepicker">
+                                    <div class="input-group-text"><i class="far fa-clock"></i></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-4">
+                        <div class="form-group">
+                            <div class="input-group pt-2">Quarta-Feira</div>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="form-group">
+                            <div id="qua-open" class="input-group date" data-target-input="nearest">
+                                <input type="text" class="form-control datetimepicker-input work-time-check" data-type="open" data-weekday="qua" data-target="#qua-open" data-toggle="datetimepicker"/>
+                                <div class="input-group-append" data-target="#qua-open" data-toggle="datetimepicker">
+                                    <div class="input-group-text"><i class="far fa-clock"></i></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="form-group">
+                            <div id="qua-close" class="input-group date" data-target-input="nearest">
+                                <input type="text" class="form-control datetimepicker-input work-time-check" data-type="close" data-weekday="qua" data-target="#qua-close" data-toggle="datetimepicker"/>
+                                <div class="input-group-append" data-target="#qua-close" data-toggle="datetimepicker">
+                                    <div class="input-group-text"><i class="far fa-clock"></i></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-4">
+                        <div class="form-group">
+                            <div class="input-group pt-2">Quinta-Feira</div>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="form-group">
+                            <div id="qui-open" class="input-group date" data-target-input="nearest">
+                                <input type="text" class="form-control datetimepicker-input work-time-check" data-type="open" data-weekday="qui" data-target="#qui-open" data-toggle="datetimepicker"/>
+                                <div class="input-group-append" data-target="#qui-open" data-toggle="datetimepicker">
+                                    <div class="input-group-text"><i class="far fa-clock"></i></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="form-group">
+                            <div id="qui-close" class="input-group date" data-target-input="nearest">
+                                <input type="text" class="form-control datetimepicker-input work-time-check" data-type="close" data-weekday="qui" data-target="#qui-close" data-toggle="datetimepicker"/>
+                                <div class="input-group-append" data-target="#qui-close" data-toggle="datetimepicker">
+                                    <div class="input-group-text"><i class="far fa-clock"></i></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-4">
+                        <div class="form-group">
+                            <div class="input-group pt-2">Sexta-Feira</div>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="form-group">
+                            <div id="sex-open" class="input-group date" data-target-input="nearest">
+                                <input type="text" class="form-control datetimepicker-input work-time-check" data-type="open" data-weekday="sex" data-target="#sex-open" data-toggle="datetimepicker"/>
+                                <div class="input-group-append" data-target="#sex-open" data-toggle="datetimepicker">
+                                    <div class="input-group-text"><i class="far fa-clock"></i></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="form-group">
+                            <div id="sex-close" class="input-group date" data-target-input="nearest">
+                                <input type="text" class="form-control datetimepicker-input work-time-check" data-type="close" data-weekday="sex" data-target="#sex-close" data-toggle="datetimepicker"/>
+                                <div class="input-group-append" data-target="#sex-close" data-toggle="datetimepicker">
+                                    <div class="input-group-text"><i class="far fa-clock"></i></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-4">
+                        <div class="form-group">
+                            <div class="input-group pt-2">Sábado</div>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="form-group">
+                            <div id="sab-open" class="input-group date" data-target-input="nearest">
+                                <input type="text" class="form-control datetimepicker-input work-time-check" data-type="open" data-weekday="sab" data-target="#sab-open" data-toggle="datetimepicker"/>
+                                <div class="input-group-append" data-target="#sab-open" data-toggle="datetimepicker">
+                                    <div class="input-group-text"><i class="far fa-clock"></i></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="form-group">
+                            <div id="sab-close" class="input-group date" data-target-input="nearest">
+                                <input type="text" class="form-control datetimepicker-input work-time-check" data-type="close" data-weekday="sab" data-target="#sab-close" data-toggle="datetimepicker"/>
+                                <div class="input-group-append" data-target="#sab-close" data-toggle="datetimepicker">
+                                    <div class="input-group-text"><i class="far fa-clock"></i></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-4">
+                        <div class="form-group">
+                            <div class="input-group pt-2">Domingo</div>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="form-group">
+                            <div id="dom-open" class="input-group date" data-target-input="nearest">
+                                <input type="text" class="form-control datetimepicker-input work-time-check" data-type="open" data-weekday="dom" data-target="#dom-open" data-toggle="datetimepicker"/>
+                                <div class="input-group-append" data-target="#dom-open" data-toggle="datetimepicker">
+                                    <div class="input-group-text"><i class="far fa-clock"></i></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="form-group">
+                            <div id="dom-close" class="input-group date" data-target-input="nearest">
+                                <input type="text" class="form-control datetimepicker-input work-time-check" data-type="close" data-weekday="dom" data-target="#dom-close" data-toggle="datetimepicker"/>
+                                <div class="input-group-append" data-target="#dom-close" data-toggle="datetimepicker">
+                                    <div class="input-group-text"><i class="far fa-clock"></i></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="open_time_save" class="btn btn-outline-primary">Adicionar</button>
+                <button type="button" id="open_time_close" class="btn btn-outline-info" data-dismiss="modal">Fechar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include('footer.ejs') %>

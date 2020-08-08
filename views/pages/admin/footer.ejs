@@ -1,0 +1,53 @@
+    <!-- Modal Delete -->
+    <div class="modal fade" id="modalDelete" tabindex="-1" role="dialog" aria-labelledby="modalDeleteLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalDeleteLabel">Excluir <span></span>?</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div id="delete-msg" class="modal-body"></div>
+                <div class="modal-footer">
+                    <input type="hidden" id="delete_id">
+                    <input type="hidden" id="delete_url">
+                    <input type="hidden" id="delete_btn">
+                    <input type="hidden" id="delete_type">
+                    <button type="button" id="delete_submit" class="btn btn-outline-danger">Excluir</button>
+                    <button type="button" class="btn btn-outline-info reload_closed" data-dismiss="modal">Fechar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer fixed-bottom mt-auto py-2">
+        <div class="container">
+            <table style="height: 40px;">
+                <tbody>
+                    <tr>
+                        <td class="align-middle">Desenvolvido por <%- attr.business.name %></td>
+                        <td class="align-middle pt-2" style="font-size:28px;">®</td>
+                        <td class="align-middle"><%- attr.business.since+' ~ '+ (new Date().getFullYear()) + ' - Todos os direitos reservados.' %></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </footer>
+
+    <div id="comanda"></div>
+    <audio id="print_audio" controls preload="preload" src="/audio/alert.mp3" style="display: none !important;"></audio>
+    
+    
+    <script type="text/javascript" src="/js/jquery.min.js" ></script>
+    <script type="text/javascript" src="/js/popper.min.js" ></script>
+    <script type="text/javascript" src="/js/bootstrap.min.js" ></script>
+    <script type="text/javascript" src="/js/datatables.min.js"></script>
+    <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+    <script type="text/javascript" src="/js/jquery-aux.js"></script>
+    <script type="text/javascript" src="/js/moment-with-locales.min.js"></script>
+    <script type="text/javascript" src="/js/tempusdominus-bootstrap-4.min.js"></script>
+    
+</body>
+</html>  
+  

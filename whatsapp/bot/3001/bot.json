@@ -1,0 +1,61 @@
+{
+	"appconfig": {
+		"headless": true,
+		"isGroupReply": false
+	},
+	"bot": [
+		{
+			"contains": [
+				"menu",
+				"cardápio"
+			],
+			"exact": [
+				"Ver menu",
+				"Ver Cardápio"
+			],
+			"response": "Fique a vontade para ver nosso cardápio",
+			"file": "/public/image/message/3001/cardapio.png"
+		},
+		{
+			"contains": [
+				"quarta-feira",
+				"quarta"
+			],
+			"exact": [],
+			"response": "Hoje temos rabada como prato do dia",
+			"file": "/public/image/message/3001/rabada.png"
+		},
+		{
+			"contains": [],
+			"exact": [
+				"Horário",
+				"Aberto"
+			],
+			"response": "Olá, funcionamos de Seg. a Sex. das 8:00 as 18:00",
+			"file": ""
+		},
+		{
+			"contains": [
+				"site",
+				"cardápio virtual"
+			],
+			"exact": [],
+			"response": "http://localhost:3009",
+			"file": ""
+		},
+		{
+			"contains": [],
+			"exact": [
+				"Acessar site"
+			],
+			"response": "https://www.japafesteira.com.br",
+			"file": ""
+		}
+	],
+	"blocked": [],
+	"noMatch": "{Desculpe, mas não entendi sua pergunta. Sou uma atendente virtual do WhatsApp.\n\nGostaria de ver nosso menu, ou ver os pratos do dia?}",
+	"smartreply": {
+		"suggestions": [],
+		"clicktosend": false
+	}
+}
