@@ -8,7 +8,7 @@ async function getProductList(res, req)  {
     let business = await model.getBusiness();
     business = business[0][0];
 
-    let products   = await model.getProducts();
+    let products = await model.getProducts();
 
     products = products.filter(el => el.active == 1);
 

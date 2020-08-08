@@ -94,4 +94,4 @@ io.on('connection', (client) => {
 })
  
 // Inicializa script do WhatsApp
-// whatsapp.start(io, controller);
+whatsapp.start(io, controller);

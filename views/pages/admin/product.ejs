@@ -34,7 +34,7 @@
                             <td class="align-middle" ><%= helper.number_format(row.price, 2, ',', '.') %></td>
                             <td class="align-middle" ><%= (row.featured.toString() == "1" ? "Sim" : "Não") %></td>
                             <td class="align-middle" ><%= (row.active.toString() == "1" ? "Sim" : "Não") %></td>
-                            <td class="align-middle"  class="text-center">
+                            <td class="align-middle"  class="text-center" style="width: 100px;">
                                 <button type="button" class="btn btn-outline-primary btn-sm" title="Editar <%= attr.page %>" data-tabid="<%= row.id %>" data-tabname="<%= attr.table %>" data-tabtype="<%= attr.page %>" data-crud="update" data-belongsto="<%= attr.belongsto %>" data-belongstoid="<%= attr.belongsto %>_id" data-toggle="modal" data-target="#modalUpsert" >
                                     <span class="fa fa-edit" aria-hidden="true"></span>
                                 </button>
