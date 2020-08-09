@@ -58,3 +58,11 @@
 ### Adicionar funcionalidades no Futuro 
 + Adicionar tempo de entrega e valor de acordo a distancia. 
 + Adicionar campo de atuação com base no Google Maps
+
+
+
++ Add campo de DDD
++ Add sininho de alerta nos pedidos
++ Corrigir obs na comanda, nos pedidos no cliente e no Admin
++ Colocar o print antes da confirmação de OK no alert do client.
++ Corrigir item que não esta aparecendo

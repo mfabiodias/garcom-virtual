@@ -81,6 +81,7 @@ const ExportFunction = {
                 let order_item = {
                     id: item.id,
                     product: item.name,
+                    item: item.name,
                     price: parseFloat(item.price),
                     qty: parseInt(item.qty),
                     note: !!item.note ? item.note : ''

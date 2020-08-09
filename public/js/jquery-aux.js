@@ -992,7 +992,7 @@ function mountCommand(data)
         items.forEach(el => {
             order_subtotal += (el.price * el.qty);
 
-            comanda += `<p>${space(3, el.qty)} x ${space(20, el.product, 'r')} ${space(6, el.price.toString().number_format(2,',','.'))} ${space(6, (el.price * el.qty).toString().number_format(2,',','.'))}</p>`;
+            comanda += `<p>${space(3, el.qty)} x ${space(20, el.name, 'r')} ${space(6, el.price.toString().number_format(2,',','.'))} ${space(6, (el.price * el.qty).toString().number_format(2,',','.'))}</p>`;
             comanda += !el.note ? '' : `<p>PS: ${space(36, el.note, 'r')}</p>`;
         });
 
