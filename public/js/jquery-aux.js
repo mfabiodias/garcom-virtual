@@ -1094,16 +1094,7 @@ const socket = io();
 // Recebe comanda
 socket.on('print_command', function(tab_id){
     
-    printCommand(tab_id)
-
-    // Habilitar impressão direta no firefox
-    // print.always_print_silent (Firefox in about:config)
-
-    // Habilitar autoplay no firefox
-    // 1-) Click the menu button (3 tracinhos superior direito) and select Preferences;
-    // 2-) Select the Privacy & Security panel;
-    // 3-) Scroll down to the Permissions section;
-    // 4-) Find Autoplay and click the Settings… button;
+    printCommand(tab_id);
 });
 
 socket.on('whatsapp_msg', function(msg){

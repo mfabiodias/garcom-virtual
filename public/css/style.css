@@ -146,7 +146,7 @@ Fonte: https://medium.com/studio3engineering/css-for-print-previewing-in-chrome-
 }
 
 /* font-size:2.60rem valor Epson */
-#comanda { margin-left: 15px; font-family:printFont; font-size:0.74rem }
+#comanda { margin-left: 15px; font-family:printFont; font-size:2.60rem }
 #comanda p { margin:0; }
 
 @page{
