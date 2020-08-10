@@ -28,7 +28,7 @@ async function getLogin(res, req) {
     const client = !!process.env.CLIENT ? "/"+process.env.CLIENT : "";
     const folder = `${process.cwd()}/public/image/business${client}`;
     
-    if (!fs.existsSync(`${folder}/${business.image}`)) {
+    if(!fs.existsSync(`${folder}/${business.image}`)) {
         rootFile = require('path').resolve(process.cwd())+"/public/image/no-logo.jpg";
     } else {
         rootFile = `${folder}/${business.image}`;
