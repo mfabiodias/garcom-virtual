@@ -66,6 +66,30 @@
 			"exact": [],
 			"response": "Sou a Talita",
 			"file": ""
+		},
+		{
+			"contains": [
+				"gusta"
+			],
+			"exact": [],
+			"response": "Gustavo Dias",
+			"file": ""
+		},
+		{
+			"contains": [
+				"Guil"
+			],
+			"exact": [],
+			"response": "Guilherme POrtella",
+			"file": ""
+		},
+		{
+			"contains": [
+				"olha"
+			],
+			"exact": [],
+			"response": "ok",
+			"file": ""
 		}
 	],
 	"blocked": [

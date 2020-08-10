@@ -145,19 +145,14 @@ async function getWhatsappRestart(res, req) {
                 console.error(err)
             } else {
 
-                console.log("req.body", req.body);
-                console.log("req.body typeof", req.body.restart == true);
-                console.log("req.body typeof", !!req.body.restart);
-                console.log("req.body typeof", !req.body.restart);
-
                 // Força um reinicio e exclui cache para rescanear QR CODE
-                if(!!req.body.restart) {
+                if(req.body.restart == 'true') {
                     rimraf.sync('./chromium-data'+(!!process.env.CLIENT ? "/"+process.env.CLIENT : ""));
                 }
 
                 // the *entire* stdout and stderr (buffered)
-                console.log(`stdout: ${stdout}`);
-                console.log(`stderr: ${stderr}`);
+                // console.log(`stdout: ${stdout}`);
+                // console.log(`stderr: ${stderr}`);
             }
         });
 

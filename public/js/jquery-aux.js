@@ -1008,6 +1008,7 @@ function mountCommand(data)
         <p>----------------------------------------</p>`;
         
         comanda += !!data.payment_obs ? `<p>${space(40, "Troco p/ "+data.payment_obs)}</p>` : '';
+        comanda += `<p>----------------------------------------</p>`;
     }
 
     return comanda;
