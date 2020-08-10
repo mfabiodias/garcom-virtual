@@ -19,7 +19,7 @@ async function getReport(res, req, type)  {
         }
     }; 
     
-    res.render('./pages/admin/report', { attr });
+    res.render('./pages/admin/report', { attr, business });
 }
 
 module.exports = { 

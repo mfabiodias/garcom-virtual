@@ -13,7 +13,7 @@ $(document).ready(function() {
     setDataTable('.datatable-option2');
     
     // Print Order
-    $('.orderPrint').on('click', async function () {
+    $('#orders-list').on('click', '.orderPrint', function() {
 
         $("#comanda").html("");
         
@@ -133,9 +133,9 @@ $(document).ready(function() {
                     
                 if(action != 'update') cleanInputForm('modal-form', false);
 
-                // Auto refresh ao cadastrar mensagens.
+                // Auto refresh whatsapp ao cadastrar mensagens.
                 if(!!refresh_wpp) { 
-                    // refreshWpp();
+                    refreshWpp(false);
                 }
             }
             else
@@ -721,8 +721,7 @@ $(document).ready(function() {
     });
 
     $('#restart_wpp').on('click', function() {
-
-        refreshWpp();
+        refreshWpp(true);
     });
 
     $('#qrcode_type').on('change', function() {
@@ -915,9 +914,9 @@ function validateBusiness(data)
         err = "Confirmação de senha não confere com a senha informada";
     } else if(!!data.pass.length && data.pass.length < 6) {
         err = "Senha muito curta";
-    } else if(!data.pinter_size.length) {
+    } else if(!data.printer_size.length) {
         err = "Tamanho da fonte da impressão deve ser informada!";
-    } else if(data.pinter_size < 0) {
+    } else if(data.printer_size < 0) {
         err = "Tamanho da fonte da impressão deve ser maior que ZERO!";
     } else if(!data.tables.length) {
         err = "Quantidade de mesas deve ser informada!";
@@ -1022,9 +1021,12 @@ function printCommand(tab_id)
 
     if(!!comanda) 
     {
+        // display: block;
+        $('#comanda').css("font-size", `${$('#comanda').attr('data-font-size') || 2}rem`);
         $("#comanda").html(comanda);
         $("#print_audio").get(0).play();
         window.print();
+        $("#comanda").html("");
     }
     else {
         console.log("Falha ao imprimir comanda")
@@ -1059,17 +1061,17 @@ function cleanInputAddress()
     $("#inputState").val("");
 }
 
-function refreshWpp()
+function refreshWpp(restart)
 {
-    const data = apiPageData('GET', '/api/whatsapp-restart', {});
+    const data = apiPageData('POST', '/api/whatsapp-restart', { restart });
     
     if(!!data.result && data.result == 'success') {
-        if(!!$("#whatsapp_msg")) {
-            $("#whatsapp_msg").val("Reiniciado com sucesso!\nAguarde o QR Code para iniciar seu WhatsApp");
+        if(!!$("#print_whatsapp_msg")) {
+            $("#print_whatsapp_msg").val("Reiniciado com sucesso!\nAguarde o QR Code para iniciar seu WhatsApp");
         }
     } else {
-        if(!!$("#whatsapp_msg")) {
-            $("#whatsapp_msg").val("Falha ao reiniciar o WhatsApp!");
+        if(!!$("#print_whatsapp_msg")) {
+            $("#print_whatsapp_msg").val("Falha ao reiniciar o WhatsApp!");
         }
     }
 }
@@ -1093,13 +1095,12 @@ const socket = io();
 
 // Recebe comanda
 socket.on('print_command', function(tab_id){
-    
     printCommand(tab_id);
 });
 
-socket.on('whatsapp_msg', function(msg){
+socket.on('print_whatsapp_msg', function(msg){
 
-    let whatsappMsg = $('#whatsapp_msg').val();
+    let whatsappMsg = $('#print_whatsapp_msg').val();
 
     if(!!whatsappMsg)
     {
@@ -1108,21 +1109,21 @@ socket.on('whatsapp_msg', function(msg){
             whatsappMsg = whatsappMsg.split('\n').slice(-1).join('\n');
         }
         
-        $('#whatsapp_msg').val(`${msg}\n${whatsappMsg}`);
+        $('#print_whatsapp_msg').val(`${msg}\n${whatsappMsg}`);
     }
 
 })
 
-socket.on('whatsapp_qrcode', function(msg) 
+socket.on('print_whatsapp_qrcode', function(msg) 
 {
     if(msg == 'start' || msg == 'success') {
-        $('#whatsapp_qrcode').hide();
-        $('#whatsapp_qrcode img').hide();
+        $('#print_whatsapp_qrcode').hide();
+        $('#print_whatsapp_qrcode img').hide();
     }
     else
     {
-        $('#whatsapp_qrcode').show();
-        $('#whatsapp_qrcode').html(`<img src="${msg}" alt="Escanei-me para Iniciar" width="350" height="350" />`);
+        $('#print_whatsapp_qrcode').show();
+        $('#print_whatsapp_qrcode').html(`<img src="${msg}" alt="Escanei-me para Iniciar" width="350" height="350" />`);
     }
 })
 

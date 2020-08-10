@@ -23,7 +23,7 @@ async function getQrCode(res, req, type) {
         }
     };
     
-    if(!!type && type == 'admin') res.render('./pages/admin/qrcode', { row:business, helper, attr });
+    if(!!type && type == 'admin') res.render('./pages/admin/qrcode', { row:business, helper, attr, business });
     else res.json(business);
 }
 

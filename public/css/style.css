@@ -146,27 +146,27 @@ Fonte: https://medium.com/studio3engineering/css-for-print-previewing-in-chrome-
 }
 
 /* font-size:2.60rem valor Epson */
-#comanda { margin-left: 15px; font-family:printFont; font-size:2.60rem }
+#comanda { margin-left: 15px; font-family:printFont; font-size:2.74rem }
 #comanda p { margin:0; }
 
 @page{
   margin:0 0 0 15px;
 }
 
-@media all {
+/* @media all {
   #comanda {
     display:none;
   }
-}
+} */
 
 @media print {
   body * {
     visibility: hidden;
   }
-  #comanda, #comanda *, #qrcode_image, #qrcode_image * {
+  #comanda, #comanda *, #qrcode_print, #qrcode_print * {
     visibility: visible;
   }
-  #comanda, #qrcode_image {
+  #comanda, #qrcode_print {
     display:block;
     position: fixed;
     width: 100%;

@@ -40,7 +40,7 @@ async function getHome(res, req, type)  {
         }
     }; 
 
-    res.render('./pages/admin/home', { attr });
+    res.render('./pages/admin/home', { attr, business });
 }
 
 module.exports = { 

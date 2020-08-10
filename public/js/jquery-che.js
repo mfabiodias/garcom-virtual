@@ -444,7 +444,7 @@ $(document).ready(function() {
                 sessionStorage.setItem("user_hash", JSON.stringify(data.user_hash));
                 localStorage.setItem("user_hash", JSON.stringify(data.user_hash));
 
-                // Notifica ADMIN do restaurante para imprimir comanda
+                // Notificar ADMIN do restaurante para imprimir comanda
                 socket.emit('send_command', data.order_id); 
                 
                 alert(`Seu pedido Num.: ${data.order_label} foi realizado com sucesso!\n\nNosso tempo médio de entrega é de ${data.order_wait} minutos.`);

@@ -28,7 +28,7 @@ async function getCampaigns(res, req, type)  {
         }
     };
 
-    if(!!type && type == 'admin') res.render('./pages/admin/campaign', { rows:campaigns, helper, attr });
+    if(!!type && type == 'admin') res.render('./pages/admin/campaign', { rows:campaigns, helper, attr, business });
     else res.json(campaigns);
 }
 

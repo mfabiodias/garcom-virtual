@@ -52,6 +52,7 @@
     "rimraf": "^3.0.2",
     "sessionstorage": "^0.1.0",
     "socket.io": "^2.3.0",
+    "socket.io-client": "^2.3.0",
     "yargs": "^13.2.2"
   },
   "devDependencies": {

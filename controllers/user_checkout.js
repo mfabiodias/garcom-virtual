@@ -73,7 +73,7 @@ async function getProductList(res, req)  {
     }; 
     
     if(!!item.name) {
-        res.render('./pages/home/items', { attr, helper, business, categories, item });
+        res.render('./pages/home/items', { attr, helper, business, categories, item, business });
     }
     else {
         res.redirect('/');
@@ -105,7 +105,7 @@ async function getUserCheckout(res, req)  {
         }
     }; 
     
-    res.render('./pages/home/checkout', { attr, helper, business, categories });
+    res.render('./pages/home/checkout', { attr, helper, business, categories, business });
 }
 
 

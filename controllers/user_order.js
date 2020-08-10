@@ -30,7 +30,7 @@ async function getUserOrders(res, req)  {
         }
     }; 
 
-    res.render('./pages/home/orders', { attr, helper, categories, orders });
+    res.render('./pages/home/orders', { attr, helper, categories, orders, business });
 }
 
 module.exports = { 

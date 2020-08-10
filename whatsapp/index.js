@@ -12,6 +12,12 @@ var configs = require("./bot/bot");
 var qrcode = require('qrcode');
 const config = require('../config/config');
 
+
+
+
+
+
+
 async function start(client, controller) {
     let outmsg;
 
@@ -28,14 +34,14 @@ async function start(client, controller) {
         }
 
         outmsg = "WhatsApp WEB sincronizado! Desfrute do seu ChatBot...";
-        client.emit('whatsapp_msg', outmsg);
-        client.emit('whatsapp_qrcode', 'success');
+        client.emit('send_whatsapp_msg', outmsg);
+        client.emit('send_whatsapp_qrcode', 'success');
         console.log(outmsg);
 
     } catch (e) {
 
         outmsg = "Parece que ocorreu um erro: " + e;
-        client.emit('whatsapp_msg', outmsg);
+        client.emit('send_whatsapp_msg', outmsg);
         console.error("\n" + outmsg);
 
         try {
@@ -68,7 +74,7 @@ async function start(client, controller) {
 
         
         outmsg = "Downloading chrome";
-        client.emit('whatsapp_msg', outmsg);
+        client.emit('send_whatsapp_msg', outmsg);
         spinner.start(outmsg+"\n");
 
         const browserFetcher = puppeteer.createBrowserFetcher({
@@ -134,8 +140,8 @@ async function start(client, controller) {
             });
 
             outmsg = "Inicializando o Whatsapp ... Aguarde!";
-            client.emit('whatsapp_msg', outmsg);
-            client.emit('whatsapp_qrcode', 'start');
+            client.emit('send_whatsapp_msg', outmsg);
+            client.emit('send_whatsapp_qrcode', 'start');
             spinner.stop(outmsg);
 
             page.exposeFunction("log", (message) => {
@@ -161,7 +167,7 @@ async function start(client, controller) {
             })
             .catch(() => {
                 outmsg = "Seu WhatsApp WEB não está conectado.\nEscsanei o QR Code para iniciar.";
-                client.emit('whatsapp_msg', outmsg);
+                client.emit('send_whatsapp_msg', outmsg);
                 console.log(outmsg);
                 return false;
             })
@@ -176,13 +182,13 @@ async function start(client, controller) {
         //console.log("\n" + output);
         if (output) {
             outmsg = "Parece que seu WhatsApp WEB já está Conectado";
-            client.emit('whatsapp_msg', outmsg);
+            client.emit('send_whatsapp_msg', outmsg);
             spinner.stop(outmsg);
 
             await injectScripts(page);
         } else {
             outmsg = "Seu WhatsApp WEB não está conectado.\nPor favor escaneio o QR Code para iniciar";
-            client.emit('whatsapp_msg', outmsg);
+            client.emit('send_whatsapp_msg', outmsg);
             spinner.info(outmsg);
         }
         return output;
@@ -197,7 +203,7 @@ async function start(client, controller) {
         var qrdata = await page.evaluate(`document.querySelector("${scanme}").parentElement.getAttribute("data-ref")`);
         // qrcode.generate(qrdata, { small: true });
         qrcode.toDataURL(qrdata, function (err, qrcode) {
-            client.emit('whatsapp_qrcode', qrcode);
+            client.emit('send_whatsapp_qrcode', qrcode);
         });
 
         await page.evaluate(`
@@ -234,11 +240,11 @@ async function start(client, controller) {
         await page.exposeFunction('getQrCode', function(qrdata) {
             // qrcode.generate(qrdata, { small: true });
             outmsg = "Aguardando você escanear o QR Code";
-            client.emit('whatsapp_msg', outmsg);
+            client.emit('send_whatsapp_msg', outmsg);
             spinner.start(outmsg);
 
             qrcode.toDataURL(qrdata, function (err, qrcode) {
-                client.emit('whatsapp_qrcode', qrcode);
+                client.emit('send_whatsapp_qrcode', qrcode);
             });
         });
 
@@ -293,4 +299,12 @@ async function start(client, controller) {
     }
 }
 
-module.exports = { start }
+const wppsocketio = `http://localhost:${process.env.MYPORT}`;
+const client = socket = require('socket.io-client')(wppsocketio);
+const controller = require('../controllers');
+
+console.log(`Cliente socket.io conectado em ${wppsocketio}`);
+
+start(client, controller);
+
+// module.exports = { start }

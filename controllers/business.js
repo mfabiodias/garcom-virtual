@@ -22,7 +22,7 @@ async function getBusiness(res, req, type) {
         }
     };
     
-    if(!!type && type == 'admin') res.render('./pages/admin/business', { row:business, helper, attr });
+    if(!!type && type == 'admin') res.render('./pages/admin/business', { row:business, helper, attr, business });
     else res.json(business);
 }
 
@@ -47,7 +47,7 @@ async function updateBusiness(res, parId, data) {
         tables:          data.tables,
         wait:            data.wait, 
         open:            data.open, 
-        pinter_size:     data.pinter_size 
+        printer_size:     data.printer_size 
     };
 
     const address_data  = { 

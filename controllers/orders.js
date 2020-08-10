@@ -47,7 +47,7 @@ async function getOrders(res, req, type)  {
         }
     };
 
-    if(!!type && type == 'admin') res.render('./pages/admin/order', { rows:orders, helper, attr });
+    if(!!type && type == 'admin') res.render('./pages/admin/order', { rows:orders, helper, attr, business });
     else res.json(orders);
 }
 

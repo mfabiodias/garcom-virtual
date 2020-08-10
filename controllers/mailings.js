@@ -23,7 +23,7 @@ async function getMailings(res, req, type) {
         }
     };
     
-    if(!!type && type == 'admin') res.render('./pages/admin/mailing', { rows:mailings, helper, attr, clients });
+    if(!!type && type == 'admin') res.render('./pages/admin/mailing', { rows:mailings, helper, attr, clients, business });
     else res.json(mailings);
 }
 

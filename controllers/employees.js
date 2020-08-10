@@ -22,7 +22,7 @@ async function getEmployees(res, req, type) {
         }
     };
     
-    if(!!type && type == 'admin') res.render('./pages/admin/employee', { rows:employees, helper, attr });
+    if(!!type && type == 'admin') res.render('./pages/admin/employee', { rows:employees, helper, attr, business });
     else res.json(employees);
 }
 

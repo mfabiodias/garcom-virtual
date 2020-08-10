@@ -24,7 +24,7 @@ async function getCategories(res, req, type) {
         }
     };
     
-    if(!!type && type == 'admin') res.render('./pages/admin/category', { rows:categories, helper, attr });
+    if(!!type && type == 'admin') res.render('./pages/admin/category', { rows:categories, helper, attr, business });
     else res.json(categories);
 }
 

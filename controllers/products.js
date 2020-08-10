@@ -24,7 +24,7 @@ async function getProducts(res, req, type)  {
         }
     };
 
-    if(!!type && type == 'admin') res.render('./pages/admin/product', { rows:products, helper, attr });
+    if(!!type && type == 'admin') res.render('./pages/admin/product', { rows:products, helper, attr, business });
     else res.json(products);
 }
 

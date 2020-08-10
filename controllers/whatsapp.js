@@ -4,6 +4,7 @@ const helper   = require('../helpers');
 const config   = require('../config/config');
 const model    = require('../models');
 const { exec } = require('child_process');
+const rimraf   = require("rimraf");
 
 
 // start = async () => {
@@ -47,7 +48,7 @@ async function getWhatsapp(res, req, type) {
         }
     };
     
-    if(!!type && type == 'admin') res.render('./pages/admin/whatsapp', { whatsapp, messages, helper, attr });
+    if(!!type && type == 'admin') res.render('./pages/admin/whatsapp', { whatsapp, messages, helper, attr, business });
     else res.json(whatsapp);
 }
 
@@ -69,7 +70,7 @@ async function getWhatsappChatBot(res, req, type) {
         }
     };
     
-    if(!!type && type == 'admin') res.render('./pages/admin/whatsapp_chatbot', { attr });
+    if(!!type && type == 'admin') res.render('./pages/admin/whatsapp_chatbot', { attr, business });
     else res.json(whatsapp);
 }
 
@@ -134,16 +135,27 @@ async function getWhatsappCampaignMessages(res, req) {
 
 async function getWhatsappRestart(res, req) {
 
-    if(!!process.env.APPNAME)
+    if(!!process.env.WPPNAME)
     {
-        const my_shell_command = `pm2 restart ${process.env.APPNAME}`;
+        const my_shell_command = `pm2 restart ${process.env.WPPNAME}`;
         
         exec(my_shell_command, (err, stdout, stderr) => {
             if (err) {
                 //some err occurred
                 console.error(err)
             } else {
-            // the *entire* stdout and stderr (buffered)
+
+                console.log("req.body", req.body);
+                console.log("req.body typeof", req.body.restart == true);
+                console.log("req.body typeof", !!req.body.restart);
+                console.log("req.body typeof", !req.body.restart);
+
+                // Força um reinicio e exclui cache para rescanear QR CODE
+                if(!!req.body.restart) {
+                    rimraf.sync('./chromium-data'+(!!process.env.CLIENT ? "/"+process.env.CLIENT : ""));
+                }
+
+                // the *entire* stdout and stderr (buffered)
                 console.log(`stdout: ${stdout}`);
                 console.log(`stderr: ${stderr}`);
             }

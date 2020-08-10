@@ -51,7 +51,7 @@ async function getLogin(res, req) {
     attr.token   = !!getSession && !!getSession.token ? getSession.token : "";
     attr.message = !!getSession && !!getSession.message ? getSession.message : "";    
         
-    res.render('./pages/admin/login', { helper, attr });
+    res.render('./pages/admin/login', { helper, attr, business });
 }
 
 async function signIn(res, req) { 

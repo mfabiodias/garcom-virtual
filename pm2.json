@@ -12,11 +12,23 @@
           "MYUSER": "fmdsystem",
           "MYPASS": "B^5%hGf!0&8ytRx2",
           "CLIENT": "4001",
-          "APPNAME": "cardapio_4001",
+          "WPPNAME": "whatsapp_4001",
           "APPURL":  "https://supremosabor.gestorvirtual.net.br"
       },
       "error_file": "./logs/cardapio_4001.err.log",
       "out_file": "./logs/cardapio_4001.out.log"
+    },
+    {
+      "exec_mode": "fork_mode",
+      "script": "./whatsapp/index.js",
+      "name": "whatsapp_4001",
+      "node_args": [ "--harmony" ],
+      "env": { 
+        "CLIENT": "4001",
+        "MYPORT": "4001"
+      },
+      "error_file": "./logs/whatsapp_4001.err.log",
+      "out_file": "./logs/whatsapp_4001.out.log"
     },
     {
       "exec_mode": "fork_mode",
@@ -30,11 +42,23 @@
           "MYUSER": "fmdsystem",
           "MYPASS": "B^5%hGf!0&8ytRx2",
           "CLIENT": "4002",
-          "APPNAME": "cardapio_4002",
+          "WPPNAME": "whatsapp_4002",
           "APPURL":  "https://marmitariaquality.gestorvirtual.net.br"
       },
       "error_file": "./logs/cardapio_4002.err.log",
       "out_file": "./logs/cardapio_4002.out.log"
+    },
+    {
+      "exec_mode": "fork_mode",
+      "script": "./whatsapp/index.js",
+      "name": "whatsapp_4002",
+      "node_args": [ "--harmony" ],
+      "env": { 
+        "CLIENT": "4002",
+        "MYPORT": "4002"
+      },
+      "error_file": "./logs/whatsapp_4002.err.log",
+      "out_file": "./logs/whatsapp_4002.out.log"
     }
   ]
 }

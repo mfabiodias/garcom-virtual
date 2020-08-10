@@ -45,7 +45,7 @@ async function getClients(res, req, type) {
 
     // console.log(clients);
     
-    if(!!type && type == 'admin') res.render('./pages/admin/client', { rows:clients, helper, attr });
+    if(!!type && type == 'admin') res.render('./pages/admin/client', { rows:clients, helper, attr, business });
     else res.json(clients);
 }
 

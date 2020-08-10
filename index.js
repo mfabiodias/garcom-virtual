@@ -1,4 +1,4 @@
-require("rimraf").sync('./chromium-data'+(!!process.env.CLIENT ? "/"+process.env.CLIENT : ""));
+// require("rimraf").sync('./chromium-data'+(!!process.env.CLIENT ? "/"+process.env.CLIENT : ""));
 const express        = require('express');
 const app            = require('express')();
 const expressLayouts = require('express-ejs-layouts');
@@ -11,7 +11,6 @@ const path           = require('path');
 const open           = require('open');
 const cors           = require('cors')
 const config         = require('./config/config');
-const whatsapp       = require('./whatsapp/index');
 const cookieParser   = require('cookie-parser');
 app.use(cookieParser());
 
@@ -59,7 +58,7 @@ app.get('/pedidos/:user', (req, res) => { controller.getUserOrders(res, req) });
 app.get('/:category',     (req, res) => { controller.getProductList(res, req) });
 
 // Other API Specific Routes
-app.get('/api/whatsapp-restart',        (req, res) => { controller.getWhatsappRestart(res, req) });
+app.post('/api/whatsapp-restart',       (req, res) => { controller.getWhatsappRestart(res, req) });
 app.get('/api/order',                   (req, res) => { controller.getOrders(res, req) });
 app.get('/api/busca-cep/:cep',          (req, res) => { controller.getCepEndereco(res, req) });
 app.post('/api/qrcode/:type',           (req, res) => { controller.getQrCodeData(res, req) });
@@ -90,8 +89,19 @@ io.on('connection', (client) => {
         client.broadcast.emit('print_command', msg);
     });
 
+    client.on('send_whatsapp_msg', (msg)=> { 
+        // console.log('print_command', msg);
+        client.broadcast.emit('print_whatsapp_msg', msg);
+    });
+
+    client.on('send_whatsapp_qrcode', (msg)=> { 
+        // console.log('print_command', msg);
+        client.broadcast.emit('print_whatsapp_qrcode', msg);
+    });
+
     // console.log('New Connection', client.id);
 })
  
-// Inicializa script do WhatsApp
-whatsapp.start(io, controller);
+// // Inicializa script do WhatsApp de forma integrada
+// const whatsapp = require('./whatsapp/index');
+// whatsapp.start(io, controller);

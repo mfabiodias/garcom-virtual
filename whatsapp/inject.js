@@ -39,7 +39,9 @@ WAPI.waitNewMessages(false, async (data) => {
 
                 if(!responseObj) {
                     for (contains of obj.contains) {
-                        if(!responseObj && getRequest == contains.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase()) {
+                        contain = contains.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase();
+                        // if(!responseObj && getRequest == contains.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase()) {
+                        if(!responseObj && getRequest.indexOf(contain) > -1) {
                             responseObj = obj;
                         }
                     }
