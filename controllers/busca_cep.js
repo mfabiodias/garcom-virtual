@@ -45,7 +45,6 @@ async function getCepEndereco(res, req)  {
                     endereco.limite   = -1;
                     endereco.limited  = business.delivery_limite;
                     endereco.msg      = "Não foi possível calcular a distância para o CEP informado!";
-                    console.log(endereco.msg)
                 }
                 else 
                 {
@@ -64,8 +63,6 @@ async function getCepEndereco(res, req)  {
             endereco.limite   = -1;
             endereco.limited  = business.delivery_limite;
             endereco.msg      = "Falha ao calcular a distância para o CEP informado!";
-
-            console.log(endereco.msg)
 
             res.json(endereco);
         }

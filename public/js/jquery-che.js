@@ -17,7 +17,7 @@ $(document).ready(function() {
             user_order = !!user_order && !!user_order.length ? user_order : [];
             // console.log('localStorage', user_order);
         } 
-        catch(e) { alert("Seu navegador é muito antigo e incompatível com nosso sistema de pedidos.😔"); }
+        catch(e) { my_alert("Seu navegador é muito antigo e incompatível com nosso sistema de pedidos.😔"); }
     }
     finally{ printCart(user_order) }
 
@@ -33,7 +33,7 @@ $(document).ready(function() {
             user_hash = !!user_hash ? user_hash : "MTAwMS0w+RQZjRGY";
             // console.log('localStorage', user_hash);
         } 
-        catch(e) { alert("Seu navegador é muito antigo e incompatível com nosso sistema de pedidos.😔"); }
+        catch(e) { my_alert("Seu navegador é muito antigo e incompatível com nosso sistema de pedidos.😔"); }
     }
     finally{ $(".user-hash").attr('href', `/pedidos/${user_hash}`); }
 
@@ -339,7 +339,7 @@ $(document).ready(function() {
         const cep = $("#inputZip").val().trim();
 
         if(cep.length < 8) {
-            alert('CEP inválido!');
+            my_alert('CEP inválido!');
         }
         else 
         {
@@ -356,13 +356,13 @@ $(document).ready(function() {
                 {
                     printCart([]);
                     cleanAddress();
-                    alert(`Não conseguimos calcular a distância para seu CEP. Tente novamente e verifique o CEP informado. Persistindo o erro contante-nos`);
+                    my_alert(`Não conseguimos calcular a distância para seu CEP. Tente novamente e verifique o CEP informado. Persistindo o erro contante-nos`);
                 }
                 else if(parseInt(data.limite) == 0)
                 {
                     printCart([]);
                     cleanAddress();
-                    alert(`Seu endereço excede nosso raio de atuação 😔! Atendenmos em um raio de até ${data.limited}km e verificamos que seu endereço está a ${data.distance}km.`);
+                    my_alert(`Seu endereço excede nosso raio de atuação 😔! Atendenmos em um raio de até ${data.limited}km e verificamos que seu endereço está a ${data.distance}km.`);
                 }
                 else
                 {
@@ -379,7 +379,7 @@ $(document).ready(function() {
             }
             else
             {
-                alert(data.msg);
+                my_alert(data.msg);
                 
                 $("#inputAddress").val("");
                 $("#inputNeighborhood").val("");
@@ -426,7 +426,7 @@ $(document).ready(function() {
         const checkData = validateCheckout(inputData);
 
         if(checkData !== true) {
-            alert(checkData);
+            my_alert(checkData);
         }
         else 
         {
@@ -447,14 +447,14 @@ $(document).ready(function() {
                 // Notificar ADMIN do restaurante para imprimir comanda
                 socket.emit('send_command', data.order_id); 
                 
-                alert(`Seu pedido Num.: ${data.order_label} foi realizado com sucesso!\n\nNosso tempo médio de entrega é de ${data.order_wait} minutos.`);
+                my_alert(`Seu pedido Num.: ${data.order_label} foi realizado com sucesso!\n\nNosso tempo médio de entrega é de ${data.order_wait} minutos.`);
 
                 window.open(`/pedidos/${data.user_hash}`, '_self');
             }
             else
             {
-                alert('Tivemos um problema para finalizar seu pedido! Tente novamente');
-                // alert(JSON.stringify(data));
+                my_alert('Tivemos um problema para finalizar seu pedido! Tente novamente');
+                // my_alert(JSON.stringify(data));
             } 
         }
     });
@@ -619,7 +619,7 @@ function recoverAdrress()
             address = JSON.parse(localStorage.getItem("checkout_items"));
             address = !!address ? address : {};
         } 
-        catch(e) { alert("Seu navegador é muito antigo e incompatível com nosso sistema de pedidos.😔"); }
+        catch(e) { my_alert("Seu navegador é muito antigo e incompatível com nosso sistema de pedidos.😔"); }
     }
     finally { 
 

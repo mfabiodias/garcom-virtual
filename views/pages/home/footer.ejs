@@ -1,6 +1,25 @@
+  
+  <!-- Alert Modal -->
+  <div class="modal fade" id="alertModal" tabindex="-1" aria-labelledby="alertModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+      <div class="modal-content">
+          <div class="modal-header">
+          <h5 class="modal-title" id="alertModalLabel">Alerta</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+          </button>
+          </div>
+          <div class="modal-body" id="alertModalContent"></div>
+          <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+          </div>
+      </div>
+      </div>
+  </div>
+
+
   <footer class="fixed-bottom d-flex justify-content-around">
-    <span class="d-none d-lg-block pt-3" style="font-size: 1.3em;">Desenvolvido por Taste - 2019 ~ 2020 - Todos os direitos reservados.</span>
-    
+    <span class="d-none d-lg-block pt-3" style="font-size: 1.3em;">Desenvolvido por <%- attr.business.name; %> - 2019 ~ 2020 - Todos os direitos reservados.</span>
     <a href="/" class="d-block d-lg-none fas fa-home fa-lg pt-4 mx-2 menulink"></a>
     <a href="/pedidos" class="d-block d-lg-none far fa-list-alt fa-lg pt-4 mx-2 menulink user-hash"></a>
     <a href="/destaque" class="d-block d-lg-none far fa-star fa-lg pt-4 mx-2 menulink"></a>
@@ -18,6 +37,7 @@
   <script type="text/javascript" src="/js/jquery.mCustomScrollbar.concat.min.js"></script>
   <script type="text/javascript" src="/socket.io/socket.io.js"></script>
   <script type="text/javascript" src="/js/jquery-che.js" ></script>
+  <script type="text/javascript" src="/js/alert.js"></script>
 
 
 

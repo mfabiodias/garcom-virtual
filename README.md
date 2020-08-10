@@ -1,31 +1,34 @@
 ### Taste APP
 
 ### ADMIN 
-+ Ter opção de cardápios com horários e dias e associar ao cadastro de um produto
+++ Criar página de cadastro de pedidos na tela de pedido no admin.  
+++ Importar lista de contatos do WhatsApp
 + Criar cadastro de QR Codes
 + Gestão de Filas
 + Gestão de Reservas 
 + Pratos Visitados (Adicionar um contador em Produtos)
-- Raio de atendimento
-- Tempo Médio de Espera 
-- Tipo taxa entrega (Fixa | Base + Valor por Km | Por raio + Até x Km + Val) 
 + Ajustar relatórios e adicionar novos 
-- Finalizar CRUD WhatsApp 
-- Conectar com banco especifico com base no url do cliente
++ QR Code para Mesas 
++ Ajustar tela de relatório.
++ Add sininho de alerta nos pedidos
++ Colocar o print antes da confirmação de OK no alert do client. 
+
+### Cardápio Virtual 
++ Criar designer PWA 
++ Contabilizar clique nos produtos do cardápio e salvar report json 
++ Add campo de DDD
+
+### ADMIN e Cardápio Virtual
++ Modificar js-alert por modal-alert 
++ Corrigir obs na comanda, nos pedidos no cliente e no Admin 
++ Adicionar nome e fundação no rodapé dos layouts 
++ Verificar porque login falha no celular
 
 ### WhatsApp
 + Informar mesas livres
 + Consultar e criar reservas 
 
-### Cardápio Virtual 
-+ Criar designer PWA 
-+ Contabilizar os pratos visitados 
-
-### Projetos com Fragmentos de Código
-- Run Shell Script
-- Material Design 
-
-### Trabalhos a concluir
+### Trabalhos concluídos
 - Adicionar o novo layout no cardapio virtual e finalizar o cadastro de pedido.
 - Criar tela para listagem de pedidos do cliente no cardápio virtual
 - Criar tela de login
@@ -36,15 +39,7 @@
 - Criar página de cadastro de endereço para Empresa, Funcionários e Clientes
 - No monento de cadastro do pedido SALVAR dados na tabela report em JSON.
 - Adicionar funcionalidades de restart do robo em whatsapp/sincronizar com (Run Shell Script).
-- Criar página do QR Code para WiFi, WhatsApp
-+ Criar página do QR Code para Mesas 
-++ Importar lista de contatos do WhatsApp
-+ Ajustar tela de relatório.
-+ Modificar js-alert por modal-alert
-+ Criar página de cadastro de pedidos na tela de pedido no admin.
-+ Contabilizar clique nos produtos do cardápio e salvar report json 
-
-### Admin Config no Cardápio Online
+- Criar página do QR Code para WiFi, WhatsApp 
 - Horário Online - Libera Cardápio somente dentro do horário da loja
 - Tipo taxa entrega (Fixa | Valor por Km) - Para Calcular o frete
 - Mostrar formas de pagamento e entrega de acordo habilitado na loja
@@ -54,15 +49,28 @@
 - Adicionar nome e imagem nos layouts
 - imprimir automatico após realizar pedido 
 - Adicioanar audio para informar novo pedido realizado 
+- Conectar com banco especifico com base no url do cliente
+- Finalizar CRUD WhatsApp 
+- Raio de atendimento
+- Tempo Médio de Espera 
+- Tipo taxa entrega (Fixa | Base + Valor por Km | Por raio + Até x Km + Val) 
+- Run Shell Script para reiniciar whatsapp
+- Material Design para front end do cardapio
 
 ### Adicionar funcionalidades no Futuro 
 + Adicionar tempo de entrega e valor de acordo a distancia. 
-+ Adicionar campo de atuação com base no Google Maps
++ Adicionar campo de atuação com base no Google Maps 
++ Ter opções de cardápios com horários e dias e associar ao cadastro de um produto
++ Pagamentos Google Pay
++ Motoboys Loggy 
++ Integração com iFood 
++ Validação de número WPP
+
+# Template Demo
++ Instalar template https://livewp.site/wp/md/zohar/
 
 
-
-+ Add campo de DDD
-+ Add sininho de alerta nos pedidos
-+ Corrigir obs na comanda, nos pedidos no cliente e no Admin
-+ Colocar o print antes da confirmação de OK no alert do client.
-+ Corrigir item que não esta aparecendo
+### Assuntos para Instagram
++ Divulgação
++ Funcionalidades
++ Dicas sobre o Mercado 

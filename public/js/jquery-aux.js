@@ -281,7 +281,7 @@ $(document).ready(function() {
             if(!!adrress.zip) { addInputAddress(adrress); }
             else { 
                 cleanInputAddress();
-                alert("Problema ao decodificar endereço");
+                my_alert("Problema ao decodificar endereço");
             }
         }
         else
@@ -312,7 +312,7 @@ $(document).ready(function() {
             }
             else 
             {
-                alert(data.message);
+                my_alert(data.message);
             }
         }
     });
@@ -335,7 +335,7 @@ $(document).ready(function() {
         const validator = validateAddress(address);
 
         if(!!validator){
-            alert(validator);
+            my_alert(validator);
         }
         else 
         {
@@ -350,7 +350,7 @@ $(document).ready(function() {
                 data = apiPageData("POST", url, address);
             }
     
-            alert(data.message);
+            my_alert(data.message);
     
             $(".reload_closed").trigger( "click" );
         }
@@ -463,8 +463,8 @@ $(document).ready(function() {
 
         let stt = !!parseInt($('#headless').val()) ? "Desabilitada" : "Habilitada";
 
-        if(!!data.id) alert(`Janela do WhatsApp ${stt} com sucesso!`)
-        else alert(`Falha ao ${stt} Janela do WhatsApp!`)
+        if(!!data.id) my_alert(`Janela do WhatsApp ${stt} com sucesso!`)
+        else my_alert(`Falha ao ${stt} Janela do WhatsApp!`)
     });
 
     $('#group_reply').on('change', function() {
@@ -474,8 +474,8 @@ $(document).ready(function() {
 
         let stt = !!parseInt($('#group_reply').val()) ? "Habilitado" : "Desabilitado";
 
-        if(!!data.id) alert(`Mensagens em Grupo do WhatsApp ${stt} com sucesso!`)
-        else alert(`Falha ao ${stt} Mensagens em Grupo do WhatsApp!`)
+        if(!!data.id) my_alert(`Mensagens em Grupo do WhatsApp ${stt} com sucesso!`)
+        else my_alert(`Falha ao ${stt} Mensagens em Grupo do WhatsApp!`)
     });
 
     $('#blocked_save').on('click', function() {
@@ -491,19 +491,19 @@ $(document).ready(function() {
     
             if(!!data.crud_msg) {
                 $('.blocked_save').val('');
-                alert(data.crud_msg);
+                my_alert(data.crud_msg);
             }
             else if(!!data.id) { 
                 $('.blocked_save').val('');
-                alert(`Número ${blocked} bloqueado com sucesso!`);
+                my_alert(`Número ${blocked} bloqueado com sucesso!`);
                 appendBlocked((JSON.parse(data.blocked).length - 1), blocked);
             }
-            else alert(`Falha ao bloquear o número ${blocked}!`)
+            else my_alert(`Falha ao bloquear o número ${blocked}!`)
         }
         else 
         {
             $('.blocked_save').val('');
-            alert(`Número ${blocked} inválido!`)
+            my_alert(`Número ${blocked} inválido!`)
         }
 
     });
@@ -517,15 +517,15 @@ $(document).ready(function() {
         const data = apiPageData("PUT", url, inputData);
 
         if(!!data.crud_msg) {
-            alert(data.crud_msg);
+            my_alert(data.crud_msg);
             $(this).parent().parent().remove();
         }
         else if(!!data.id) { 
-            alert(`Número ${number} desbloqueado com sucesso!`);
+            my_alert(`Número ${number} desbloqueado com sucesso!`);
             $(this).parent().parent().remove();
         }
         else {
-            alert(`Falha ao desbloquear o número ${number}!`);
+            my_alert(`Falha ao desbloquear o número ${number}!`);
         }
 
     });
@@ -554,19 +554,19 @@ $(document).ready(function() {
 
             if(!!data.crud_msg) {
                 $('.nomatch_save').val('');
-                alert(data.crud_msg);
+                my_alert(data.crud_msg);
             }
             else if(!!data.id) { 
                 $('.nomatch_save').val('');
                 reloadMatchList(data);
-                alert(`Mensagem ${!!idx ? 'atualizada' : 'adicionada'} com sucesso!`);
+                my_alert(`Mensagem ${!!idx ? 'atualizada' : 'adicionada'} com sucesso!`);
             }
-            else alert(`Falha ao ${!!idx ? 'atualizar' : 'adicionar'} mensagem!`)
+            else my_alert(`Falha ao ${!!idx ? 'atualizar' : 'adicionar'} mensagem!`)
         }
         else 
         {
             $('.nomatch_save').val('');
-            alert(`Mensagem inválida!`)
+            my_alert(`Mensagem inválida!`)
         }
     });
 
@@ -580,14 +580,14 @@ $(document).ready(function() {
 
         if(!!data.crud_msg) {
             reloadMatchList(data);
-            alert(data.crud_msg);
+            my_alert(data.crud_msg);
         }
         else if(!!data.id) { 
             reloadMatchList(data);
-            alert(`Mensagem excluída com sucesso!`);
+            my_alert(`Mensagem excluída com sucesso!`);
         }
         else {
-            alert(`Falha ao excluir a mensagem!`);
+            my_alert(`Falha ao excluir a mensagem!`);
         }
     });
     
@@ -688,7 +688,7 @@ $(document).ready(function() {
         const cep = $("#inputZip").val().trim();
 
         if(cep.length < 8) {
-            alert('CEP inválido!');
+            my_alert('CEP inválido!');
         }
         else 
         {
@@ -765,7 +765,7 @@ $(document).ready(function() {
         }
 
         if(qrcode_type == 'Wi-Fi' && (!inputData.name || !inputData.pass)) {
-            alert('Para gerar o Código QR do Wi-Fi é necessário informar Nome da Rede e Senha')
+            my_alert('Para gerar o Código QR do Wi-Fi é necessário informar Nome da Rede e Senha')
         }
         else 
         {
@@ -805,12 +805,12 @@ $(document).ready(function() {
 
                 $('.pass_ipt').val("");
                 $('.confirm_pass_ipt').val("");
-                alert(msg_ok);
+                my_alert(msg_ok);
             } else {
-                alert(msg_ng);
+                my_alert(msg_ng);
             } 
         } else {
-            alert(validator);
+            my_alert(validator);
         }
     });
 });
@@ -882,7 +882,7 @@ function insertOpenTime(showAlert)
     try {
         time_list = JSON.parse($(".open_ipt").val().trim());
     } catch (error) {
-        if(!!showAlert) alert("Problemas ao recuperar lista de horários de funcionamento, cadastre novamente para o correto funcionamento!")
+        if(!!showAlert) my_alert("Problemas ao recuperar lista de horários de funcionamento, cadastre novamente para o correto funcionamento!")
     }
 
     if(!!time_list) {
@@ -973,7 +973,7 @@ function mountCommand(data)
     }
     catch(err) {
         items = null;
-        alert("Impressão do Pedido Falhou! Tente novamente e persistindo o erro contate o administrador.");
+        my_alert("Impressão do Pedido Falhou! Tente novamente e persistindo o erro contate o administrador.");
     }
 
     let comanda = "";

@@ -29,7 +29,7 @@
         "MYBASE": "cardapio_4001",
         "MYUSER": "fmdsystem",
         "MYPASS": "B^5%hGf!0&8ytRx2",
-        "CLIENT": "4001",
+        "CLIENT": "4001"
       },
       "error_file": "./logs/whatsapp_4001.err.log",
       "out_file": "./logs/whatsapp_4001.out.log"
