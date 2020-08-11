@@ -198,3 +198,17 @@ Fonte: https://medium.com/studio3engineering/css-for-print-previewing-in-chrome-
 {
     min-height: 550px;
 }
+
+footer .businnes-info {
+  color: #6D7FCC !important;
+}
+
+::-webkit-input-placeholder { /* Edge */
+  color: #DFDFE2 !important;
+}
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+  color: #DFDFE2 !important;
+}
+::placeholder {
+  color: #DFDFE2 !important;
+}

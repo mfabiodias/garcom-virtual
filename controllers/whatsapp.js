@@ -44,7 +44,8 @@ async function getWhatsapp(res, req, type) {
         title: `WhatsApp Ajuste | ${business.name}`,
         business : {
             name: config.app.name,
-            since: config.app.since
+            since: config.app.since, 
+            link: config.app.link
         }
     };
     
@@ -66,7 +67,8 @@ async function getWhatsappChatBot(res, req, type) {
         title: `WhatsApp ChatBot | ${business.name}`,
         business : {
             name: config.app.name,
-            since: config.app.since
+            since: config.app.since, 
+            link: config.app.link
         }
     };
     

@@ -22,7 +22,8 @@ async function getClients(res, req, type) {
         title:  `Cliente | ${business.name}`,
         business : {
             name: config.app.name,
-            since: config.app.since
+            since: config.app.since, 
+            link: config.app.link
         }
     };
 

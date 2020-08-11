@@ -26,9 +26,9 @@
             <table style="height: 40px;">
                 <tbody>
                     <tr>
-                        <td class="align-middle">Desenvolvido por <%- attr.business.name %></td>
-                        <td class="align-middle pt-2" style="font-size:28px;">®</td>
-                        <td class="align-middle"><%- attr.business.since+' ~ '+ (new Date().getFullYear()) + ' - Todos os direitos reservados.' %></td>
+                        <td class="align-middle">
+                            Desenvolvido por <a class="businnes-info" href="<%- attr.business.link; %>" target="_blank"><%- attr.business.name; %></a> - <%- attr.business.since; %> ~ <%- new Date().getFullYear(); %> - Todos os direitos reservados.
+                        </td>
                     </tr>
                 </tbody>
             </table>

@@ -15,7 +15,8 @@ async function getReport(res, req, type)  {
         title: `Relatórios | ${business.name}`,
         business : {
             name: config.app.name,
-            since: config.app.since
+            since: config.app.since, 
+            link: config.app.link
         }
     }; 
     
@@ -24,4 +25,4 @@ async function getReport(res, req, type)  {
 
 module.exports = { 
     getReport
-}
+} 

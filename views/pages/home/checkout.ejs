@@ -51,12 +51,13 @@
                 </div>
 
                 <div class="form-group col-lg-6">
-                    <label for="inputWhatsapp">WhatsApp</label>
+                    <label for="inputWhatsappNumber">WhatsApp</label>
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
                             <span class="input-group-text" >🇧🇷 +55</span>
                         </div>
-                        <input type="number" class="form-control" id="inputWhatsapp" maxlength="11" placeholder="Ex:(11) 93145-4040" required >
+                        <input type="number" class="form-control col-2" id="inputWhatsappDDD" min="11" max="99" placeholder="(11)" required >
+                        <input type="number" class="form-control" id="inputWhatsappNumber" maxlength="9" minlength="8" placeholder="93145-4040" required >
                     </div>
                 </div>
             </div>

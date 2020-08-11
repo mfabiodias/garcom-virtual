@@ -372,6 +372,10 @@ a.article:hover {
     overflow: auto;
 } */
 
+.product-price {
+    color: #707070 !important;
+}
+
 .bootstrap-select .btn {
     background-color:#F97068 !important;
     color: white !important;
@@ -381,3 +385,17 @@ a.article:hover {
     font-size: 16px !important;
 }
 
+
+footer .businnes-info{
+    color: #6D7FCC !important;
+}
+
+::-webkit-input-placeholder { /* Edge */
+    color: #DFDFE2 !important;
+}
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+    color: #DFDFE2 !important;
+}
+::placeholder {
+    color: #DFDFE2 !important;
+}

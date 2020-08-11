@@ -68,7 +68,8 @@ async function getProductList(res, req)  {
         week: helper.bdWeekLabel(business.weekday),
         business : {
             name: config.app.name,
-            since: config.app.since
+            since: config.app.since, 
+            link: config.app.link
         }
     }; 
     
@@ -101,7 +102,8 @@ async function getUserCheckout(res, req)  {
         qtd: 0,
         business : {
             name: config.app.name,
-            since: config.app.since
+            since: config.app.since, 
+            link: config.app.link
         }
     }; 
     

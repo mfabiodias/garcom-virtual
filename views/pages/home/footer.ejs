@@ -17,9 +17,8 @@
       </div>
   </div>
 
-
   <footer class="fixed-bottom d-flex justify-content-around">
-    <span class="d-none d-lg-block pt-3" style="font-size: 1.3em;">Desenvolvido por <%- attr.business.name; %> - 2019 ~ 2020 - Todos os direitos reservados.</span>
+    <span class="d-none d-lg-block pt-3" style="font-size: 1.3em;">Desenvolvido por <a class="businnes-info" href="<%- attr.business.link; %>" target="_blank"><%- attr.business.name; %></a> - <%- attr.business.since; %> ~ <%- new Date().getFullYear(); %> - Todos os direitos reservados.</span>
     <a href="/" class="d-block d-lg-none fas fa-home fa-lg pt-4 mx-2 menulink"></a>
     <a href="/pedidos" class="d-block d-lg-none far fa-list-alt fa-lg pt-4 mx-2 menulink user-hash"></a>
     <a href="/destaque" class="d-block d-lg-none far fa-star fa-lg pt-4 mx-2 menulink"></a>

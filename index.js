@@ -60,6 +60,7 @@ app.get('/:category',     (req, res) => { controller.getProductList(res, req) })
 // Other API Specific Routes
 app.post('/api/whatsapp-restart',       (req, res) => { controller.getWhatsappRestart(res, req) });
 app.get('/api/order',                   (req, res) => { controller.getOrders(res, req) });
+app.get('/api/product-view/:id',        (req, res) => { controller.updateVisited(res, req) });
 app.get('/api/busca-cep/:cep',          (req, res) => { controller.getCepEndereco(res, req) });
 app.post('/api/qrcode/:type',           (req, res) => { controller.getQrCodeData(res, req) });
 app.post('/api/image/:table/:id/:name', (req, res) => { controller.saveImage(res, req) });

@@ -43,7 +43,8 @@ async function getOrders(res, req, type)  {
         title: `Pedido | ${business.name}`,
         business: {
             name: config.app.name,
-            since: config.app.since
+            since: config.app.since, 
+            link: config.app.link
         }
     };
 
@@ -129,6 +130,32 @@ async function insertOrder(res, data) {
     });
 }
 
+async function updateVisited(res, req) {
+    let report = await model.getReport();
+
+    const product_id = req.params.id;
+
+    if(!!product_id)
+    {
+        report.product = reportProduct(report.product);
+    
+        if(!report.product[date].visited[product_id]) 
+        {
+            report.product[date].visited[product_id] = { qty: 0 } 
+        }
+    
+        // Incrementa qtd visitada
+        report.product[date].visited[product_id].qty++;
+    
+        // Salva dados
+        await model.updateReport({
+            product: JSON.stringify(report.product)
+        });
+    }
+
+
+    res.json({status:'processed'});
+}
 
 
 
@@ -224,16 +251,13 @@ const reportUpdateData = async (order_id) => {
 
 const reportOrder = (order) => {
 
-    console.log('ORDER', order);
     try {
         if(!!order) order = JSON.parse(order);
         else order = {};
-        console.log('Entrou no try')
     } catch (error) {
-        console.log('Entrou no catch')
         order = {};
     }
-    console.log('ORDER', order);
+    
     
     if(!!order && !order[date]) {
         order[date] = {
@@ -308,10 +332,7 @@ const reportProduct = (product) => {
     if(!!product && !product[date]) {
         product[date] = {
             visited: {
-                whatsapp  : {}, // { "product_id" : { qty: 0 } } 
-                mesa      : {},
-                website   : {}, 
-                telefone  : {} 
+                // "product_id" : { qty: 0 } 
             },
             sold: {
                 whatsapp : {}, // { "product_id" : { qty: 0, cost: 0 } }
@@ -327,4 +348,4 @@ const reportProduct = (product) => {
 }
 
 
-module.exports = { getOrder, getOrders, insertOrder }
+module.exports = { getOrder, getOrders, insertOrder, updateVisited }

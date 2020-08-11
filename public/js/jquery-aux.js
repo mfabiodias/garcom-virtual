@@ -206,7 +206,10 @@ $(document).ready(function() {
             prinModal = prinModal +         
             '<tr>'+
                 '<td>'+(item.id).toString().str_pad(3, "0", "left", "I")+'</td>'+
-                '<td>'+item.product+'</td>'+
+                '<td>'+
+                    '<div>'+item.product+'</div>'+
+                    '<small class="form-text text-muted">'+(!!item.note.length ? `Obs: ${item.note}` : '')+'</small>'+
+                '</td>'+
                 '<td class="text-right">'+item.price.toString().number_format(2,',','.')+'</td>'+
                 '<td class="text-right">'+parseInt(item.qty)+'</td>'+
                 '<td class="text-right">'+(item.price*item.qty).toString().number_format(2,',','.')+'</td>'+
@@ -791,7 +794,7 @@ $(document).ready(function() {
         {
             url    = `/api/business/1`;
             type   = "PUT";
-            msg_ok = `Loja atualizado com sucesso!`;
+            msg_ok = `Loja atualizada com sucesso!`;
             msg_ng = `Falha ao atualizar Loja, tente novamente e se persistir o erro contate o adminstrador!`;
             
             const data = apiPageData(type, url, inputData);
@@ -992,7 +995,7 @@ function mountCommand(data)
             order_subtotal += (el.price * el.qty);
 
             comanda += `<p>${space(3, el.qty)} x ${space(20, el.name, 'r')} ${space(6, el.price.toString().number_format(2,',','.'))} ${space(6, (el.price * el.qty).toString().number_format(2,',','.'))}</p>`;
-            comanda += !el.note ? '' : `<p>PS: ${space(36, el.note, 'r')}</p>`;
+            comanda += !el.note ? '' : `<p>OBS: ${space(35, el.note, 'r')}</p>`;
         });
 
         const order_tax   = data.tax == 1 ? (order_subtotal * 0.10) : 0;

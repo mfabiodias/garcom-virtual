@@ -3,25 +3,16 @@
 ### ADMIN 
 ++ Criar página de cadastro de pedidos na tela de pedido no admin.  
 ++ Importar lista de contatos do WhatsApp
-+ Criar cadastro de QR Codes
++ Pratos Visitados (Adicionar um contador em Produtos)
++ QR Code para Mesas 
++ Add sininho de alerta nos pedidos
 + Gestão de Filas
 + Gestão de Reservas 
-+ Pratos Visitados (Adicionar um contador em Produtos)
 + Ajustar relatórios e adicionar novos 
-+ QR Code para Mesas 
-+ Ajustar tela de relatório.
-+ Add sininho de alerta nos pedidos
-+ Colocar o print antes da confirmação de OK no alert do client. 
 
 ### Cardápio Virtual 
-+ Criar designer PWA 
-+ Contabilizar clique nos produtos do cardápio e salvar report json 
-+ Add campo de DDD
 
 ### ADMIN e Cardápio Virtual
-+ Modificar js-alert por modal-alert 
-+ Corrigir obs na comanda, nos pedidos no cliente e no Admin 
-+ Adicionar nome e fundação no rodapé dos layouts 
 + Verificar porque login falha no celular
 
 ### WhatsApp
@@ -29,6 +20,8 @@
 + Consultar e criar reservas 
 
 ### Trabalhos concluídos
+- Contabilizar clique nos produtos do cardápio e salvar report json 
+- Modificar js-alert por modal-alert 
 - Adicionar o novo layout no cardapio virtual e finalizar o cadastro de pedido.
 - Criar tela para listagem de pedidos do cliente no cardápio virtual
 - Criar tela de login
@@ -65,6 +58,8 @@
 + Motoboys Loggy 
 + Integração com iFood 
 + Validação de número WPP
++ Criar designer PWA 
++ Adicinar funcionalidade de stars nos produtos - Atualmente laouyt esta comentado, aguardando desenvolvimento
 
 # Template Demo
 + Instalar template https://livewp.site/wp/md/zohar/

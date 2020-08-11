@@ -24,7 +24,8 @@ async function getCampaigns(res, req, type)  {
         title:  `Campanha | ${business.name}`,
         business : {
             name: config.app.name,
-            since: config.app.since
+            since: config.app.since, 
+            link: config.app.link
         }
     };
 

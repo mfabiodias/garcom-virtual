@@ -26,7 +26,8 @@ async function getUserOrders(res, req)  {
         title: business.name,
         business : {
             name: config.app.name,
-            since: config.app.since
+            since: config.app.since, 
+            link: config.app.link
         }
     }; 
 

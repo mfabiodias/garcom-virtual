@@ -20,7 +20,8 @@ async function getProducts(res, req, type)  {
         title: `Produto | ${business.name}`,
         business : {
             name: config.app.name,
-            since: config.app.since
+            since: config.app.since, 
+            link: config.app.link
         }
     };
 

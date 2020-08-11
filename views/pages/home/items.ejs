@@ -23,14 +23,21 @@
                     <table class="table table-sm table-borderless">
                       <tr>
                         <td class="text-left stars">
-                          <i class="fas fa-star text-warning"></i>
-                          <i class="fas fa-star text-warning"></i>
-                          <i class="fas fa-star text-warning"></i>
-                          <i class="fas fa-star-half-alt text-warning"></i>
-                          <i class="far fa-star text-warning"></i>
+                          <% if (1==2) { %>
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star-half-alt text-warning"></i>
+                            <i class="far fa-star text-warning"></i>
+                          <% } %>
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
+                            <i class="fas fa-star text-warning"></i>
                         </td>
                         <td class="text-right stars">
-                          <strong><%= helper.number_format(product.price,2,',','.'); %></strong>
+                          <strong class="product-price"><%= helper.number_format(product.price,2,',','.'); %></strong>
                         </td>
                       </tr>
                     </table>

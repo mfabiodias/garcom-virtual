@@ -145,6 +145,12 @@ $(document).ready(function() {
         $("#itemModalTitle").html(`<h5>${product}</h5>`);
         $("#itemModalImage").html(`<img src="${image}" alt="${product}" title="${product}" class="img-fluid" style="min-height: 220px!important; max-height: 220px!important;">`);
         $("#itemModalDescription").html(`${description}`);
+
+        // Envia post para contabilizar
+        // http://localhost:3009/api/product-view/3
+
+        const url  = `/api/product-view/${tabid}`;
+        apiPageData("GET", url, {});
     });
 
     // Adiciona item ao carrinho
@@ -401,7 +407,7 @@ $(document).ready(function() {
         const inputData = encodeURIComponent(JSON.stringify({
             client: {
                 name:   $("#inputName").val(),
-                number: $("#inputWhatsapp").val()
+                number: $("#inputWhatsappDDD").val()+$("#inputWhatsappNumber").val()
             },
             delivery: {
                 zip:          $("#inputZip").val(),
@@ -432,20 +438,18 @@ $(document).ready(function() {
         {
             url    = `/api/order`;
             type   = "POST";
-            msg_ok = `Pedido XXX realizado com sucesso!`;
-            msg_ng = `Falha ao finalizar seu pedido, tente novamente!`;   
     
             const data = apiPageData(type, url, { data: inputData });
                 
             if(data.success == true)
             {
+                // Notificar ADMIN do restaurante para imprimir comanda
+                socket.emit('send_command', data.order_id); 
+                
                 printCart([]);
 
                 sessionStorage.setItem("user_hash", JSON.stringify(data.user_hash));
                 localStorage.setItem("user_hash", JSON.stringify(data.user_hash));
-
-                // Notificar ADMIN do restaurante para imprimir comanda
-                socket.emit('send_command', data.order_id); 
                 
                 my_alert(`Seu pedido Num.: ${data.order_label} foi realizado com sucesso!\n\nNosso tempo médio de entrega é de ${data.order_wait} minutos.`);
 
@@ -491,7 +495,10 @@ $(document).ready(function() {
                 <tr>
                     <td class="align-middle text-right">${el.qty}</td>
                     <td class="align-middle">X</td>
-                    <td class="align-middle">${el.name || 'Produto - '+ el.id}</td>
+                    <td class="align-middle">
+                        <div>${el.name || 'Produto - '+ el.id}</div>
+                        <small class="form-text text-muted">${!!el.note.length ? 'Obs: '+el.note : ''}</small>
+                    </td>
                     <td class="align-middle text-right">${parseFloat(el.price).toFixed(2).replace('.',',')}</td>
                     <td class="align-middle text-right">${(parseFloat(el.qty) * parseFloat(el.price)).toFixed(2).replace('.',',')}</td>
                 </tr>
@@ -810,7 +817,7 @@ function validateCheckout(inputData)
         return `Você deve informar "Seu Nome Completo" para realizar seu pedido!`;
     }
     else if((checkData.client.number.trim().replace(/[^0-9]/g,'')).length < 10) {
-        return `Você deve informar "Seu Número de Whatsapp/Celular" corretamente para realizar seu pedido!`;
+        return `Você deve informar "Seu Número de Whatsapp/Celular" com DDD corretamente para realizar seu pedido!`;
     }
     else if(checkData.order.method == 'entregar' && (!checkData.delivery.zip.trim() 
         || !checkData.delivery.street.trim() || !checkData.delivery.number.trim() 

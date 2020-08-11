@@ -19,7 +19,8 @@ async function getMailings(res, req, type) {
         title: `Lista Envio | ${business.name}`,
         business : {
             name: config.app.name,
-            since: config.app.since
+            since: config.app.since, 
+            link: config.app.link
         }
     };
     

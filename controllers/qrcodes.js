@@ -19,7 +19,8 @@ async function getQrCode(res, req, type) {
         title:  `Configuração da Códigos QR | ${business.name}`,
         business : {
             name: config.app.name,
-            since: config.app.since
+            since: config.app.since, 
+            link: config.app.link
         }
     };
     
