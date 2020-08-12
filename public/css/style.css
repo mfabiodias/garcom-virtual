@@ -212,3 +212,21 @@ footer .businnes-info {
 ::placeholder {
   color: #DFDFE2 !important;
 }
+
+
+.report-receitas { background-image: url("/image/receitas.png");  }
+.report-vendidos { background-image: url("/image/vendidos.png");  }
+.report-pedidos { background-image: url("/image/pedidos.png");  }
+.report-ticket   { background-image: url("/image/ticket.png");  }
+
+.report-receitas, .report-vendidos, .report-pedidos, .report-ticket { 
+  width: 100%;
+  height: 130px;
+  background-repeat: no-repeat;
+  background-size: contain;
+  color: #DFDFE2 !important;
+  padding-top: 30px !important;
+  padding-left: 23px !important;
+  font-size: 20px !important;
+}
+

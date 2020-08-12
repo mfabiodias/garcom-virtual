@@ -3,17 +3,17 @@
 ### ADMIN 
 ++ Criar página de cadastro de pedidos na tela de pedido no admin.  
 ++ Importar lista de contatos do WhatsApp
-+ Pratos Visitados (Adicionar um contador em Produtos)
 + QR Code para Mesas 
-+ Add sininho de alerta nos pedidos
 + Gestão de Filas
 + Gestão de Reservas 
++ Add sininho de alerta nos pedidos
 + Ajustar relatórios e adicionar novos 
 
 ### Cardápio Virtual 
 
 ### ADMIN e Cardápio Virtual
-+ Verificar porque login falha no celular
++ Verificar porque login falha no celular 
++ Melhorar ver produtos do cliente e add nome e tel nos campos de compra se cliente for recorrente
 
 ### WhatsApp
 + Informar mesas livres

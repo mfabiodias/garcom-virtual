@@ -29,7 +29,7 @@ module.exports = {
     },
     app: {
         name: "Gestor Virtual",
-        since: 2018, 
+        since: 2019, 
         link: "https://gestorvirtual.net.br"
     }
 }

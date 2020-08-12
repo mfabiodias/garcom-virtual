@@ -28,91 +28,110 @@
 }
 </style>
 
+<input id="piechart_1_data" type="hidden" value="<%= encodeURIComponent(JSON.stringify(report.product)) %>">
+<input id="columnchart_1_data" type="hidden" value="<%= encodeURIComponent(JSON.stringify(report.payment)) %>">
+<input id="columnchart_2_data" type="hidden" value="<%= encodeURIComponent(JSON.stringify(report.delivery)) %>">
+
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
 <script type="text/javascript">
+
+    const product = JSON.parse(decodeURIComponent(document.getElementById("piechart_1_data").value));
+
     google.charts.load('current', {'packages':['corechart']});
-    google.charts.setOnLoadCallback(drawChart);
+    google.charts.setOnLoadCallback(drawChartPie);
 
-    function drawChart() {
+    function drawChartPie() {
+    
+        const type1   = document.getElementById("piechart_1_type").value;
+        const type2   = document.getElementById("piechart_2_type").value;
 
-        var data1 = google.visualization.arrayToDataTable([
-            ['Vendas',   'Vendas por Dia'],
-            ['Feijoada',               11],
-            ['Parmegiana',              6],
-            ['Bife Acebolado',          7],
-            ['Panquecas',               2],
-            ['Filé de Peixe',           2]
-        ]);
-        
-        var data2 = google.visualization.arrayToDataTable([
-            ['Visitas', 'Visualização por Dia'],
-            ['Parmegiana',                  29],
-            ['Feijoada',                    22],
-            ['Panquecas',                   12],
-            ['Filé de Peixe',               10],
-            ['Bife Acebolado',               7]
-        ]);
+        const visited = product[type1 || "month"].visited;
+        const sold    = product[type2 || "month"].sold;
+
+        var data1 = google.visualization.arrayToDataTable(visited);
+        var data2 = google.visualization.arrayToDataTable(sold);
 
         var options1 = {
-            title: 'Pratos Vendidos',
+            backgroundColor: 'transparent',
+            title: 'Top 5 - Produtos Visitados',
             is3D: true, 
             titleTextStyle:{ color: '#999999', fontSize: 16 },
             slices: {0:{color: '#95B871'}, 1: {color: '#636AB8'}, 2:{color: '#F16A6A'}, 3: {color: '#D7A442'}, 4:{color: '#7DA2EE'}}
         };
 
         var options2 = {
-            title: 'Pratos Visitados',
+            backgroundColor: 'transparent',
+            title: 'Top 5 - Produtos Vendidos',
             is3D: true, 
             titleTextStyle:{ color: '#999999', fontSize: 16 },
             slices: {0: {color: '#636AB8'}, 1:{color: '#95B871'}, 2:{color: '#D7A442'}, 3: {color: '#7DA2EE'}, 4:{color: '#F16A6A'}}
         };
 
-      var chart1 = new google.visualization.PieChart(document.getElementById('piechart-1'));
-      var chart2 = new google.visualization.PieChart(document.getElementById('piechart-2'));
+        if(data1.getNumberOfRows() == 0) {
+            $("#piechart_1").text("Poxa, hoje não foi realizada nenhum venda ainda 😔!")
+        }
+        else {
+            var chart1 = new google.visualization.PieChart(document.getElementById('piechart_1'));   
+            chart1.draw(data1, options1);
+        }
 
-      chart1.draw(data1, options1);
-      chart2.draw(data2, options2);
+        if(data2.getNumberOfRows() == 0) {
+            $("#piechart_2").text("Poxa, ainda não registramos nenhuma visita 😔!")
+        }
+        else {
+            var chart2 = new google.visualization.PieChart(document.getElementById('piechart_2'));  
+            chart2.draw(data2, options2);
+        }
     }
 </script>
 
 <script type="text/javascript">
-    google.charts.load("current", {packages:['corechart']});
-    google.charts.setOnLoadCallback(drawChart);
-    
-    function drawChart() {
-        var data1 = google.visualization.arrayToDataTable([
-        ["Método", "R$ ", { role: "style" } ],
-        ["Crédito", 1245.94, "#7DA2EE"],
-        ["Débito", 410.49, "#D7A442"],
-        ["Voucher", 129.30, "#95B871"],
-        ["Online", 782.29, "#636AB8'"]
-        ]);
 
-        var data2 = google.visualization.arrayToDataTable([
-        ["Método", "R$ ", { role: "style" } ],
-        ["WhatsApp", 725.94, "#7DA2EE"],
-        ["Menu Virtual", 1210.49, "#D7A442"],
-        ["Site", 209.30, "#95B871"],
-        ["Telefone", 422.29, "#636AB8'"]
-        ]);
+    const payment  = JSON.parse(decodeURIComponent(document.getElementById("columnchart_1_data").value));
+    const delivery = JSON.parse(decodeURIComponent(document.getElementById("columnchart_2_data").value));
+
+    google.charts.load("current", {packages:['corechart']});
+    google.charts.setOnLoadCallback(drawChartBar);
+    
+    function drawChartBar() {
+
+        const type1   = document.getElementById("columnchart_1_type").value;
+        const type2   = document.getElementById("columnchart_2_type").value;
+        const type3   = document.getElementById("columnchart_3_type").value;
+        const type4   = document.getElementById("columnchart_4_type").value;
+
+        const type     = payment[type1 || "month"].type;
+        const origin   = payment[type2 || "month"].origin;
+        const qty      = delivery[type3 || "month"].qty;
+        const cost     = delivery[type3 || "month"].cost;
+
+        var data1 = google.visualization.arrayToDataTable(type);
+        var data2 = google.visualization.arrayToDataTable(origin);
+        var data3 = google.visualization.arrayToDataTable(qty);
+        var data4 = google.visualization.arrayToDataTable(cost);
 
         var formatter = new google.visualization.NumberFormat({decimalSymbol: ',',groupingSymbol: '.', negativeColor: 'red', negativeParens: true, prefix: ''});
         formatter.format(data1, 1);
         formatter.format(data2, 1);
+        formatter.format(data3, 1);
+        formatter.format(data4, 1);
 
         var view1 = new google.visualization.DataView(data1);
         var view2 = new google.visualization.DataView(data2);
+        var view3 = new google.visualization.DataView(data3);
+        var view4 = new google.visualization.DataView(data4);
         
         view1.setColumns([0, 1,
-            { 
-                calc: "stringify",
-                sourceColumn: 1,
-                type: "string",
-                role: "annotation" },
-            2]);
+        { 
+            calc: "stringify",
+            sourceColumn: 1,
+            type: "string",
+            role: "annotation" },
+        2]);
 
-            var options1 = {
+        var options1 = {
+            backgroundColor: 'transparent',
             title: "Receita X Forma Pagamento",
             width: 600,
             height: 400,
@@ -123,14 +142,15 @@
         };
 
         view2.setColumns([0, 1,
-            { 
-                calc: "stringify",
-                sourceColumn: 1,
-                type: "string",
-                role: "annotation" },
-            2]);
+        { 
+            calc: "stringify",
+            sourceColumn: 1,
+            type: "string",
+            role: "annotation" },
+        2]);
 
-            var options2 = {
+        var options2 = {
+            backgroundColor: 'transparent',
             title: "Receita X Canais de Venda",
             width: 600,
             height: 400,
@@ -140,99 +160,206 @@
             vAxis: { format: '#.###' }, 
         };
 
-        var chart1 = new google.visualization.ColumnChart(document.getElementById("columnchart_values_1"));
-        var chart2 = new google.visualization.ColumnChart(document.getElementById("columnchart_values_2"));
-        
-        chart1.draw(view1, options1);
-        chart2.draw(view2, options2);
+        view3.setColumns([0, 1,
+        { 
+            calc: "stringify",
+            sourceColumn: 1,
+            type: "string",
+            role: "annotation" },
+        2]);
+
+        var options3 = {
+            backgroundColor: 'transparent',
+            title: "Entregas - Quantidades",
+            width: 600,
+            height: 400,
+            titleTextStyle:{ color: '#999999', fontSize: 16 },
+            bar: {groupWidth: "95%"},
+            legend: { position: "none" },
+            vAxis: { format: '#.###' }, 
+        };
+
+        view4.setColumns([0, 1,
+        { 
+            calc: "stringify",
+            sourceColumn: 1,
+            type: "string",
+            role: "annotation" },
+        2]);
+
+        var options4 = {
+            backgroundColor: 'transparent',
+            title: "Entregas - Valor",
+            width: 600,
+            height: 400,
+            titleTextStyle:{ color: '#999999', fontSize: 16 },
+            bar: {groupWidth: "95%"},
+            legend: { position: "none" },
+            vAxis: { format: '#.###' }, 
+        };
+
+
+        if(data1.getNumberOfRows() == 0) {
+            $("#columnchart_values_1").text("Poxa, hoje não recebemos nenhum pagamento ainda 😔!")
+        }
+        else {
+            var chart1 = new google.visualization.ColumnChart(document.getElementById("columnchart_values_1"));
+            chart1.draw(view1, options1);
+        }
+
+        if(data2.getNumberOfRows() == 0) {
+            $("#columnchart_values_2").text("Poxa, hoje não recebemos pagamento por nenhum canal ainda 😔!")
+        }
+        else {
+            var chart2 = new google.visualization.ColumnChart(document.getElementById("columnchart_values_2"));
+            chart2.draw(view2, options2);    
+        }
+
+        if(data3.getNumberOfRows() == 0) {
+            $("#columnchart_values_3").text("Poxa, hoje não realizamos nenhuma entrega😔!")
+        }
+        else {
+            var chart3 = new google.visualization.ColumnChart(document.getElementById("columnchart_values_3"));
+            chart3.draw(view3, options3);    
+        }
+
+        if(data4.getNumberOfRows() == 0) {
+            $("#columnchart_values_4").text("Poxa, hoje não recebemos pagamemnto por nenhuma entrega 😔!")
+        }
+        else {
+            var chart4 = new google.visualization.ColumnChart(document.getElementById("columnchart_values_4"));
+            chart4.draw(view4, options4);    
+        }
     }
 
 </script>
 
-<main role="main" class="h-100 d-flex">
-    <div class="container">
-        <!-- 
-
-        ################
-        ### Objetivo ###
-        ################
-        Para todos abaixo, ter a opçao dia/semana/mês
-        
-            Gráfico de Pizza mostrando a variedade de 'produtos' vendidos 
-            Faturamento Diário (Gráfico de Linhas)
-            Dias e horários com maior volume de vendas;
-            Satisfação do Cliente
+<div class="container-fluid my-5 pl-5">
+    <!-- 
+    ################
+    ### Objetivo ###
+    ################
+    Para todos abaixo, ter a opçao dia/semana/mês
+    
+        Gráfico de Pizza mostrando a variedade de 'produtos' vendidos 
+        Faturamento Diário (Gráfico de Linhas)
+        Dias e horários com maior volume de vendas;
+        Satisfação do Cliente
 
 
-        ############
-        ### Meta ###
-        ############
-            Número de Vendas
-            Faturamento por Forma de Pagamento
-            Valor Total de Vendas Realizadas
-            Ticket Médio de Vendas
-            Produto mais vendido / mais vistos 
-            Número de visitas e ligação
-        
-        
-        ########################################
-        ### Não entendi ou deixar pra depois ###
-        ########################################
-        Número de clientes pendentes
-        Taxa conversão na pré venda
-        Produtos com maior reclamação
+    ############
+    ### Meta ###
+    ############
+        Número de Vendas
+        Faturamento por Forma de Pagamento
+        Valor Total de Vendas Realizadas
+        Ticket Médio de Vendas
+        Produto mais vendido / mais vistos 
+        Número de visitas e ligação
+    
+    
+    ########################################
+    ### Não entendi ou deixar pra depois ###
+    ########################################
+    Número de clientes pendentes
+    Taxa conversão na pré venda
+    Produtos com maior reclamação
+    -->
 
-        -->
-
-        <h4 style="color:#999999 ;" class="pl-md-0 pl-5 mt-4">Seja bem vindo Food! Veja o desempenho de hoje: </h4>
-        <div class="row my-md-4 pl-md-0 pl-5">
-            <div class="col-12">
-                <img src="/image/chart1.png" alt="" class="img-fluid">
+    <h4 style="color:#999999 ;" class="pt-5 pb-3 pl-2">Desempenho de hoje:</h4>
+    <div class="row pl-2">
+        <div class="col-lg-3 col-12 my-2 my-lg-0">
+            <div class="report-receitas">
+                R$ <%- report.daily.receita; %>
             </div>
         </div>
-        <div class="row my-md-4">
-            <div class="col-md-6 col-12 my-md-0 mt-4">
-                <div class="btn-group pl-md-0 pl-5" role="group" aria-label="Basic example">
-                    <button type="button" class="btn btn-sm btn-danger">Diário</button>
-                    <button type="button" class="btn btn-sm btn-outline-danger">Semanal</button>
-                    <button type="button" class="btn btn-sm btn-outline-danger">Mensal</button>
-                </div>
-                <div id="piechart-1" style="width: 500px; height: 300px;"></div>
-            </div>
-            <div class="col-md-6 col-12 my-md-0 mt-4">
-                <div class="btn-group pl-md-0 pl-5" role="group" aria-label="Basic example">
-                    <button type="button" class="btn btn-sm btn-danger">Diário</button>
-                    <button type="button" class="btn btn-sm btn-outline-danger">Semanal</button>
-                    <button type="button" class="btn btn-sm btn-outline-danger">Mensal</button>
-                </div>
-                <div id="piechart-2" style="width: 500px; height: 300px;"></div>
+        <div class="col-lg-3 col-12 my-2 my-lg-0">
+            <div class="report-vendidos">
+                <%- report.daily.item; %>
             </div>
         </div>
-        <div class="row my-md-4">
-            <div class="col-md-6 col-12 my-md-0 my-5">
-                <div class="btn-group pl-md-0 pl-5" role="group" aria-label="Basic example">
-                    <button type="button" class="btn btn-sm btn-danger">Diário</button>
-                    <button type="button" class="btn btn-sm btn-outline-danger">Semanal</button>
-                    <button type="button" class="btn btn-sm btn-outline-danger">Mensal</button>
-                </div>
-                <div id="columnchart_values_1" style="width: 500px; height: 300px;"></div>
-            </div>
-            <div class="col-md-6 col-12 my-md-0 my-5">
-                <div class="btn-group pl-md-0 pl-5" role="group" aria-label="Basic example">
-                    <button type="button" class="btn btn-sm btn-danger">Diário</button>
-                    <button type="button" class="btn btn-sm btn-outline-danger">Semanal</button>
-                    <button type="button" class="btn btn-sm btn-outline-danger">Mensal</button>
-                </div>
-                <div id="columnchart_values_2" style="width: 500px; height: 300px;"></div>
+        <div class="col-lg-3 col-12 my-2 my-lg-0">
+            <div class="report-pedidos">
+                <%- report.daily.pedido; %>
             </div>
         </div>
-        <div class="row my-md-4">
-            <div class="col-12 my-5"></div>
+        <div class="col-lg-3 col-12 my-2 my-lg-0">
+            <div class="report-ticket">
+                R$ <%- report.daily.ticket; %>
+            </div>
         </div>
-        
-        <!-- <h6 style="color:#999999 ;" class="my-md-4">Pratos Vendidos</h6> -->
-        
     </div>
-</main>
+    
+    <div class="row pl-2 my-3">
+        <div class="col-md-6 col-12">
+            <div class="btn-group pt-4 pb-2" role="group" aria-label="Basic example">
+                <button type="button" class="btn btn-sm report_product_view btn-outline-danger" data-type="day">Diário</button>
+                <button type="button" class="btn btn-sm report_product_view btn-outline-danger" data-type="week">Semanal</button>
+                <button type="button" class="btn btn-sm report_product_view btn-danger" data-type="month">Mensal</button>
+                <input type="hidden" id="piechart_1_type" value="month">
+            </div>
+            <div id="piechart_1" style="width: 600px; height: 300px;"></div>
+        </div>
+        <div class="col-md-6 col-12">
+            <div class="btn-group pt-4 pb-2" role="group" aria-label="Basic example">
+                <button type="button" class="btn btn-sm report_product_solt btn-outline-danger" data-type="day">Diário</button>
+                <button type="button" class="btn btn-sm report_product_solt btn-outline-danger" data-type="week">Semanal</button>
+                <button type="button" class="btn btn-sm report_product_solt btn-danger" data-type="month">Mensal</button>
+                <input type="hidden" id="piechart_2_type" value="month">
+            </div>
+            <div id="piechart_2" style="width: 600px; height: 300px;"></div>
+        </div>
+    </div>
+    
+    <div class="row pl-2 my-5">
 
+        <div class="col-md-6 col-12">
+            <div class="btn-group pt-4 pb-2" role="group" aria-label="Basic example">
+                <button type="button" class="btn btn-sm report_payment_type btn-outline-danger" data-type="day">Diário</button>
+                <button type="button" class="btn btn-sm report_payment_type btn-outline-danger" data-type="week">Semanal</button>
+                <button type="button" class="btn btn-sm report_payment_type btn-danger" data-type="month">Mensal</button>
+                <input type="hidden" id="columnchart_1_type" value="month">
+            </div>
+            <div id="columnchart_values_1" style="width: 600px; height: 300px;"></div>
+        </div>
+        <div class="col-md-6 col-12">
+            <div class="btn-group pt-4 pb-2" role="group" aria-label="Basic example">
+                <button type="button" class="btn btn-sm report_payment_origin btn-outline-danger" data-type="day">Diário</button>
+                <button type="button" class="btn btn-sm report_payment_origin btn-outline-danger" data-type="week">Semanal</button>
+                <button type="button" class="btn btn-sm report_payment_origin btn-danger" data-type="month">Mensal</button>
+                <input type="hidden" id="columnchart_2_type" value="month">
+            </div>
+            <div id="columnchart_values_2" style="width: 600px; height: 300px;"></div>
+        </div>
+
+    </div>
+
+    <div class="row pl-2 my-5">
+
+        <div class="col-md-6 col-12">
+            <div class="btn-group pt-4 pb-2" role="group" aria-label="Basic example">
+                <button type="button" class="btn btn-sm report_delivery_cost btn-outline-danger" data-type="day">Diário</button>
+                <button type="button" class="btn btn-sm report_delivery_cost btn-outline-danger" data-type="week">Semanal</button>
+                <button type="button" class="btn btn-sm report_delivery_cost btn-danger" data-type="month">Mensal</button>
+                <input type="hidden" id="columnchart_3_type" value="month">
+            </div>
+            <div id="columnchart_values_3" style="width: 600px; height: 300px;"></div>
+        </div>
+        <div class="col-md-6 col-12">
+            <div class="btn-group pt-4 pb-2" role="group" aria-label="Basic example">
+                <button type="button" class="btn btn-sm report_delivery_qty btn-outline-danger" data-type="day">Diário</button>
+                <button type="button" class="btn btn-sm report_delivery_qty btn-outline-danger" data-type="week">Semanal</button>
+                <button type="button" class="btn btn-sm report_delivery_qty btn-danger" data-type="month">Mensal</button>
+                <input type="hidden" id="columnchart_4_type" value="month">
+            </div>
+            <div id="columnchart_values_4" style="width: 600px; height: 300px;"></div>
+        </div>
+
+    </div>
+
+    <div class="row pl-2 my-5">
+        &nbsp;
+    </div>
+    
+</div>
 <%- include('footer.ejs') %>

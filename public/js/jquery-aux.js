@@ -816,6 +816,54 @@ $(document).ready(function() {
             my_alert(validator);
         }
     });
+
+    $(".report_product_view").on('click', function(){
+        $(".report_product_view").addClass('btn-outline-danger').removeClass('btn-danger');
+        $(this).removeClass('btn-outline-danger').addClass('btn-danger');
+
+        $("#piechart_1_type").val($(this).attr("data-type"));
+        drawChartPie();
+    });
+
+    $(".report_product_solt").on('click', function(){
+        $(".report_product_solt").addClass('btn-outline-danger').removeClass('btn-danger');
+        $(this).removeClass('btn-outline-danger').addClass('btn-danger');
+
+        $("#piechart_2_type").val($(this).attr("data-type"));
+        drawChartPie();
+    });
+
+    $(".report_payment_type").on('click', function(){
+        $(".report_payment_type").addClass('btn-outline-danger').removeClass('btn-danger');
+        $(this).removeClass('btn-outline-danger').addClass('btn-danger');
+
+        $("#columnchart_1_type").val($(this).attr("data-type"));
+        drawChartBar();
+    });
+
+    $(".report_payment_origin").on('click', function(){
+        $(".report_payment_origin").addClass('btn-outline-danger').removeClass('btn-danger');
+        $(this).removeClass('btn-outline-danger').addClass('btn-danger');
+
+        $("#columnchart_2_type").val($(this).attr("data-type"));
+        drawChartBar();
+    });
+
+    $(".report_delivery_cost").on('click', function(){
+        $(".report_delivery_cost").addClass('btn-outline-danger').removeClass('btn-danger');
+        $(this).removeClass('btn-outline-danger').addClass('btn-danger');
+
+        $("#columnchart_3_type").val($(this).attr("data-type"));
+        drawChartBar();
+    });
+
+    $(".report_delivery_qty").on('click', function(){
+        $(".report_delivery_qty").addClass('btn-outline-danger').removeClass('btn-danger');
+        $(this).removeClass('btn-outline-danger').addClass('btn-danger');
+
+        $("#columnchart_4_type").val($(this).attr("data-type"));
+        drawChartBar();
+    });
 });
 
 

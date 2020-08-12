@@ -126,6 +126,11 @@ const ExportFunction = {
         else return false;
     },
     date: (date, format) => dateFormat(date, format),
+    addDays: (date, days) => {
+        let result = new Date(date);
+        result.setDate(result.getDate() + days);
+        return result;
+    },
     tag_name: (filename) => {
         filename = filename.normalize('NFD').replace(/[\u0300-\u036f]/g, "");
         filename = filename.replace(/[^A-Za-z0-9-]/gi,' ');

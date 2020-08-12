@@ -132,6 +132,7 @@ async function insertOrder(res, data) {
 
 async function updateVisited(res, req) {
     let report = await model.getReport();
+    report = report[0][0];
 
     const product_id = req.params.id;
 
@@ -163,6 +164,7 @@ const reportUpdateData = async (order_id) => {
     
     let order  = await model.getOrder(order_id);
     let report = await model.getReport();
+    report = report[0][0];
 
     // try {
     //     report = JSON.parse(report)
@@ -230,9 +232,8 @@ const reportUpdateData = async (order_id) => {
             report.delivery[date].others.cost += price;
         }
 
-        report.order[date].cliente.qty++;
+        report.order[date].pedido.qty++;
         report.order[date].item.qty += items.length;
-
 
         // Salva dados
         await model.updateReport({
@@ -242,11 +243,6 @@ const reportUpdateData = async (order_id) => {
             delivery: JSON.stringify(report.delivery),
         });
     }
-
-    // console.log(report.order[date]);
-    // console.log(report.payment[date]);
-    // console.log(report.delivery[date]);
-    // console.log(report.product[date].sold);
 }
 
 const reportOrder = (order) => {
@@ -261,10 +257,10 @@ const reportOrder = (order) => {
     
     if(!!order && !order[date]) {
         order[date] = {
-            consumir : { qty: 0, cost: 0.0 },
-            retirar  : { qty: 0, cost: 0.0 },
-            entregar : { qty: 0, cost: 0.0 },
-            cliente  : { qty: 0 },
+            consumir : { qty: 0, cost: 0 },
+            retirar  : { qty: 0, cost: 0 },
+            entregar : { qty: 0, cost: 0 },
+            pedido   : { qty: 0 },
             item     : { qty: 0 }
         }
     }
