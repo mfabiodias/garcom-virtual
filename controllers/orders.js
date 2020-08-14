@@ -5,7 +5,7 @@ const date   = helper.date(new Date, 'yyyy-mm-dd').toString();
 
 async function getOrder(res, parId)  {
 
-    let business  = await model.getBusiness();
+    let business = await model.getBusiness();
     business = business[0][0];
 
     const order = await model.getOrder(parId);
@@ -16,6 +16,18 @@ async function getOrder(res, parId)  {
         order.date  = helper.date(order.created_at, "dd/mm/yyyy");
         order.time  = helper.date(order.created_at, "HH:MM");
         order.tax   = business.order_tax;
+
+        if(!!order.client_id) { 
+            order.adresses = await model.getAddressAll({ client_id: order.client_id });
+
+            order.adresses = order.adresses.map(el => {
+                if(order.address_id == el.id) el.order_delivery = true;
+                else el.order_delivery = false;
+                return el;
+            });
+        } else {
+            order.adresses = [];
+        }
     }
 
     res.json(order);
@@ -25,13 +37,13 @@ async function getOrders(res, req, type)  {
 
     let orders    = await model.getOrders();
     let products  = await model.getProducts();
+    let clients   = await model.getClients();
     let employees = await model.getEmployees();
+    let items     = await model.getProducts();
     let business  = await model.getBusiness();
     business = business[0][0];
 
-    // console.log(business.order_tax);
-
-    orders = helper.orderTotal(orders, products, employees);
+    orders = await helper.orderTotal(orders, products, employees);
     
     let attr = {
         user: business.name,
@@ -48,8 +60,69 @@ async function getOrders(res, req, type)  {
         }
     };
 
-    if(!!type && type == 'admin') res.render('./pages/admin/order', { rows:orders, helper, attr, business });
+    if(!!type && type == 'admin') res.render('./pages/admin/order', { rows:orders, helper, attr, business, items, clients, employees });
     else res.json(orders);
+}
+
+async function insertOrderAdmin(res, req) { 
+
+    const data = helper.objectEmpty(req.body);
+
+    let order_id;
+    let validate = validateOrder(data);
+
+    if(validate === true) {
+        if(!data.status) { data.status = 1; }
+        if(!data.delivery) { data.delivery = 0; }
+        if(!data.discount) { data.discount = 0; }
+        order_id = await model.insertOrder(data);
+    }
+
+    if(!!order_id) reportUpdateData(order_id);
+
+    res.json({ 
+        id: (!!order_id ? order_id : 0), 
+        success: (!!order_id ? true : false), 
+        msg: (!!order_id ? `Pedido ${helper.str_pad((order_id || ""), 4, "0", "left", "P")} cadastrado com sucesso!` : validate)
+    });
+}
+
+async function updateOrderAdmin(res, req) { 
+
+    const order_id = req.params.id;
+    const data = helper.objectEmpty(req.body);
+
+    let uptRtn;
+    if(!!order_id)
+    {
+        if(!data.sync) 
+        {
+            let validate = validateOrder(data);
+            
+            if(validate === true) {
+                if(!data.status) { data.status = 1; }
+                if(!data.delivery) { data.delivery = 0; }
+                if(!data.discount) { data.discount = 0; }
+                uptRtn = await model.updateOrder(order_id, data);
+            }
+    
+            // Precisa apensa adiconar os novos itens e não tudo... COMO FAZER?
+            // Primeiro remover tudo e adicionar os novos???
+            // reportUpdateData(order_id);
+        }
+        else 
+        {
+            delete data.sync;
+            uptRtn = await model.updateOrder(order_id, data);
+        }
+
+    }
+
+    res.json({ 
+        id: (!!uptRtn ? uptRtn : 0), 
+        success: (!!uptRtn ? true : false), 
+        msg: (!!uptRtn ? `Pedido ${helper.str_pad((order_id || ""), 4, "0", "left", "P")} atualizado com sucesso!` : validate)
+    });
 }
 
 async function insertOrder(res, data) { 
@@ -67,7 +140,6 @@ async function insertOrder(res, data) {
     let client_id;
     const client = await model.getClientBy({ mobile: data.client.number });
 
-
     if(!client) {
         client_id = await model.insertClient({
             name:          data.client.name,
@@ -80,7 +152,7 @@ async function insertOrder(res, data) {
     }
 
     // Verifica se existe endereço para atualizar ou adiciona um novo 
-    const address = await model.getAddresstBy({ client_id, zip: data.delivery.zip });
+    const address = await model.getAddressBy({ client_id, zip: data.delivery.zip });
 
 
     if(!!address) {
@@ -159,6 +231,17 @@ async function updateVisited(res, req) {
 }
 
 
+const validateOrder = function(data) {
+    let message = true;
+    
+    if(!data.items) { message = 'Nenhum item encontrado no pedido!' }
+    else if(!data.client_id) { message = 'Cliente não foi informano no pedido!' }
+    else if(!data.type) { message = 'Tipo de pedido não informado!' }
+    else if(!data.origin) { message = 'Origem do pedido não informado!' }
+    else if(!data.payment_type) { message = 'Tipo de pagamento do pedido não informado!' }
+
+    return message;
+}
 
 const reportUpdateData = async (order_id) => {
     
@@ -344,4 +427,4 @@ const reportProduct = (product) => {
 }
 
 
-module.exports = { getOrder, getOrders, insertOrder, updateVisited }
+module.exports = { getOrder, getOrders, insertOrder, insertOrderAdmin, updateOrderAdmin, updateVisited }

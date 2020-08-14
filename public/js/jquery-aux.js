@@ -22,6 +22,34 @@ $(document).ready(function() {
         printCommand(tab_id);
     });
 
+    
+    // Abre popover para inserir obs do item do pedido
+    $('#order_item_list').on('click', '.popover_order', function() { 
+        $(this).popover('toggle');
+    });
+
+
+    $('#order_item_list').on('change', '.order_item_qty', function() { 
+        const qty   = $(this).val(); 
+        const tabid = $(this).attr('data-idx'); 
+        $(`#order_item_${tabid}`).attr('data-qty', qty);
+
+        let qtyVal = parseFloat($(`#order_item_${tabid}`).attr('data-val') * qty);
+        qtyVal = !!qtyVal ? qtyVal.toFixed(2).replace('.',',') : false;
+
+        if(qtyVal !== false) {
+            $(`#item_val_qty_${tabid}`).text(qtyVal);
+        }
+
+        printCart();
+    });
+
+    $('.discount_ipt, .delivery_ipt').on('change blur paste textInput input', function() { 
+        printCart();
+    });
+
+
+
     // Modal UPSERT All
     $('#modalUpsert').on('show.bs.modal', function (event) 
     {
@@ -50,7 +78,7 @@ $(document).ready(function() {
 
             $("#modal_submit span").text(btn);
 
-            inputData(modal, data, "update");
+            inputData(modal, data, "update", tab_name);
             otherOptionsUpdate(tab_name);
         }
 
@@ -85,11 +113,12 @@ $(document).ready(function() {
         const inputEmpty  = checkInputForm("modal-form");
         const tab_name    = $(this).attr('data-tabname');
         const tab_type    = $(this).attr('data-tabtype');
+        const tab_addon   = $(this).attr('data-tabaddon');
         const refresh_wpp = $(this).attr('data-refreshwpp');
         const refresh_wpa = $(this).attr('data-refreshwpa');
 
-        console.log("refresh_wpp", refresh_wpp);
-        console.log("refresh_wpa", refresh_wpa);
+        // console.log("refresh_wpp", refresh_wpp);
+        // console.log("refresh_wpa", refresh_wpa);
         
         if(inputEmpty.length <= 0)
         {
@@ -103,14 +132,14 @@ $(document).ready(function() {
 
             if(action == 'update')
             {
-                url    = `/api/${tab_name}/${id_upt}`;
+                url    = `/api/${tab_name + (!!tab_addon ? tab_addon : '')}/${id_upt}`;
                 type   = "PUT";
                 msg_ok = `${tab_type} ${!!inputData.name ? '"'+inputData.name+'"' : ""} atualizado com sucesso!`;
                 msg_ng = `Falha ao atualizar ${tab_type.toLowerCase()}, tente novamente!`;
             }
             else
             {
-                url    = `/api/${tab_name}`;
+                url    = `/api/${tab_name + (!!tab_addon ? tab_addon : '')}`;
                 type   = "POST";
                 msg_ok = `${tab_type} ${!!inputData.name ? '"'+inputData.name+'"' : ""} adicionado com sucesso!`;
                 msg_ng = `Falha ao adicionar ${tab_type.toLowerCase()}, tente novamente!`;   
@@ -131,8 +160,6 @@ $(document).ready(function() {
                 $('#my-alert-msg').removeClass('alert-danger d-none').addClass('alert-success d-block')
                     .text(msg_ok).fadeOut( 2000, "linear");
                     
-                if(action != 'update') cleanInputForm('modal-form', false);
-
                 // Auto refresh whatsapp ao cadastrar mensagens.
                 if(!!refresh_wpp) { 
                     refreshWpp(false);
@@ -253,8 +280,15 @@ $(document).ready(function() {
     {
         const button    = $(event.relatedTarget);
         const client_id = button.data('cliid');
-        const adresses  = JSON.parse(decodeURIComponent(button.data('adresses'))); 
-        const select    = $('#inputAdresses');
+
+        let adresses
+        try {
+            adresses = JSON.parse(decodeURIComponent(button.data('adresses'))); 
+        } catch (error) {
+            adresses = []
+        }
+        
+        const select = $('#inputAdresses');
 
         $('#dataClientId').val(client_id);
         $('#dataAddress').val(JSON.stringify(adresses));
@@ -320,11 +354,20 @@ $(document).ready(function() {
         }
     });
 
+    $('#addClientAddress').on('click', function () {
+        if(!$('#dataClientId').find(':selected').val()){
+            my_alert("Selecione um cliente para adicionar um novo endereço!");
+        } else {
+            $("#modalOrderAddress").modal('show');
+        }
+    });
+
     $('#upsertAddress').on('click', function () 
     {
         const address_id = $('#inputAdresses').val();
+        const client_id  = $("#dataClientId").val();
         const address = { 
-            client_id:    $("#dataClientId").val().trim(),
+            client_id,
             zip:          $("#inputZip").val().trim().replace(/[^0-9]/g,''),
             street:       $("#inputAddress").val().trim(),
             number:       $("#inputNumber").val().trim(),
@@ -335,6 +378,7 @@ $(document).ready(function() {
             state:        $("#inputState").val().trim()
         };
 
+        const noRefresh = $("#noRefresh").val().trim();
         const validator = validateAddress(address);
 
         if(!!validator){
@@ -354,8 +398,19 @@ $(document).ready(function() {
             }
     
             my_alert(data.message);
-    
-            $(".reload_closed").trigger( "click" );
+
+            if(!!noRefresh && noRefresh == 'true') {
+                mountClientAdrressOption(client_id);
+                $("#modalOrderAddress").modal('hide');
+                $('.address_id_ipt').val(data.id);
+                $('.selectpicker').selectpicker('refresh'); // Para atualizar selectpicker
+
+                const cep = $('.address_id_ipt').find(':selected').attr('data-zip');
+                deliveryDistance(cep);
+            }
+            else {
+                $(".reload_closed").trigger( "click" );
+            }
         }
     });
 
@@ -864,13 +919,209 @@ $(document).ready(function() {
         $("#columnchart_4_type").val($(this).attr("data-type"));
         drawChartBar();
     });
+
+    $("#order_item_list").on('click', '.order_item_delete', function(){
+        $(`#order_item_${$(this).attr("data-idx")}`).remove();
+
+        printCart();
+    });
+
+    $(".type_ipt").on('change', function(){
+
+        if($(this).val() == 'entregar') 
+        {
+            $("#order_address").show();
+            $('.delivery_ipt').prop("readonly",false);
+        } 
+        else 
+        {
+            $("#order_address").hide();
+            $(".address_id_ipt").val("");
+            $(".delivery_ipt").val("");
+            $("#distance_label span").text("0");
+            $('.delivery_ipt').prop("readonly",true);
+        }
+        
+        printCart();
+    });
+
+    $(".client_id_ipt").on('change', function(){
+        const client_id = $(this).find(':selected').val();
+
+        mountClientAdrressOption(client_id);
+    });
+
+    $(".address_id_ipt").on('change', function(){
+        const cep = $(this).find(':selected').attr('data-zip');
+
+        deliveryDistance(cep);
+        
+        printCart();
+    });
+
+    $("#orders-list").on("click", ".order_sync", function(){
+        const order_id    = $(this).attr('data-tabid');
+        let employee_id = $(`#order_employee_${order_id}`).find(':selected').val();
+        const status      = $(`#order_status_${order_id}`).find(':selected').val();
+
+        console.log(order_id, employee_id, status)
+
+        const url  = `/api/order-admin/${order_id}`;
+
+        if(!status) {
+            my_alert("Nenhum status informado para sincronozar o pedido!");
+        }
+        else 
+        {
+            if(!employee_id) updObj = {sync: true, status } 
+            else updObj = {sync: true, employee_id, status } 
+            const data = apiPageData("PUT", url, updObj);
+
+            if(!!data.id) {
+                my_alert("Pedido sincronizado com sucesso!");
+            } else {
+                my_alert(data.msg);
+            }
+        }
+    });
+
+    
+
+    $("#order_item_search").on('change', function(){
+
+        const id   = $(this).find(':selected').attr('data-idx')
+        const name = $(this).find(':selected').attr('data-name');
+        const val  = $(this).find(':selected').attr('data-val');
+        showval = !!parseFloat(val) ? parseFloat(val).toFixed(2).replace('.',',') : val;
+
+        let addPass = true;
+        $('.ordem_item').each(function(e) {	    
+           
+            // Verificação de item duplicado
+            if(`order_item_${id}` == $(this).attr('id')) {
+                addPass = false;
+            }
+        });
+
+        if(addPass) {
+            $("#order_item_list tbody").prepend(`
+                <tr class="ordem_item" id="order_item_${id}" data-tabid="${id}" data-qty="1" data-name="${name}" data-note="" data-val="${val}" >
+                    <td class="align-middle">
+                        <span data-idx="${id}" title="Excluir Item" class="fas fa-minus-circle text-danger mclick order_item_delete"></span> 
+                    </td>
+                    <td class="align-middle">
+                        <input data-idx="${id}" data-val="${val}" class="form-control form-control-sm order_item_qty" type="number" value="1" min="1" step="1" style="max-width: 60px;">
+                    </td>
+                    <td class="text-left align-middle">
+                        <span id="popover_order_${id}" data-idx="${id}" title="Adicionar Observação ao Item" class="far fa-comment-alt text-primary pt-1 mclick popover_order"></span> 
+                        ${name}
+                        <small id="order_item_note_${id}" class="form-text text-muted"></small>
+                    </td>
+                    <td class="text-right align-middle">${showval}</td>
+                    <td id="item_val_qty_${id}" class="text-right align-middle">${showval}</td>
+                </tr>
+            `);
+        }
+
+        var popoverContent = `
+        <div class="input-group mb-3">
+            <input id="obs_add_${id}" type="text" class="form-control" placeholder="Adicione uma observação">
+            <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="button" onClick="
+                    (function(){
+                        $('#order_item_${id}').attr('data-note', $('#obs_add_${id}').val());
+                        $('#order_item_note_${id}').text($('#obs_add_${id}').val());
+                        $('#popover_order_${id}').popover('hide');
+                        printCart();
+                        return false;
+                    })();return false;
+                ">Salvar
+                </button>
+            </div>
+        </div>
+        `;
+
+        
+        $(`#popover_order_${id}`).popover({
+            title: 'Add texto',
+            placement: 'top',
+            html: true,
+            content: popoverContent,
+            trigger: 'manual'
+        });
+
+        $("#order_item_search").val("");
+
+        printCart();
+    });
 });
 
 
 
+function printCart()
+{
+    const user_order = [];
+    $('#order_item_list tbody .ordem_item').each(function(e) {	
+        
+        user_order.push({
+            "id"   : $(this).attr('data-tabid'), 
+            "qty"  : $(this).attr('data-qty'),
+            "name" : $(this).attr('data-name'),
+            "note" : $(this).attr('data-note'),
+            "price": $(this).attr('data-val'),
+        });
+    });
 
+    tax      = 0;
+    delivery = !!parseFloat($('.delivery_ipt').val()) ? parseFloat($('.delivery_ipt').val()) : 0;
+    discount = !!parseFloat($('.discount_ipt').val()) ? parseFloat($('.discount_ipt').val()) : 0;
+    subtotal = !!user_order.length ? user_order.map(e => parseFloat(e.qty * e.price)).reduce((a,c) => a+c) : 0;
+    total    = subtotal + (subtotal * tax) - discount + delivery;
+    
+    $('#tax_label').text(tax.toFixed(2).replace('.',','));
+    $('#delivery_label').text(delivery.toFixed(2).replace('.',','));
+    $('#discount_label').text(!!discount ? '-'+discount.toFixed(2).replace('.',',') : '0,00');
+    $('#subtotal_label').text(subtotal.toFixed(2).replace('.',','));
+    $('#total_label').text(total.toFixed(2).replace('.',','));
 
+    $('.items_ipt').val(JSON.stringify(user_order));
+}
 
+function mountClientAdrressOption(client_id) 
+{
+    let data = apiPageData('GET', `/api/client-address/${client_id}`);
+    // const data = apiPageData('GET', `/api/client-address/9`);
+    
+    mountOrderClientAdresses(data);
+}
+
+function mountOrderClientAdresses(data) 
+{
+    const select = $(`.address_id_ipt`);
+    select.empty();
+    select.append('<option value="">Selecione um Endereço</option>');
+
+    if(!!data && !!data.length) 
+    {
+        data = data.filter(el => !!el.zip);
+        data.forEach(el => {
+            selected = !!el.order_delivery && el.order_delivery == true ? `selected=:"selected"` : '';
+            select.append(`<option data-zip="${el.zip}" value="${el.id}" ${selected} >${el.zip} - ${el.street}, ${el.number} - ${el.neighborhood}</option>`);
+        });
+    }
+}
+
+function deliveryDistance(cep)
+{
+    const url  = `/api/busca-cep/${cep}`;
+    const data = apiPageData("GET", url, {});
+    
+    if(!!data.cep)
+    {
+        $(".delivery_ipt").val(data.delivery);
+        $("#distance_label span").text(data.distance);
+    }
+}
 
 function checkOpenTime(time_list)
 {
@@ -1010,8 +1261,6 @@ function validateAddress(data)
         err = "Cidade deve ser informado!";
     } else if(!data.state.length) {
         err = "Estado deve ser informado!";
-    } else if(!data.open.length) {
-        err = "Você deve informar o horário de funcionamento!";
     }
 
     return err;
@@ -1302,23 +1551,23 @@ function setDataTable(id)
         defaultDataTable.columnDefs = [
             {
                 render: function ( data, type, row ) { return data.toString().number_format(2,',','.') },
-                targets: [2,6]
+                targets: [3]
             }
         ];
         defaultDataTable.drawCallback = function () {
             const api = this.api();
             
-            const order_all  = api.column(2).data().sum();
-            const order_view = api.column(2, {page:'current'}).data().sum();
+            const order_all  = api.column(3).data().sum();
+            const order_view = api.column(3, {page:'current'}).data().sum();
 
-            const delivery_all  = api.column(6).data().sum();
-            const delivery_view = api.column(6, {page:'current'}).data().sum();
+            // const delivery_all  = api.column(6).data().sum();
+            // const delivery_view = api.column(6, {page:'current'}).data().sum();
 
             $("#order-total").html(order_all.toString().number_format(2,',','.'));
             $("#order-subtotal").html(order_view.toString().number_format(2,',','.'));
 
-            $("#delivery-total").html(delivery_all.toString().number_format(2,',','.'));
-            $("#delivery-subtotal").html(delivery_view.toString().number_format(2,',','.'));
+            // $("#delivery-total").html(delivery_all.toString().number_format(2,',','.'));
+            // $("#delivery-subtotal").html(delivery_view.toString().number_format(2,',','.'));
             
             if(order_all == 0)
             {
@@ -1345,8 +1594,8 @@ function setDataTable(id)
             function( oSettings, aData, iDataIndex ) {
                 let iFini = document.getElementById('date-min').value;
                 let iFfin = document.getElementById('date-max').value;
-                let iStartDateCol = 3;
-                let iEndDateCol   = 3;
+                let iStartDateCol = 1;
+                let iEndDateCol   = 1;
         
                 iFini=iFini.substring(6,10) + iFini.substring(3,5)+ iFini.substring(0,2);
                 iFfin=iFfin.substring(6,10) + iFfin.substring(3,5)+ iFfin.substring(0,2);
@@ -1424,13 +1673,22 @@ function cleanInputForm(form_id, type)
     });
 
     $('#'+form_id).trigger('reset');
+
+    // Somente para ORDER 
+    orderAddtionalClean();
 }
 
-function inputData(modal, data, act)
+function inputData(modal, data, act, table)
 {
     modal.find('.form_action_ipt').val(act);
 
     $.each(data, function( index, value ) {
+
+        if(table == 'order' && index == 'adresses') {
+            mountOrderClientAdresses(value);
+            console.log(value)
+        }
+
         modal.find('.'+index+'_ipt').val(value);
     });
 }
@@ -1466,6 +1724,17 @@ function checkInputForm(form_id)
     });
 
     return inputEmpty;
+}
+
+function orderAddtionalClean()
+{
+    $('.client_id_ipt').val("");
+    $('.employee_id_ipt').val("");
+    $('.address_id_ipt').val("");
+    $('.selectpicker').selectpicker('refresh'); // Para atualizar selectpicker
+    $('#order_item_search').val("");
+    $('#order_item_list tbody').empty();
+    printCart();
 }
 
 function getBelongsTo(relations, rel_col)
@@ -1522,6 +1791,7 @@ function otherOptionsUpdate(tab_name)
 {
     if(tab_name == 'mailing') optionUpdateMailing();
     else if(tab_name == 'campaign') optionUpdateCampaign();
+    else if(tab_name == 'order') optionUpdateOrder();
 }
 
 function optionUpdateCampaign() 
@@ -1530,6 +1800,31 @@ function optionUpdateCampaign()
     datetimeFix();
 
     $('.status_ipt').val('free');
+}
+
+function optionUpdateOrder() 
+{
+    $('.selectpicker').selectpicker('refresh');
+
+    // Preencher items 
+    try {
+        const items = JSON.parse($(".items_ipt").val());
+        if(!!items) {
+            items.forEach(el => {
+                $("#order_item_search").selectpicker('val', el.id); 
+                $("#order_item_search").trigger('change');
+
+                $(`#order_item_${el.id}`).attr("data-note", el.note);
+                $(`#order_item_note_${el.id}`).text(el.note);
+            }); 
+        } 
+    } catch (error) { 
+        console.log("Erro ao decodificar os items do pedido! Erro: "+error)
+    } 
+
+    if($('.type_ipt').val() == 'entregar') {
+        $(".type_ipt").trigger('change');
+    }
 }
 
 function optionUpdateMailing() 

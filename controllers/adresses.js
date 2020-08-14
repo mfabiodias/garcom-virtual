@@ -20,7 +20,7 @@ async function updateAddress(res, parId, data) {
     const success = !!updatId ? true : false
     const message = !!updatId ? 'Endereço atualizado com sucesso!' : `Falha ao atualizar endereço! Tente novamente e persistindo o erro contate o adminstrador`;
 
-    res.json({success, message});
+    res.json({id:parId, success, message});
 }
 
 async function insertAddress(res, data) { 
@@ -34,7 +34,7 @@ async function insertAddress(res, data) {
     const success = !!insertId ? true : false
     const message = !!insertId ? 'Endereço inserido com sucesso!' : `Falha ao inserir endereço! Tente novamente e persistindo o erro contate o adminstrador`;
 
-    res.json({success, message});
+    res.json({id:insertId, success, message});
 }
 
 async function deleteAddress(res, parId) { 

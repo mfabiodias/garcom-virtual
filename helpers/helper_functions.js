@@ -15,7 +15,11 @@ const ExportFunction = {
     
         return clonedObj;
     },
+    objectEmpty: (str) => {
+        return Object.entries(str).reduce((a,[k,v]) => (v ? (a[k]=v, a) : a), {})
+    },
     ucwords: (str) => {
+        str = !str ? "" : str;
         str = str.toLowerCase()
         let re = /(^([a-zA-Z\p{M}]))|([ -][a-zA-Z\p{M}])/g
         return str.replace(re, s => s.toUpperCase())

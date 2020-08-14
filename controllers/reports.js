@@ -233,11 +233,11 @@ const calcPaymentAmount = function(obj, save)
     });
 
     Object.entries(origin).forEach((el, idx) => {
-        save.origin.push([ el[0], el[1], hexColors[idx] ]) 
+        save.origin.push([ paymentLable(el[0]), el[1], hexColors[idx] ]) 
     });
     
     Object.entries(type).forEach((el, idx) => {
-        save.type.push([ el[0], el[1], hexColors[idx] ])
+        save.type.push([ paymentLable(el[0]), el[1], hexColors[idx] ])
     });
 }
 
@@ -281,6 +281,19 @@ const employeeName = function(employees, el)
     else {
         return "Outros";
     }
+}
+
+const paymentLable = function(str) 
+{
+    if(str == 'debito')        return 'Débito';
+    else if(str == 'credito')  return 'Crédito';
+    else if(str == 'voucher')  return 'VR';
+    else if(str == 'dinheiro') return 'Dinheiro';
+    else if(str == 'mesa')     return 'Mesa';
+    else if(str == 'website')  return 'Website';
+    else if(str == 'telefone') return 'Telefone';
+    else if(str == 'whatsapp') return 'WhatsApp';
+    else return str;
 }
 
 const calcProductAmount = function(items, obj, save)

@@ -57,6 +57,13 @@ async function getClient(res, parId) {
     res.json(client);
 }
 
+async function getClientAddress(res, req) { 
+
+    const client = await model.getAddressAll({ client_id: req.params.id });
+    
+    res.json(client);
+}
+
 async function updateClient(res, parId, data) { 
 
     if(!!data.mobile) 
@@ -114,4 +121,4 @@ async function deleteClient(res, parId) {
     res.json({success, message});
 }
 
-module.exports = { getClients, getClient, updateClient, insertClient, deleteClient }
+module.exports = { getClients, getClient, getClientAddress, updateClient, insertClient, deleteClient }

@@ -62,7 +62,10 @@ app.post('/api/whatsapp-restart',       (req, res) => { controller.getWhatsappRe
 app.get('/api/order',                   (req, res) => { controller.getOrders(res, req) });
 app.get('/api/product-view/:id',        (req, res) => { controller.updateVisited(res, req) });
 app.get('/api/busca-cep/:cep',          (req, res) => { controller.getCepEndereco(res, req) });
+app.get('/api/client-address/:id',      (req, res) => { controller.getClientAddress(res, req) });
 app.post('/api/qrcode/:type',           (req, res) => { controller.getQrCodeData(res, req) });
+app.post('/api/order-admin',            (req, res) => { controller.insertOrderAdmin(res, req) });
+app.put('/api/order-admin/:id',         (req, res) => { controller.updateOrderAdmin(res, req) });
 app.post('/api/image/:table/:id/:name', (req, res) => { controller.saveImage(res, req) });
 
 app.get('/api/campaign-messages', cors(corsOptions), (req, res) => {controller.getWhatsappCampaignMessages(res, req) });

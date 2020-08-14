@@ -104,7 +104,7 @@
         const type     = payment[type1 || "month"].type;
         const origin   = payment[type2 || "month"].origin;
         const qty      = delivery[type3 || "month"].qty;
-        const cost     = delivery[type3 || "month"].cost;
+        const cost     = delivery[type4 || "month"].cost;
 
         var data1 = google.visualization.arrayToDataTable(type);
         var data2 = google.visualization.arrayToDataTable(origin);
@@ -224,7 +224,7 @@
         }
 
         if(data4.getNumberOfRows() == 0) {
-            $("#columnchart_values_4").text("Poxa, hoje não recebemos pagamemnto por nenhuma entrega 😔!")
+            $("#columnchart_values_4").text("Poxa, hoje não recebemos pagamento por nenhuma entrega 😔!")
         }
         else {
             var chart4 = new google.visualization.ColumnChart(document.getElementById("columnchart_values_4"));

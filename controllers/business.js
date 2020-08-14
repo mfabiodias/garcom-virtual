@@ -75,7 +75,7 @@ async function updateBusiness(res, parId, data) {
 
     await model.updateBusiness(business_data);
     
-    const address = await model.getAddresstBy({business_id: 1});
+    const address = await model.getAddressBy({business_id: 1});
 
     if(!!address) {
 

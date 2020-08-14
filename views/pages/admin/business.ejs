@@ -69,7 +69,7 @@
                 </div>
                 <div class="form-group col-md-3">
                     <label>Delivery - Tipo de Entrega</label>
-                    <select class="form-control input-sm delivery_type_ipt" data-name="delivery_type" data-required="true">
+                    <select class="form-control  custom-select input-sm delivery_type_ipt" data-name="delivery_type" data-required="true">
                         <option value="0" <%=  !row.delivery_type ? 'selected="selected"' : ''; %> >Valor Fixo</option>
                         <option value="1" <%= !!row.delivery_type ? 'selected="selected"' : ''; %> >Calculado por KM</option>
                     </select>
@@ -89,42 +89,42 @@
             <div class="form-row">
                 <div class="form-group col-md-2">
                     <label>Pagamento - Dinheiro</label>
-                    <select class="form-control input-sm payment_money_ipt" data-name="payment_money" data-required="true">
+                    <select class="form-control  custom-select input-sm payment_money_ipt" data-name="payment_money" data-required="true">
                         <option value="0" <%=  !row.payment_money ? 'selected="selected"' : ''; %> >Não</option>
                         <option value="1" <%= !!row.payment_money ? 'selected="selected"' : ''; %> >Sim</option>
                     </select>
                 </div>
                 <div class="form-group col-md-2">
                     <label>Pagamento - Crédito</label>
-                    <select class="form-control input-sm payment_credit_ipt" data-name="payment_credit" data-required="true">
+                    <select class="form-control  custom-select input-sm payment_credit_ipt" data-name="payment_credit" data-required="true">
                         <option value="0" <%=  !row.payment_credit ? 'selected="selected"' : ''; %> >Não</option>
                         <option value="1" <%= !!row.payment_credit ? 'selected="selected"' : ''; %> >Sim</option>
                     </select>
                 </div>
                 <div class="form-group col-md-2">
                     <label>Pagamento - Débito</label>
-                    <select class="form-control input-sm payment_debit_ipt" data-name="payment_debit" data-required="true">
+                    <select class="form-control  custom-select input-sm payment_debit_ipt" data-name="payment_debit" data-required="true">
                         <option value="0" <%=  !row.payment_debit ? 'selected="selected"' : ''; %> >Não</option>
                         <option value="1" <%= !!row.payment_debit ? 'selected="selected"' : ''; %> >Sim</option>
                     </select>
                 </div>
                 <div class="form-group col-md-2">
                     <label>Pagamento - Vale Refeição</label>
-                    <select class="form-control input-sm payment_voucher_ipt" data-name="payment_voucher" data-required="true">
+                    <select class="form-control  custom-select input-sm payment_voucher_ipt" data-name="payment_voucher" data-required="true">
                         <option value="0" <%=  !row.payment_voucher ? 'selected="selected"' : ''; %> >Não</option>
                         <option value="1" <%= !!row.payment_voucher ? 'selected="selected"' : ''; %> >Sim</option>
                     </select>
                 </div>
                 <div class="form-group col-md-2">
                     <label>Serviço - Consumir no Local</label>
-                    <select class="form-control input-sm order_consume_ipt" data-name="order_consume" data-required="true">
+                    <select class="form-control  custom-select input-sm order_consume_ipt" data-name="order_consume" data-required="true">
                         <option value="0" <%=  !row.order_consume ? 'selected="selected"' : ''; %> >Não</option>
                         <option value="1" <%= !!row.order_consume ? 'selected="selected"' : ''; %> >Sim</option>
                     </select>
                 </div>
                 <div class="form-group col-md-2">
                     <label>Serviço - Retirar</label>
-                    <select class="form-control input-sm order_retire_ipt" data-name="order_retire" data-required="true">
+                    <select class="form-control  custom-select input-sm order_retire_ipt" data-name="order_retire" data-required="true">
                         <option value="0" <%=  !row.order_retire ? 'selected="selected"' : ''; %> >Não</option>
                         <option value="1" <%= !!row.order_retire ? 'selected="selected"' : ''; %> >Sim</option>
                     </select>
@@ -134,14 +134,14 @@
             <div class="form-row">
                 <div class="form-group col-md-3">
                     <label>Serviço - Entregar</label>
-                    <select class="form-control input-sm order_deliver_ipt" data-name="order_deliver" data-required="true">
+                    <select class="form-control  custom-select input-sm order_deliver_ipt" data-name="order_deliver" data-required="true">
                         <option value="0" <%=  !row.order_deliver ? 'selected="selected"' : ''; %> >Não</option>
                         <option value="1" <%= !!row.order_deliver ? 'selected="selected"' : ''; %> >Sim</option>
                     </select>
                 </div>
                 <div class="form-group col-md-3">
                     <label>Serviço - 10% Consumo</label>
-                    <select class="form-control input-sm order_tax_ipt" data-name="order_tax" data-required="true">
+                    <select class="form-control  custom-select input-sm order_tax_ipt" data-name="order_tax" data-required="true">
                         <option value="0" <%=  !row.order_tax ? 'selected="selected"' : ''; %> >Não</option>
                         <option value="1" <%= !!row.order_tax ? 'selected="selected"' : ''; %> >Sim</option>
                     </select>
