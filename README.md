@@ -12,7 +12,9 @@
 + Na visualização do pedido add nome cliente, endereço e se PAH Mapa do Google
 + Em todas as atualizações do CRUD colocar o que esta sendo editado. Exe. Atualizar Item XXXX
 + No relatorio JSON, na atualização, se inserir novavente os itens haverá duplicidade. Então deve saber a DIFF entre o atual e o anterior. COMO FAZER ISSO?
-+ Adicionar nos botoes quem ele vai editar, como em ORDER. Exe.: Editar pedido P0023
++ Adicionar nos botoes quem ele vai editar, como em ORDER. Exe.: Editar pedido P0023 
+- Adicionar Google Analitycs em todos os sistemas 
++ Pixel do Facebook
 
 ### Cardápio Virtual 
 + Notificar Status Pedido (Ref.https://developers.google.com/web/fundamentals/codelabs/push-notifications?hl=pt-br)
@@ -80,3 +82,11 @@
 + Divulgação
 + Funcionalidades
 + Dicas sobre o Mercado 
+
+
+# Notification Demo
++ https://developers.google.com/web/fundamentals/codelabs/push-notifications?hl=pt-br
+- DICA: Chaves VAPID -> https://d3v.one/vapid-key-generator/
+- Ref.: https://d3v.one/a-minimal-web-push-example/
+- https://pushalert.co/dashboard/1
+- https://www.youtube.com/watch?v=HlYFW2zaYQM
