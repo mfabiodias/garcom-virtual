@@ -103,10 +103,10 @@
                                     <td class="align-middle" ><%= helper.messagesCount(message.exact) %></td>
                                     <td class="align-middle" ><%= message.response %></td>
                                     <td class="align-middle" class="text-center" width="10%" data-contain="<%= message.contains; %>" data-exact="<%= message.exact; %>">
-                                        <button type="button" id="edit_message_<%= message.id %>" class="btn btn-outline-primary btn-sm wmsg-edit" title="Editar Mensagem" data-tabid="<%= message.id %>" data-tabname="message" data-tabtype="Mensagem" data-crud="update" data-belongsto="" data-belongstoid="" data-toggle="modal" data-target="#modalUpsert" >
+                                        <button type="button" id="edit_message_<%= message.id %>" class="btn btn-outline-primary btn-sm wmsg-edit" title="Editar Mensagem <%= helper.str_pad(message.id, 3, "0", "left", "M"); %>" data-tabid="<%= message.id %>" data-tabname="message" data-tabtype="Mensagem" data-crud="update" data-belongsto="" data-belongstoid="" data-toggle="modal" data-target="#modalUpsert" >
                                             <span class="fa fa-edit" aria-hidden="true"></span>
                                         </button>
-                                        <button type="button" id="delete_message_<%= message.id %>" class="btn btn-outline-danger btn-sm wmsg-delete" title="Excluir Mensagem" data-tabid="<%= message.id %>" data-tabval="" data-tabname="message" data-tabtype="Mensagem" data-myid="delete_message" data-name="" data-toggle="modal" data-target="#modalDelete" >
+                                        <button type="button" id="delete_message_<%= message.id %>" class="btn btn-outline-danger btn-sm wmsg-delete" title="Excluir Mensagem <%= helper.str_pad(message.id, 3, "0", "left", "M"); %>" data-tabid="<%= message.id %>" data-tabval="" data-tabname="message" data-tabtype="Mensagem" data-myid="delete_message" data-name="" data-toggle="modal" data-target="#modalDelete" >
                                             <span class="fa fa-trash" aria-hidden="true"></span>
                                         </button>
                                     </td>

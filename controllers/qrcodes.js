@@ -76,9 +76,25 @@ async function getQrCodeData(res, req)
                 res.json(image);
             });
         }
+        else if(type == 'Website')
+        {
+            // https://NOME-RESTAURANTE.gestorvirtual.net.br
+            const url_web = `${process.env.APPURL || config.system.url}`;
+            image.string = url_web;
+
+            QRCode.toDataURL(url_web, async function (err, data) {
+    
+                if(!err) {
+                    image.success = true;
+                    image.qrcode  = data;
+                }
+                
+                res.json(image);
+            });
+        }
         else if(type == 'mesa')
         {
-
+            
         }
     }
     else 

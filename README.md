@@ -1,20 +1,15 @@
 ### Taste APP
 
 ### ADMIN 
-- Criar página de cadastro de pedidos na tela de pedido no admin.  
 ++ Avisar mudança no status do pedido ao cliente 
 ++ Importar lista de contatos do WhatsApp
 + QR Code para Mesas 
 + Gestão de Filas
 + Gestão de Reservas 
 + Add sininho de alerta nos pedidos
-- Ajustar relatórios e adicionar novos 
 + Na visualização do pedido add nome cliente, endereço e se PAH Mapa do Google
-+ Em todas as atualizações do CRUD colocar o que esta sendo editado. Exe. Atualizar Item XXXX
 + No relatorio JSON, na atualização, se inserir novavente os itens haverá duplicidade. Então deve saber a DIFF entre o atual e o anterior. COMO FAZER ISSO?
-+ Adicionar nos botoes quem ele vai editar, como em ORDER. Exe.: Editar pedido P0023 
-- Adicionar Google Analitycs em todos os sistemas 
-+ Pixel do Facebook
++ Pixel do Facebook (Estudar mais sobre para relembrar) 
 
 ### Cardápio Virtual 
 + Notificar Status Pedido (Ref.https://developers.google.com/web/fundamentals/codelabs/push-notifications?hl=pt-br)

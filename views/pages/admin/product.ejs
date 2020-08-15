@@ -35,10 +35,10 @@
                             <td class="align-middle" ><%= (row.featured.toString() == "1" ? "Sim" : "Não") %></td>
                             <td class="align-middle" ><%= (row.active.toString() == "1" ? "Sim" : "Não") %></td>
                             <td class="align-middle"  class="text-center" style="width: 100px;">
-                                <button type="button" class="btn btn-outline-primary btn-sm" title="Editar <%= attr.page %>" data-tabid="<%= row.id %>" data-tabname="<%= attr.table %>" data-tabtype="<%= attr.page %>" data-crud="update" data-belongsto="<%= attr.belongsto %>" data-belongstoid="<%= attr.belongsto %>_id" data-toggle="modal" data-target="#modalUpsert" >
+                                <button type="button" class="btn btn-outline-primary btn-sm" title="Editar <%= attr.page + " " + helper.str_pad(row.id, 3, "0", "left", "I"); %>" data-tabid="<%= row.id %>" data-tabname="<%= attr.table %>" data-tabtype="<%= attr.page %>" data-crud="update" data-belongsto="<%= attr.belongsto %>" data-belongstoid="<%= attr.belongsto %>_id" data-toggle="modal" data-target="#modalUpsert" >
                                     <span class="fa fa-edit" aria-hidden="true"></span>
                                 </button>
-                                <button type="button" id="delete_<%= attr.table %>" class="btn btn-outline-danger btn-sm" title="Excluir <%= attr.page %>" data-tabid="<%= row.id %>" data-tabval="<%= row.name %>" data-tabname="<%= attr.table %>" data-tabtype="<%= attr.page %>" data-hasmany="" data-hasmanycol="" data-hasmanyname="" data-myid="delete_<%= attr.table %>" data-name="<%= row.name %>" data-toggle="modal" data-target="#modalDelete" >
+                                <button type="button" id="delete_<%= attr.table %>" class="btn btn-outline-danger btn-sm" title="Excluir <%= attr.page + " " + helper.str_pad(row.id, 3, "0", "left", "I"); %>" data-tabid="<%= row.id %>" data-tabval="<%= row.name %>" data-tabname="<%= attr.table %>" data-tabtype="<%= attr.page %>" data-hasmany="" data-hasmanycol="" data-hasmanyname="" data-myid="delete_<%= attr.table %>" data-name="<%= row.name %>" data-toggle="modal" data-target="#modalDelete" >
                                     <span class="fa fa-trash" aria-hidden="true"></span>
                                 </button>
                             </td>
