@@ -67,6 +67,108 @@
       },
       "error_file": "./logs/whatsapp_4002.err.log",
       "out_file": "./logs/whatsapp_4002.out.log"
+    },
+    {
+      "exec_mode": "fork_mode",
+      "script": "./index.js",
+      "name": "cardapio_4003",
+      "node_args": [ "--harmony" ],
+      "env": { 
+        "MYPORT": "4003",
+        "MYHOST": "104.197.119.193",
+        "MYBASE": "cardapio_4003",
+        "MYUSER": "fmdsystem",
+        "MYPASS": "B^5%hGf!0&8ytRx2",
+        "CLIENT": "4003",
+        "WPPNAME": "whatsapp_4003",
+        "APPURL":  "https://socarnes.gestorvirtual.net.br"
+      },
+      "error_file": "./logs/cardapio_4003.err.log",
+      "out_file": "./logs/cardapio_4003.out.log"
+    },
+    {
+      "exec_mode": "fork_mode",
+      "script": "./whatsapp/index.js",
+      "name": "whatsapp_4003",
+      "node_args": [ "--harmony" ],
+      "env": { 
+        "MYPORT": "4003",
+        "MYHOST": "104.197.119.193",
+        "MYBASE": "cardapio_4003",
+        "MYUSER": "fmdsystem",
+        "MYPASS": "B^5%hGf!0&8ytRx2",
+        "CLIENT": "4003"
+      },
+      "error_file": "./logs/whatsapp_4003.err.log",
+      "out_file": "./logs/whatsapp_4003.out.log"
+    },
+    {
+      "exec_mode": "fork_mode",
+      "script": "./index.js",
+      "name": "cardapio_4004",
+      "node_args": [ "--harmony" ],
+      "env": { 
+        "MYPORT": "4004",
+        "MYHOST": "104.197.119.193",
+        "MYBASE": "cardapio_4004",
+        "MYUSER": "fmdsystem",
+        "MYPASS": "B^5%hGf!0&8ytRx2",
+        "CLIENT": "4004",
+        "WPPNAME": "whatsapp_4004",
+        "APPURL":  "https://farmabras.gestorvirtual.net.br"
+      },
+      "error_file": "./logs/cardapio_4004.err.log",
+      "out_file": "./logs/cardapio_4004.out.log"
+    },
+    {
+      "exec_mode": "fork_mode",
+      "script": "./whatsapp/index.js",
+      "name": "whatsapp_4004",
+      "node_args": [ "--harmony" ],
+      "env": { 
+        "MYPORT": "4004",
+        "MYHOST": "104.197.119.193",
+        "MYBASE": "cardapio_4004",
+        "MYUSER": "fmdsystem",
+        "MYPASS": "B^5%hGf!0&8ytRx2",
+        "CLIENT": "4004"
+      },
+      "error_file": "./logs/whatsapp_4004.err.log",
+      "out_file": "./logs/whatsapp_4004.out.log"
+    },
+    {
+      "exec_mode": "fork_mode",
+      "script": "./index.js",
+      "name": "cardapio_4005",
+      "node_args": [ "--harmony" ],
+      "env": { 
+        "MYPORT": "4005",
+        "MYHOST": "104.197.119.193",
+        "MYBASE": "cardapio_4005",
+        "MYUSER": "fmdsystem",
+        "MYPASS": "B^5%hGf!0&8ytRx2",
+        "CLIENT": "4005",
+        "WPPNAME": "whatsapp_4005",
+        "APPURL":  "https://hortifruti.gestorvirtual.net.br"
+      },
+      "error_file": "./logs/cardapio_4005.err.log",
+      "out_file": "./logs/cardapio_4005.out.log"
+    },
+    {
+      "exec_mode": "fork_mode",
+      "script": "./whatsapp/index.js",
+      "name": "whatsapp_4005",
+      "node_args": [ "--harmony" ],
+      "env": { 
+        "MYPORT": "4005",
+        "MYHOST": "104.197.119.193",
+        "MYBASE": "cardapio_4005",
+        "MYUSER": "fmdsystem",
+        "MYPASS": "B^5%hGf!0&8ytRx2",
+        "CLIENT": "4005"
+      },
+      "error_file": "./logs/whatsapp_4005.err.log",
+      "out_file": "./logs/whatsapp_4005.out.log"
     }
   ]
 }
