@@ -20,14 +20,14 @@ async function getOrder(res, parId)  {
         if(!!order.client_id) { 
             order.adresses = await model.getAddressAll({ client_id: order.client_id });
 
-            order.adresses = order.adresses.map(el => {
+            order.adresses = await order.adresses.map(el => {
                 if(order.address_id == el.id) el.order_delivery = true;
                 else el.order_delivery = false;
                 return el;
             });
 
             const client = await model.getClient(order.client_id);
-            let printAddress = order.adresses.find(el => el.id = order.address_id);
+            let printAddress = await order.adresses.find(el => el.id = order.address_id);
             if(!printAddress) {
                 printAddress = {
                     street: '',

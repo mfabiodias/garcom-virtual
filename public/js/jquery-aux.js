@@ -1299,11 +1299,14 @@ function mountCommand(data)
         <p>Tel: ${space(35, data.print.mobile, 'r')}</p>`;
 
 
-        comanda += `<p>${space(40, data.print.street+', '+data.print.number, 'r')}</p>`;
-        comanda += !!data.print.complement.length ? `<p>${space(40, data.print.complement, 'r')}</p>` : '';
-        comanda += !!data.print.reference.length ? `<p>${space(40, data.print.reference, 'r')}</p>` : '';
-        comanda += `<p>${space(40, data.print.neighborhood, 'r')}</p>
-        <p>${space(40, data.print.city+'/'+data.print.state, 'r')}</p>`;
+        if(!!data.print.street) {
+
+            comanda += `<p>${space(40, data.print.street+', '+data.print.number, 'r')}</p>`;
+            comanda += !!data.print.complement.length ? `<p>${space(40, data.print.complement, 'r')}</p>` : '';
+            comanda += !!data.print.reference.length ? `<p>${space(40, data.print.reference, 'r')}</p>` : '';
+            comanda += `<p>${space(40, data.print.neighborhood, 'r')}</p>
+            <p>${space(40, data.print.city+'/'+data.print.state, 'r')}</p>`;
+        }
 
 
         comanda += `<p>----------------------------------------</p>
