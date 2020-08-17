@@ -136,6 +136,7 @@ async function updateOrderAdmin(res, req) {
                 if(!data.status) { data.status = 1; }
                 if(!data.delivery) { data.delivery = 0; }
                 if(!data.discount) { data.discount = 0; }
+                // if(data.type == 'entregar') { data.address_id = null }
                 uptRtn = await model.updateOrder(order_id, data);
             }
     

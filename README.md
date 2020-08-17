@@ -10,6 +10,7 @@
 + Na visualização do pedido add nome cliente, endereço e se PAH Mapa do Google
 + No relatorio JSON, na atualização, se inserir novavente os itens haverá duplicidade. Então deve saber a DIFF entre o atual e o anterior. COMO FAZER ISSO?
 + Pixel do Facebook (Estudar mais sobre para relembrar) 
++ Quando muda de entregar para outro status, ainda sai o endereço na comanda, deve setar NULL na coluna type
 
 ### Cardápio Virtual 
 + Notificar Status Pedido (Ref.https://developers.google.com/web/fundamentals/codelabs/push-notifications?hl=pt-br)
