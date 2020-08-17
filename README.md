@@ -1,4 +1,4 @@
-### Taste APP
+### Gestor Virtual (Seu APP)
 
 ### ADMIN 
 ++ Avisar mudança no status do pedido ao cliente 
@@ -85,3 +85,10 @@
 - Ref.: https://d3v.one/a-minimal-web-push-example/
 - https://pushalert.co/dashboard/1
 - https://www.youtube.com/watch?v=HlYFW2zaYQM
+
+
+
+### Reclamações Talita
++ Adicionar campo de preço com desconto. 
++ Melhorar layout da configuração que não aparece botão de cadastro.
++ Cadastra duplicidade, bloquear botão temporariamente.

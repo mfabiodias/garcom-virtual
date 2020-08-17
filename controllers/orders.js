@@ -25,10 +25,43 @@ async function getOrder(res, parId)  {
                 else el.order_delivery = false;
                 return el;
             });
+
+            const client = await model.getClient(order.client_id);
+            let printAddress = order.adresses.find(el => el.id = order.address_id);
+            if(!printAddress) {
+                printAddress = {
+                    street: '',
+                    number: '', 
+                    complement: '', 
+                    reference: '', 
+                    neighborhood: '', 
+                    city: '', 
+                    state: '' 
+                }
+            }
+
+            order.print = {
+                name: client.name,
+                mobile: client.mobile,
+                street: printAddress.street,
+                number: printAddress.number, 
+                complement: printAddress.complement, 
+                reference: printAddress.reference, 
+                neighborhood: printAddress.neighborhood, 
+                city: printAddress.city, 
+                state: printAddress.state 
+            };
+
+            // Formatar número telefone! 
+            order.print.mobile = !!order.print.mobile.length 
+                ? (order.print.mobile.length == 11 ? helper.mask(order.print.mobile, '(##) #####-####') : (order.print.mobile.length == 10 
+                    ? helper.mask(order.print.mobile, '(##) ####-####') : order.print.mobile)) : order.print.mobile;
         } else {
             order.adresses = [];
         }
     }
+
+    // console.log(order)
 
     res.json(order);
 }

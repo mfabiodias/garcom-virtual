@@ -1278,12 +1278,38 @@ function mountCommand(data)
 
     let comanda = "";
 
+    // print: {
+    //     name: 'Guilherme Portella',
+    //     mobile: '11931454848',
+    //     street: 'Rua Sebastião dos Santos',
+    //     number: '3',
+    //     complement: '',
+    //     reference: '',
+    //     neighborhood: 'Parque Continental I',
+    //     city: 'Guarulhos',
+    //     state: 'SP'
+    // }
+
     // 40 colunas...
     if(!!items) {
         comanda += `<p>----------------------------------------</p>
         <p>${space(3)}*** COMANDA WHATSAPP / WEBSITE ***${space(3)}</p>
         <p>Data: ${data.date} ${data.time}${space(9)}N.: ${data.label}</p>
-        <p>----------------------------------------</p>
+        <p>Cliente: ${space(31, data.print.name, 'r')}</p>
+        <p>Tel: ${space(35, data.print.mobile, 'r')}</p>`;
+
+
+        if(!!data.print.street) {
+
+            comanda += `<p>${space(40, data.print.street+', '+data.print.number, 'r')}</p>`;
+            comanda += !!data.print.complement.length ? `<p>${space(40, data.print.complement, 'r')}</p>` : '';
+            comanda += !!data.print.reference.length ? `<p>${space(40, data.print.reference, 'r')}</p>` : '';
+            comanda += `<p>${space(40, data.print.neighborhood, 'r')}</p>
+            <p>${space(40, data.print.city+'/'+data.print.state, 'r')}</p>`;
+        }
+
+
+        comanda += `<p>----------------------------------------</p>
         <p>Qtd. Produto${space(21, "Preço")}${space(7, "Valor")}</p>
         <p>----------------------------------------</p>`;
 
