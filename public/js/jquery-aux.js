@@ -1298,7 +1298,6 @@ function mountCommand(data)
         <p>Cliente: ${space(31, data.print.name, 'r')}</p>
         <p>Tel: ${space(35, data.print.mobile, 'r')}</p>`;
 
-
         if(!!data.print.street) {
 
             comanda += `<p>${space(40, data.print.street+', '+data.print.number, 'r')}</p>`;
@@ -1307,7 +1306,6 @@ function mountCommand(data)
             comanda += `<p>${space(40, data.print.neighborhood, 'r')}</p>
             <p>${space(40, data.print.city+'/'+data.print.state, 'r')}</p>`;
         }
-
 
         comanda += `<p>----------------------------------------</p>
         <p>Qtd. Produto${space(21, "Preço")}${space(7, "Valor")}</p>
@@ -1353,7 +1351,7 @@ function printCommand(tab_id)
         $("#comanda").html(comanda);
         $("#print_audio").get(0).play();
         window.print();
-        // $("#comanda").html("");
+        $("#comanda").html("");
     }
     else {
         console.log("Falha ao imprimir comanda")

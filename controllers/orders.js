@@ -164,72 +164,102 @@ async function insertOrder(res, data) {
     let business = await model.getBusiness();
     business = business[0][0];
 
-    // Descodifica dados do pedido recebido
-    data = JSON.parse(decodeURIComponent(data.data));
-
-    // Ajusta CEP
-    data.delivery.zip = data.delivery.zip.replace(/[^0-9]/g,'');
-    
-    // Verifica se temos cadstro do cliente
     let client_id;
-    const client = await model.getClientBy({ mobile: data.client.number });
-
-    if(!client) {
-        client_id = await model.insertClient({
-            name:          data.client.name,
-            mobile:        helper.number_only(data.client.number),
-            whatsapp_user: `55${helper.number_only(data.client.number)}@c.us`
-        });
-    }
-    else {
-        client_id = client.id;
+    let order_id;
+    let message;
+    try {
+        // Descodifica dados do pedido recebido
+        data = JSON.parse(decodeURIComponent(data.data));
+    } catch (error) {
+        data = false;
+        message = 'Problemas ao receber itens do pedido! Tente novamente e persistindo o erro contate o administrador';
     }
 
-    // Verifica se existe endereço para atualizar ou adiciona um novo 
-    const address = await model.getAddressBy({ client_id, zip: data.delivery.zip });
-
-
-    if(!!address) {
-        await model.updateAddress(address.id, {
-            street:       data.delivery.street,
-            number:       data.delivery.number,
-            complement:   data.delivery.complement,
-            reference:    data.delivery.reference,
-            neighborhood: data.delivery.neighborhood,
-            city:         data.delivery.city,
-            state:        data.delivery.state,
-        });
-    }
-    else if(!!data.delivery.zip && !!data.delivery.street) {
-        await model.insertAddress({
-            client_id,
-            zip:          helper.number_only(data.delivery.zip),
-            street:       data.delivery.street,
-            number:       data.delivery.number,
-            complement:   data.delivery.complement,
-            reference:    data.delivery.reference,
-            neighborhood: data.delivery.neighborhood,
-            city:         data.delivery.city,
-            state:        data.delivery.state,
-        });
-    }
-
-    // Insere o novo pedido 
-    const order_id = await model.insertOrder({
-        client_id,
-        items:        JSON.stringify(data.item),
-        delivery:     !!data.order.delivery ? data.order.delivery : 0, 
-        type:         data.order.method, 
-        origin:       "whatsapp",
-        payment_type: data.order.payment,
-        payment_obs:  data.order.obs
-    });
-
-    if(!!order_id) reportUpdateData(order_id);
+    // Verifica se dados não estão corrompidos
+    if(!!data)
+    {
+        // Ajusta CEP para formato do BD
+        data.delivery.zip = data.delivery.zip.replace(/[^0-9]/g,'');
+        
+        // Verifica se temos cadastro do cliente
+        const client = await model.getClientBy({ mobile: data.client.number });
     
+        if(!client) {
+            client_id = await model.insertClient({
+                name:          data.client.name,
+                mobile:        helper.number_only(data.client.number),
+                whatsapp_user: `55${helper.number_only(data.client.number)}@c.us`
+            });
+        }
+        else {
+            client_id = client.id;
+        }
+
+        // Verifica se já temos endereço do cliente cadastrado
+        let address_id;
+        if(data.order.method == 'entregar')
+        {
+            if(!data.delivery.zip || !data.delivery.street)
+            {
+                message = 'Endereço inconpleto, verifique o endereço digitado e tente novamente!'
+            }
+            else 
+            {
+                // Verifica se existe endereço para atualizar ou adiciona um novo 
+                const address = await model.getAddressBy({ client_id, zip: data.delivery.zip });
+                
+                if(!!address) {
+                    address_id = address.id
+                    await model.updateAddress(address.id, {
+                        street:       data.delivery.street,
+                        number:       data.delivery.number,
+                        complement:   data.delivery.complement,
+                        reference:    data.delivery.reference,
+                        neighborhood: data.delivery.neighborhood,
+                        city:         data.delivery.city,
+                        state:        data.delivery.state,
+                    });
+                }
+                else {
+                    address_id = await model.insertAddress({
+                        client_id,
+                        zip:          helper.number_only(data.delivery.zip),
+                        street:       data.delivery.street,
+                        number:       data.delivery.number,
+                        complement:   data.delivery.complement,
+                        reference:    data.delivery.reference,
+                        neighborhood: data.delivery.neighborhood,
+                        city:         data.delivery.city,
+                        state:        data.delivery.state,
+                    });
+                }
+            }
+        }
+
+        // Separa dados do INSERT do pedido
+        const order_data = {
+            client_id,
+            items:        JSON.stringify(data.item),
+            delivery:     !!data.order.delivery ? data.order.delivery : 0, 
+            type:         data.order.method, 
+            origin:       "whatsapp",
+            payment_type: data.order.payment,
+            payment_obs:  data.order.obs
+        };
+
+        if(!!address_id) { order_data.address_id = address_id };
+
+        // Insere o novo pedido 
+        order_id = await model.insertOrder(order_data);
+
+        // Ajusta relatórios do pedido
+        if(!!order_id) reportUpdateData(order_id);
+    }
+
     res.json({ 
         success:     (!!order_id ? true : false), 
         order_id, 
+        msg:          message,
         order_label: `${helper.str_pad((order_id || ""), 4, "0", "left", "P")}`, 
         order_wait:   business.wait, 
         user_hash:    helper.user_hash_encrypt(client_id)
