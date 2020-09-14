@@ -1,6 +1,6 @@
 const db = require('../config/db');
 
-const getCategories  = ()         => db('category');
+const getCategories  = ()         => db('category').orderBy('position', 'asc').orderBy('name', 'asc');
 const getCategory    = (id)       => db('category').where({id}).first();
 const insertCategory = (data)     => db('category').insert(data);
 const updateCategory = (id, data) => db('category').where({id}).update(data);

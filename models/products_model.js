@@ -1,6 +1,6 @@
 const db = require('../config/db');
 
-const getProducts    = ()            => db('product');
+const getProducts    = ()            => db('product').orderBy('position', 'asc').orderBy('name', 'asc');
 const getProduct     = (id)          => db('product').where({id}).first();
 const insertProduct  = (data)        => db('product').insert(data);
 const updateProduct  = (id, data)    => db('product').where({id}).update(data);

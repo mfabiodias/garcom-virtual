@@ -109,71 +109,86 @@ $(document).ready(function() {
     // UPSERT ALL
     $('#modal_submit').on('click', function() 
     {
-        const inputData   = getInputValue("modal-form");
-        const inputEmpty  = checkInputForm("modal-form");
-        const tab_name    = $(this).attr('data-tabname');
-        const tab_type    = $(this).attr('data-tabtype');
-        const tab_addon   = $(this).attr('data-tabaddon');
-        const refresh_wpp = $(this).attr('data-refreshwpp');
-        const refresh_wpa = $(this).attr('data-refreshwpa');
-
-        // console.log("refresh_wpp", refresh_wpp);
-        // console.log("refresh_wpa", refresh_wpa);
-        
-        if(inputEmpty.length <= 0)
+        // Evitar cclicar 2 vezes antes de finalizar POST/PUT
+        if(!$(this).hasClass('disabled'))
         {
-            let url    = "";
-            let type   = "";
-            let msg_ok = "";
-            let msg_ng = "";
+            $(this).addClass('disabled');
+            $(this).prop('disabled', true);
+
+            const inputData   = getInputValue("modal-form");
+            const inputEmpty  = checkInputForm("modal-form");
+            const tab_name    = $(this).attr('data-tabname');
+            const tab_type    = $(this).attr('data-tabtype');
+            const tab_addon   = $(this).attr('data-tabaddon');
+            const refresh_wpp = $(this).attr('data-refreshwpp');
+            const refresh_wpa = $(this).attr('data-refreshwpa');
+    
+            // console.log("refresh_wpp", refresh_wpp);
+            // console.log("refresh_wpa", refresh_wpa);
             
             const action = $('#modal-form .form_action_ipt').val();
             const id_upt = $('#modal-form .id_ipt').val();
-
-            if(action == 'update')
-            {
-                url    = `/api/${tab_name + (!!tab_addon ? tab_addon : '')}/${id_upt}`;
-                type   = "PUT";
-                msg_ok = `${tab_type} ${!!inputData.name ? '"'+inputData.name+'"' : ""} atualizado com sucesso!`;
-                msg_ng = `Falha ao atualizar ${tab_type.toLowerCase()}, tente novamente!`;
-            }
-            else
-            {
-                url    = `/api/${tab_name + (!!tab_addon ? tab_addon : '')}`;
-                type   = "POST";
-                msg_ok = `${tab_type} ${!!inputData.name ? '"'+inputData.name+'"' : ""} adicionado com sucesso!`;
-                msg_ng = `Falha ao adicionar ${tab_type.toLowerCase()}, tente novamente!`;   
-            }
             
-            const data = apiPageData(type, url, inputData);
-            
-            if(!!data.id)
+            if(inputEmpty.length <= 0)
             {
-                const imageName = !!data.name ? data.name : tab_name;
-
-                saveImage(tab_name, data.id, imageName);
-
-                if(!!data.error) msg_ok = data.error;
-                else if(!!data.msg) msg_ok = data.msg;
-
-                reload_require = true;
-                $('#my-alert-msg').removeClass('alert-danger d-none').addClass('alert-success d-block')
-                    .text(msg_ok).fadeOut( 2000, "linear");
-                    
-                // Auto refresh whatsapp ao cadastrar mensagens.
-                if(!!refresh_wpp) { 
-                    refreshWpp(false);
-                }
-            }
-            else
-            {
-                if(!!data.error) msg_ng = data.error;
-                else if(!!data.msg) msg_ng = data.msg;
+                let url    = "";
+                let type   = "";
+                let msg_ok = "";
+                let msg_ng = "";
                 
-                $('#my-alert-msg').removeClass('alert-success d-none').addClass('alert-danger d-block')
-                    .text(msg_ng).fadeOut( 2000, "linear");
-            }  
+                if(action == 'update')
+                {
+                    url    = `/api/${tab_name + (!!tab_addon ? tab_addon : '')}/${id_upt}`;
+                    type   = "PUT";
+                    msg_ok = `${tab_type} ${!!inputData.name ? '"'+inputData.name+'"' : ""} atualizado com sucesso!`;
+                    msg_ng = `Falha ao atualizar ${tab_type.toLowerCase()}, tente novamente!`;
+                }
+                else
+                {
+                    url    = `/api/${tab_name + (!!tab_addon ? tab_addon : '')}`;
+                    type   = "POST";
+                    msg_ok = `${tab_type} ${!!inputData.name ? '"'+inputData.name+'"' : ""} adicionado com sucesso!`;
+                    msg_ng = `Falha ao adicionar ${tab_type.toLowerCase()}, tente novamente!`;   
+                }
+                
+                const data = apiPageData(type, url, inputData);
+                
+                if(!!data.id)
+                {
+                    const imageName = !!data.name ? data.name : tab_name;
+    
+                    saveImage(tab_name, data.id, imageName);
+    
+                    if(!!data.error) msg_ok = data.error;
+                    else if(!!data.msg) msg_ok = data.msg;
+    
+                    reload_require = true;
+                    $('#my-alert-msg').removeClass('alert-danger d-none').addClass('alert-success d-block')
+                        .text(msg_ok).fadeOut( 2000, "linear");
+                        
+                    // Auto refresh whatsapp ao cadastrar mensagens.
+                    if(!!refresh_wpp) { 
+                        refreshWpp(false);
+                    }
+                }
+                else
+                {
+                    if(!!data.error) msg_ng = data.error;
+                    else if(!!data.msg) msg_ng = data.msg;
+                    
+                    $('#my-alert-msg').removeClass('alert-success d-none').addClass('alert-danger d-block')
+                        .text(msg_ng).fadeOut( 2000, "linear");
+                }  
+            }
+
+            $(this).removeClass('disabled');
+            $(this).prop('disabled', false);
+
+            // if(action != 'update') {
+            //     $("#modalUpsert").modal('hide')
+            // }
         }
+
     });
 
     // DELETE ALL

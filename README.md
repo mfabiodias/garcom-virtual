@@ -90,6 +90,16 @@
 
 
 ### Reclamações Talita
-+ Adicionar campo de preço com desconto. 
-+ Melhorar layout da configuração que não aparece botão de cadastro.
-+ Cadastra duplicidade, bloquear botão temporariamente.
+- Atualizar BDs
+- Adicionar campo de preço com desconto e posição nos produtos; 
+- Adicionar campo de cor e posição nas categorias; 
+- Melhorar layout da configuração que não aparece botão de cadastro; 
+- Classificação de produto e categoria; 
+- Produto agora pode ate 65mil caracteres 
+- Cadastra duplicidade, bloquear botão temporariamente; 
+- Add images not_found para cada tipo de negocio e setar no PM2.json; 
+
+# Na Loja
++ Criar pagina home com categorias e images do seu cadastro; 
++ Limitar qtd de texto na descrição do produto e abrir restante em outro modal; 
++ Adicionar preço com desconto no layout; 

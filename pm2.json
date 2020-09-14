@@ -13,7 +13,8 @@
         "MYPASS": "B^5%hGf!0&8ytRx2",
         "CLIENT": "4001",
         "WPPNAME": "whatsapp_4001",
-        "APPURL":  "https://supremosabor.gestorvirtual.net.br"
+        "APPURL":  "https://supremosabor.gestorvirtual.net.br",
+        "APPTYPE": "restaurante"
       },
       "error_file": "./logs/cardapio_4001.err.log",
       "out_file": "./logs/cardapio_4001.out.log"
@@ -47,7 +48,8 @@
         "MYPASS": "B^5%hGf!0&8ytRx2",
         "CLIENT": "4002",
         "WPPNAME": "whatsapp_4002",
-        "APPURL":  "https://marmitariaquality.gestorvirtual.net.br"
+        "APPURL":  "https://marmitariaquality.gestorvirtual.net.br",
+        "APPTYPE": "restaurante"
       },
       "error_file": "./logs/cardapio_4002.err.log",
       "out_file": "./logs/cardapio_4002.out.log"
@@ -81,7 +83,8 @@
         "MYPASS": "B^5%hGf!0&8ytRx2",
         "CLIENT": "4003",
         "WPPNAME": "whatsapp_4003",
-        "APPURL":  "https://socarnes.gestorvirtual.net.br"
+        "APPURL":  "https://socarnes.gestorvirtual.net.br",
+        "APPTYPE": "acougue"
       },
       "error_file": "./logs/cardapio_4003.err.log",
       "out_file": "./logs/cardapio_4003.out.log"
@@ -115,7 +118,8 @@
         "MYPASS": "B^5%hGf!0&8ytRx2",
         "CLIENT": "4004",
         "WPPNAME": "whatsapp_4004",
-        "APPURL":  "https://farmabras.gestorvirtual.net.br"
+        "APPURL":  "https://farmabras.gestorvirtual.net.br",
+        "APPTYPE": "farmacia"
       },
       "error_file": "./logs/cardapio_4004.err.log",
       "out_file": "./logs/cardapio_4004.out.log"
@@ -149,7 +153,8 @@
         "MYPASS": "B^5%hGf!0&8ytRx2",
         "CLIENT": "4005",
         "WPPNAME": "whatsapp_4005",
-        "APPURL":  "https://hortifruti.gestorvirtual.net.br"
+        "APPURL":  "https://hortifruti.gestorvirtual.net.br",
+        "APPTYPE": "hortifruti"
       },
       "error_file": "./logs/cardapio_4005.err.log",
       "out_file": "./logs/cardapio_4005.out.log"

@@ -1,0 +1,13 @@
+{
+	"appconfig": {
+		"headless": true,
+		"isGroupReply": false
+	},
+	"bot": [],
+	"blocked": [],
+	"noMatch": "{}",
+	"smartreply": {
+		"suggestions": [],
+		"clicktosend": false
+	}
+}

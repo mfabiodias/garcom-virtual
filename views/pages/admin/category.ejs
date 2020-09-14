@@ -1,8 +1,8 @@
 <%- contentFor('layout') %>
 <%- include('header.ejs') %>
 
-<main role="main" class="mt-4 d-flex align-items-center">
-    <div class="container">
+<main role="main" class="mt-5 d-flex align-items-center">
+    <div class="container-fluid mt-5">
         <div class="card">
             <div class="card-header">
                 <strong><%= attr.page %>s</strong>
@@ -18,6 +18,8 @@
                             <th>Image</th>
                             <th>Categoria</th>
                             <th>Descrição</th>
+                            <th>Posição</th>
+                            <th>APP Color</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -28,6 +30,11 @@
                             <td class="align-middle" ><%- helper.image_show(attr.table, row.image, false, 50, 50) %></td>
                             <td class="align-middle" ><%= row.name %></td>
                             <td class="align-middle" ><%= helper.stringLimit(row.description, 60) %></td>
+                            <td class="align-middle" ><%= row.position %></td>
+                            <td class="align-middle" >
+                                <button type="button" class="btn btn-primary btn-sm disabled" style="background-color: <%= row.hexcolor %> !important; border: none !important;" >
+                                    <i class="fas fa-chalkboard"></i>
+                                </button>
                             <td class="align-middle"  class="text-center">
                                 <button type="button" class="btn btn-outline-primary btn-sm" title="Editar <%= attr.page + " " + helper.str_pad(row.id, 3, "0", "left", "C"); %>" data-tabid="<%= row.id %>" data-tabname="<%= attr.table %>" data-tabtype="<%= attr.page %>" data-crud="update" data-belongsto="" data-belongstoid="" data-toggle="modal" data-target="#modalUpsert" >
                                     <span class="fa fa-edit" aria-hidden="true"></span>
@@ -84,6 +91,28 @@
                         <input class="form-control input-sm description_ipt" type="text" maxlength="255" data-name="description" data-required="false">
                         <div class="invalid-feedback description-err">Campo Obrigatório</div>
                     </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label>Posição</label> 
+                            <input class="form-control input-sm position_ipt" type="number" value="1" min="1" step="1" data-name="position" data-required="true">
+                            <div class="invalid-feedback position-err">Campo Obrigatório</div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label>Destaque</label>
+                            <select class="form-control  custom-select input-sm hexcolor_ipt" data-name="hexcolor" data-required="true">
+                                <option value="#F8E16C">Amarela</option>
+                                <option value="#54C6EB">Azul</option>
+                                <option value="#FAA613">Laranja</option>
+                                <option value="#E4C1F9">Rosa</option>
+                                <option value="#7E52A0">Roxa</option>
+                                <option value="#BCD8B7">Verde</option>
+                            </select>
+                            <div class="invalid-feedback hexcolor-err">Campo Obrigatório</div>
+                        </div>
+                    </div>
+
+
                 </form>
             </div>
             <div class="modal-footer">

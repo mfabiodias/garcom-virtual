@@ -14,7 +14,7 @@
 				"Ver Cardápio"
 			],
 			"response": "Fique a vontade para ver nosso cardápio",
-			"file": "/public/image/message/3002/cardapio.png"
+			"file": "/public/image/message/4001/cardapio.png"
 		},
 		{
 			"contains": [
@@ -23,7 +23,25 @@
 			],
 			"exact": [],
 			"response": "Hoje temos rabada como prato do dia",
-			"file": "/public/image/message/3002/rabada.png"
+			"file": "/public/image/message/4001/message-7.jpg"
+		},
+		{
+			"contains": [],
+			"exact": [
+				"Horário",
+				"Aberto"
+			],
+			"response": "Olá, funcionamos de Seg. a Sex. das 8:00 as 18:00",
+			"file": ""
+		},
+		{
+			"contains": [
+				"site",
+				"cardápio virtual"
+			],
+			"exact": [],
+			"response": "http://localhost:3009",
+			"file": ""
 		},
 		{
 			"contains": [],
@@ -39,70 +57,34 @@
 			],
 			"exact": [],
 			"response": "Gestor Virtual Logo",
-			"file": "/public/image/message/3002/message-15.png"
+			"file": "/public/image/message/4001/message-15.png"
 		},
 		{
 			"contains": [
-				"horario",
-				"funciona",
-				"aberto"
+				"funciona"
 			],
 			"exact": [],
-			"response": "Nosso horário de funcionamento é\nSegunda-Feira  a Sábado das 08:00 as 16:00\nSábado das 08:00 as 14:00\n\nOu acesse nosso cardápio virtual:\n\nhttps://marmitariaquality.gestorvirtual.net.br",
-			"file": ""
-		},
-		{
-			"contains": [],
-			"exact": [
-				"fabio"
-			],
-			"response": "Eu sou o Fábio",
-			"file": ""
+			"response": "Funciona Sim! Gestor Logo",
+			"file": "/public/image/message/4001/message-16.png"
 		},
 		{
 			"contains": [
-				"Talita"
+				"gestor"
 			],
 			"exact": [],
-			"response": "Sou a Talita",
+			"response": "Gestor Virtual",
 			"file": ""
 		},
 		{
 			"contains": [
-				"gusta"
+				"Feijão"
 			],
 			"exact": [],
-			"response": "Gustavo Dias",
-			"file": ""
-		},
-		{
-			"contains": [
-				"Guil"
-			],
-			"exact": [],
-			"response": "Guilherme POrtella",
-			"file": ""
-		},
-		{
-			"contains": [
-				"olha"
-			],
-			"exact": [],
-			"response": "ok",
-			"file": ""
-		},
-		{
-			"contains": [
-				"isabela"
-			],
-			"exact": [],
-			"response": "Isabela Portella",
+			"response": "Tem Feijão...",
 			"file": ""
 		}
 	],
-	"blocked": [
-		"11231231231"
-	],
+	"blocked": [],
 	"noMatch": "{Desculpe, mas não entendi sua pergunta. Sou uma atendente virtual do WhatsApp.\n\nGostaria de ver nosso menu, ou ver os pratos do dia?}",
 	"smartreply": {
 		"suggestions": [],

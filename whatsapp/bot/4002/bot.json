@@ -1,0 +1,70 @@
+{
+	"appconfig": {
+		"headless": true,
+		"isGroupReply": false
+	},
+	"bot": [
+		{
+			"contains": [
+				"menu",
+				"cardápio"
+			],
+			"exact": [
+				"Ver menu",
+				"Ver Cardápio"
+			],
+			"response": "Fique a vontade para ver nosso cardápio pelo link  https://marmitariaquality.gestorvirtual.net.br/ e fazer seu pedido ou ja te atenderemos",
+			"file": "/public/image/message/4002/cardapio.png"
+		},
+		{
+			"contains": [
+				"quarta-feira",
+				"quarta"
+			],
+			"exact": [],
+			"response": "prato do dia feijoada temos (p) (m) (g)",
+			"file": "/public/image/message/4002/rabada.png"
+		},
+		{
+			"contains": [],
+			"exact": [
+				"Horário",
+				"Aberto",
+				"funcionamento",
+				"atendimento",
+				""
+			],
+			"response": "Olá, funcionamos de Seg.a sabado. das 10:00 as 15:00",
+			"file": ""
+		},
+		{
+			"contains": [
+				"panfleto"
+			],
+			"exact": [],
+			"response": "Panfleto Gestor Virtual Logo",
+			"file": "/public/image/message/4002/message-15.png"
+		},
+		{
+			"contains": [
+				"bom dia",
+				"boa tarde",
+				"estao",
+				"funciona",
+				"ola",
+				"gostaria",
+				"quero fazer",
+				"pedido"
+			],
+			"exact": [],
+			"response": "marmitaria quality agradece o contato faça seu pedido pelo nosso link. http://marmitariaquality.gestorvirtual.net.br/  ou ja te atenderemos obrigado",
+			"file": "/public/image/message/4002/message-16.png"
+		}
+	],
+	"blocked": [],
+	"noMatch": "{Desculpe, mas não entendi sua pergunta. Sou uma atendente virtual do WhatsApp.\n\nGostaria de ver nosso menu, ou ver os pratos do dia?}",
+	"smartreply": {
+		"suggestions": [],
+		"clicktosend": false
+	}
+}

@@ -151,6 +151,7 @@ const ExportFunction = {
         }
         else { 
             if(table == 'campaign') url = `/image/no-campaign.png`;
+            else if(!!process.env.APPTYPE) url = `/image/no-image-${process.env.APPTYPE}.png`;
             else url = `/image/no-image.png`;
         }
         

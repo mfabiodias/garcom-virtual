@@ -1,8 +1,8 @@
 <%- contentFor('layout') %>
 <%- include('header.ejs') %>
 
-<main role="main" class="mt-4 d-flex align-items-center">
-    <div class="container">
+<main role="main" class="mt-5 d-flex align-items-center">
+    <div class="container-fluid mt-5">
         <div class="card">
             <div class="card-header">
                 <strong><%= attr.page %>s</strong>
@@ -99,10 +99,23 @@
                     </div>
 
                     <div class="form-row">
-                        <div class="form-group col-md-4">
+                        <div class="form-group col-md-6">
                             <label>Preço</label>
                             <input class="form-control input-sm price_ipt" type="number" min="0" step="0.01" data-name="price" data-required="true">
                             <div class="invalid-feedback price-err">Campo Obrigatório</div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label>Preço com Desconto</label>
+                            <input class="form-control input-sm price_less_ipt" type="number" min="0" step="0.01" data-name="price_less" data-required="true">
+                            <div class="invalid-feedback price_less-err">Campo Obrigatório</div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            <label>Posição</label> 
+                            <input class="form-control input-sm position_ipt" type="number" value="1" min="1" step="1" data-name="position" data-required="true">
+                            <div class="invalid-feedback position-err">Campo Obrigatório</div>
                         </div>
                         <div class="form-group col-md-4">
                             <label>Destaque</label>
